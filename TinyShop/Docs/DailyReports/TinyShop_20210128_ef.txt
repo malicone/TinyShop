@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public class ShopUser : IdentityUser
+    {
+
+    }
+
+
+
+dotnet ef migrations add Initial

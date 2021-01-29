@@ -1,4 +1,23 @@
-﻿using System;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+IdentityHostingStartup.cs
+
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -10,11 +29,12 @@ using TinyShop.Data;
 
 [assembly: HostingStartup(typeof(TinyShop.Areas.Identity.IdentityHostingStartup))]
 namespace TinyShop.Areas.Identity
-{
+{    
     public class IdentityHostingStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {
+            /*
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<ShopContext>(options =>
                     options.UseSqlServer(
@@ -23,6 +43,7 @@ namespace TinyShop.Areas.Identity
                 services.AddDefaultIdentity<ShopUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ShopContext>();
             });
+            */
         }
-    }
+    }    
 }

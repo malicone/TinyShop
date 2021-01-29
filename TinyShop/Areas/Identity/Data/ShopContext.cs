@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TinyShop.Areas.Identity.Data;
+using TinyShop.Models;
 
 namespace TinyShop.Data
 {
@@ -15,6 +16,9 @@ namespace TinyShop.Data
             : base(options)
         {
         }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGroup> ProductGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
