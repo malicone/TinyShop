@@ -49,7 +49,7 @@ namespace TinyShop.Controllers
         public IActionResult Create()
         {
             ViewData["ProductGroupId"] = new SelectList(_context.ProductGroups, "Id", "Name");
-            return View();
+            return View( new ProductViewModel() );
         }
 
         // POST: Products/Create
@@ -57,6 +57,7 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        /*
         public async Task<IActionResult> Create([Bind("Name,Price,ProductGroupId,Id")] Product product)
         {
             if (ModelState.IsValid)
@@ -67,6 +68,18 @@ namespace TinyShop.Controllers
             }
             ViewData["ProductGroupId"] = new SelectList(_context.ProductGroups, "Id", "Name", product.ProductGroupId);
             return View(product);
+        }
+        */        
+        public async Task<IActionResult> Create( [Bind( "TheProduct.Name,TheProduct.Price,TheProduct.ProductGroupId,TheProduct.Id" )] ProductViewModel productViewModel )
+        {
+            if ( ModelState.IsValid )
+            {
+                _context.Add( productViewModel.TheProduct );
+                await _context.SaveChangesAsync();
+                return RedirectToAction( nameof( Index ) );
+            }
+            ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name", productViewModel.TheProduct.ProductGroupId );
+            return View( productViewModel );
         }
 
         // GET: Products/Edit/5

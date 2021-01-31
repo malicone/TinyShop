@@ -1,4 +1,19 @@
-﻿@model IEnumerable<TinyShop.Models.Product>
+
+
+
+
+
+
+
+
+
+
+<li class="list-group-item">@Html.DisplayFor( modelItem => item.Name )</li>
+
+
+
+
+@model IEnumerable<TinyShop.Models.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -47,3 +62,4 @@
 }
     </tbody>
 </table>
+

@@ -28,6 +28,25 @@
                 <select asp-for="ProductGroupId" class="form-control" asp-items="ViewBag.ProductGroupId"></select>
                 <span asp-validation-for="ProductGroupId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="16"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Фото 1</label>
+                <input type="file" class="form-control" name="photo" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Фото 2</label>
+                <input type="file" class="form-control" name="photo" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Фото 3</label>
+                <input type="file" class="form-control" name="photo" />
+            </div>
+
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
