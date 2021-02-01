@@ -38,6 +38,10 @@ namespace TinyShop.Controllers
                 ProductGroups = await groups.ToListAsync(),
                 Products = await products.ToListAsync()
             };
+            foreach ( var product in homeViewModel.Products )
+            {
+                _context.Entry( product ).Collection( p => p.DescImages ).Load();
+            }
 
             return View( homeViewModel );
         }

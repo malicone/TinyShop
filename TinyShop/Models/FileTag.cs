@@ -21,6 +21,8 @@ namespace TinyShop.Models
 
         public byte[] Body { get; set; }
 
+        public long? Length { get; set; }
+
         public virtual ICollection<Product> Products { get; set; }
     }
 }

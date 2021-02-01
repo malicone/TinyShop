@@ -26,16 +26,20 @@
                 @foreach ( var item in Model.Products )
                 {
 
-                    <div class="card" style="width: 18rem;">
+                 <div class="card" style="width: 14rem;">
+                    <a href="@Url.Action( "Details", "Products", new { id = item.Id } )">
+                        <img class="card-img-top" src="@Url.Action( "GetFileById", "Files", new { id = item.MainImage?.Id } )"
+                             height="150">
                         <div class="card-body">
                             <h5 class="card-title">@item.Name</h5>
                             <h6 class="card-subtitle mb-2 text-muted">@item.Price грн.</h6>
                             <p class="card-text">@item.Description</p>
-                            <a href="Products/Details/@item.Id" class="card-link">Докладніше...</a>
                         </div>
-                    </div>
-                }
+                    </a>
+                 </div>
 
+                }
             </div>
         </div>
+    </div>
 </div>

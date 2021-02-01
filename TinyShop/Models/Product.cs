@@ -26,6 +26,17 @@ namespace TinyShop.Models
         public int ProductGroupId { get; set; }
         public virtual ProductGroup ProductGroup { get; set; }
 
-        public virtual ICollection<FileTag> DescImages { get; set; }
+        public virtual ICollection<FileTag> DescImages { get; set; }        
+
+        [NotMapped]
+        public FileTag MainImage
+        {
+            get
+            {
+                if ( DescImages.Count > 0 )
+                    return DescImages.ElementAt( 0 );
+                return null;
+            }
+        }        
     }
 }

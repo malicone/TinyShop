@@ -36,7 +36,13 @@
             @Html.DisplayFor( model => model.Description )
         </dd>
     </dl>
-</div>
+    @foreach ( var currentImage in Model.DescImages )
+    {
+        <a href="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )">
+            <img src="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )" width="150" class="img-thumbnail img-fluid">
+        </a>
+    }
+    </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
