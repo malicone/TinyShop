@@ -32,7 +32,7 @@ namespace TinyShop.Models
         public FileTag MainImage
         {
             get
-            {
+            {                
                 if ( DescImages.Count > 0 )
                     return DescImages.ElementAt( 0 );
                 return null;

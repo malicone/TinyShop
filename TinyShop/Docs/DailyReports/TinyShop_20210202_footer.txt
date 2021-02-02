@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+
+
+/* max 20210130: added styles */
+/*
+@media (min-width: 450px) {
+    #contable {
+        height: 200px;
+    }
+}
+*/
+/*
+#contable,
+#contable .row,
+#contable .row > div {
+    border: 1px solid #333;
+}
+*/
+
+
+
+
+
+
+
+

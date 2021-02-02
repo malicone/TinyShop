@@ -91,12 +91,7 @@ namespace TinyShop.Controllers
             {
                 FileTag file = new FileTag();
                 file.Name = currentFile.FileName;
-                file.Ext = Path.GetExtension( currentFile.FileName );
-                if ( file.Ext.Length > 0 )// remove dot if exists
-                {
-                    if ( file.Ext[ 0 ].Equals( '.' ) )
-                        file.Ext = file.Ext.Remove( 0, 1 );
-                }
+                file.Ext = IOUtils.GetExtensionWithoutDot( currentFile.FileName );
                 using ( MemoryStream stream = new MemoryStream() )
                 {
                     await currentFile.CopyToAsync( stream );

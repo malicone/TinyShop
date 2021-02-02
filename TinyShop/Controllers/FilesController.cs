@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Data;
 using TinyShop.Models;
+using TinyShop.Utils;
 
 namespace TinyShop.Controllers
 {
@@ -16,6 +18,7 @@ namespace TinyShop.Controllers
         {
             _context = context;
             _appEnvironment = appEnvironment;
+            _productNoPhotoImage = GetProductNoPhotoImage();
         }
 
         public async Task<IActionResult> GetFileById( int id )
@@ -26,6 +29,43 @@ namespace TinyShop.Controllers
                 return File( foundFile.Body, GetContentTypeByExt( foundFile.Ext ) );
             }
             return NotFound();
+        }
+
+        public async Task<IActionResult> GetProductMainImage( int productId )
+        {
+            Product product = await _context.Products.FirstOrDefaultAsync( p => p.Id == productId );
+            if ( product != null )
+            {
+                _context.Entry( product ).Collection( p => p.DescImages ).Load();
+                if ( product.MainImage == null )
+                {
+                    if ( _productNoPhotoImage != null )
+                    {
+                        return File( _productNoPhotoImage, GetContentTypeByExt( IOUtils.GetExtensionWithoutDot( _PRODUCT_NO_PHOTO_IMAGE_FILE_NAME ) ) );
+                    }
+                }
+                else
+                {
+                    return File( product.MainImage.Body, GetContentTypeByExt( product.MainImage.Ext ) );
+                }                
+            }
+            return NotFound();
+        }
+
+        private byte[] GetProductNoPhotoImage()
+        {
+            try
+            {
+                string path = IOUtils.ComposeFilesPath( _appEnvironment.WebRootPath, _PRODUCT_NO_PHOTO_IMAGE_FILE_NAME );
+                using ( var fileStream = new FileStream( path, FileMode.Open ) )
+                {
+                    return fileStream.ToByteArray();
+                }
+            }
+            catch ( Exception )
+            {
+                return null;
+            }
         }
 
         private static string GetContentTypeByExt( string fileExtension )
@@ -57,5 +97,7 @@ namespace TinyShop.Controllers
 
         private readonly ShopContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
+        private const string _PRODUCT_NO_PHOTO_IMAGE_FILE_NAME = "no-photo-254-180.png";
+        private byte[] _productNoPhotoImage;
     }
 }
