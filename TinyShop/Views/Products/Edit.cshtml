@@ -5,12 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Product</h4>
+<h4>Зміна товару</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -49,14 +47,20 @@
 
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>
+        @foreach ( var currentImage in Model.DescImages )
+        {
+            <a href="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )">
+                <img src="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )" width="150" class="img-thumbnail img-fluid">
+            </a>
+        }
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад до списку</a>
 </div>
 
 @section Scripts {

@@ -27,12 +27,11 @@
                 {
 
                  <div class="card" style="width: 16rem;">
-                    <a href="@Url.Action( "Details", "Products", new { id = item.Id } )">
+                    <a href="@Url.Action( "DetailsReadOnly", "Products", new { id = item.Id } )">
                         <img class="card-img-top product-cover" src="@Url.Action( "GetProductMainImage", "Files", new { productId = item.Id } )">
                         <div class="card-body">
                             <h5 class="card-title">@item.Name</h5>
                             <h6 class="card-subtitle mb-2 text-muted">@item.Price грн.</h6>
-                            <p class="card-text">@item.Description</p>
                         </div>
                     </a>
                  </div>

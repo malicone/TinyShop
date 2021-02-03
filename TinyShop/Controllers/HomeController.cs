@@ -42,6 +42,16 @@ namespace TinyShop.Controllers
             return View( homeViewModel );
         }
 
+        public IActionResult Payment()
+        {
+            return View();
+        }
+
+        public IActionResult Delivery()
+        {
+            return View();
+        }
+
         public IActionResult Contacts()
         {
             return View();

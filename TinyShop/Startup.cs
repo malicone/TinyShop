@@ -32,8 +32,16 @@ namespace TinyShop
             services.AddDbContext<ShopContext>( options =>
                 options.UseSqlServer( Configuration.GetConnectionString( "ShopContextConnection" ) ) );
 
-            services.AddDefaultIdentity<ShopUser>( options => options.SignIn.RequireConfirmedAccount = true )
-                .AddEntityFrameworkStores<ShopContext>();
+            services.AddDefaultIdentity<ShopUser>(
+                options => 
+                { 
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;                    
+                } ).AddEntityFrameworkStores<ShopContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

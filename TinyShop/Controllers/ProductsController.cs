@@ -52,6 +52,25 @@ namespace TinyShop.Controllers
             return View( product );
         }
 
+        public async Task<IActionResult> DetailsReadOnly( int? id )
+        {
+            if ( id == null )
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .Include( p => p.ProductGroup )
+                .FirstOrDefaultAsync( m => m.Id == id );
+            if ( product == null )
+            {
+                return NotFound();
+            }
+
+            _context.Entry( product ).Collection( p => p.DescImages ).Load();
+            return View( product );
+        }
+
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -64,7 +83,7 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( [Bind( "Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+        public async Task<IActionResult> Create( [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
         {
             if ( ModelState.IsValid )
             {
@@ -116,6 +135,7 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
             ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name", product.ProductGroupId );
+            _context.Entry( product ).Collection( p => p.DescImages ).Load();
             return View( product );
         }
 
@@ -124,7 +144,7 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( int id, [Bind( "Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+        public async Task<IActionResult> Edit( int id, [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
         {
             if ( id != product.Id )
             {

@@ -48,10 +48,10 @@ namespace TinyShop.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [DataType(DataType.Password)]
+            [DataType(DataType.Password), Display(Name = "Пароль")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Запам'ятати мене")]
             public bool RememberMe { get; set; }
         }
 
@@ -86,7 +86,7 @@ namespace TinyShop.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return LocalRedirect("/Admin/Index");
                 }
                 if (result.RequiresTwoFactor)
                 {
