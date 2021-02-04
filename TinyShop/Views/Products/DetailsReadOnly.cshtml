@@ -1,7 +1,8 @@
 ﻿@model TinyShop.Models.Product
+@using TinyShop.Utils;
 
 @{
-    ViewData[ "Title" ] = "Опис";
+    ViewData[ "Title" ] = "Опис товару";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,13 +14,13 @@
             @Html.DisplayNameFor( model => model.Price )
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Price )
+            @FormattingUtils.FormatPrice( Model.Price.Value )
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor( model => model.ProductGroup )
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.ProductGroup.Name )
+            @Html.ActionLink( Model.ProductGroup.Name, "Index", "Home", new { productGroupId = Model.ProductGroup.Id } )
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor( model => model.Description )

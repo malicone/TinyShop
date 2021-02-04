@@ -63,7 +63,7 @@ namespace TinyShop.Controllers
                     return fileStream.ToByteArray();
                 }
             }
-            catch ( Exception e )
+            catch ( Exception )
             {
                 return null;
             }

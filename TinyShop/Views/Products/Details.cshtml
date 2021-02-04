@@ -1,12 +1,13 @@
 ﻿@model TinyShop.Models.Product
+@using TinyShop.Utils;
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData[ "Title" ] = "Опис товару";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div>
-    <h4>Перегляд товару</h4>
+    <h4>Опис товару</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -19,13 +20,13 @@
             @Html.DisplayNameFor( model => model.Price )
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Price )
+            @FormattingUtils.FormatPrice( Model.Price.Value )
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor( model => model.ProductGroup )
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.ProductGroup.Name )
+            @Html.ActionLink(Model.ProductGroup.Name, "Index", "Home", new { productGroupId = Model.ProductGroup.Id } )            
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor( model => model.Description )
@@ -40,7 +41,7 @@
             <img src="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )" width="150" class="img-thumbnail img-fluid">
         </a>
     }
-    </div>
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Змінити</a> |
     <a asp-action="Index">Назад до списку</a>

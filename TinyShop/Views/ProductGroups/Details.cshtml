@@ -1,14 +1,12 @@
 ﻿@model TinyShop.Models.ProductGroup
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Опис групи";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>ProductGroup</h4>
+    <h4>Опис групи</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -20,6 +18,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Змінити</a> |
+    <a asp-action="Index">Назад до списку</a>
 </div>

@@ -22,7 +22,12 @@ namespace TinyShop.Controllers
         // GET: ProductGroups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProductGroups.ToListAsync());
+            var groups = await _context.ProductGroups.ToListAsync();
+            foreach ( var group in groups )
+            {
+                _context.Entry( group ).Collection( g => g.Products ).Load();
+            }
+            return View( groups );
         }
 
         // GET: ProductGroups/Details/5

@@ -27,18 +27,25 @@ namespace TinyShop.Controllers
         {
             var groups = from g in _context.ProductGroups orderby g.Name select g;
             var products = from p in _context.Products select p;
+            ProductGroup foundGroup = null;
 
             if ( productGroupId != null )
             {
                 products = products.Where( x => x.ProductGroupId == productGroupId );
+                foundGroup = _context.ProductGroups.FirstOrDefault( g => g.Id == productGroupId );
             }
 
             var homeViewModel = new HomeViewModel
             {
                 ProductGroups = await groups.ToListAsync(),
-                Products = await products.ToListAsync()
+                Products = await products.ToListAsync(),
+                CurrentGroup = foundGroup
             };
 
+            foreach(var group in homeViewModel.ProductGroups)
+            {
+                _context.Entry( group ).Collection( g => g.Products ).Load();
+            }            
             return View( homeViewModel );
         }
 

@@ -1,20 +1,24 @@
 ﻿@model TinyShop.Models.HomeViewModel
+@using TinyShop.Utils;
 
 @{
     ViewData[ "Title" ] = "Каталог";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Каталог</h1>
+<h4>@Model.CatalogHeader</h4>
 
 <div class="container-table" id="contable">
-    <div class="row vertical-middle text-center">
-        <div class="col-sm-3 col-md-3 col-lg-3 text-center">
+    <div class="row vertical-middle">
+        <div class="col-sm-3 col-md-3 col-lg-3">
 
-            <ul class="list-group">
+            <ul class="list-group mb-2">
                 @foreach ( var item in Model.ProductGroups )
                 {
-                    <li class="list-group-item">@Html.ActionLink( item.Name, "Index", new { productGroupId = item.Id } )</li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @Html.ActionLink( item.Name, "Index", new { productGroupId = item.Id } )
+                    <span class="badge badge-primary badge-pill">@item.Products.Count</span>
+                </li>
                 }
             </ul>
 
@@ -31,7 +35,7 @@
                         <img class="card-img-top product-cover" src="@Url.Action( "GetProductMainImage", "Files", new { productId = item.Id } )">
                         <div class="card-body">
                             <h5 class="card-title">@item.Name</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@item.Price грн.</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">@FormattingUtils.FormatPrice( item.Price.Value )</h6>
                         </div>
                     </a>
                  </div>

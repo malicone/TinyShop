@@ -74,5 +74,5 @@ body {
 .product-cover {
     width: 254px;
     height: 180px;
-    object-fit: contain;
+    object-fit: contain;    
 }
