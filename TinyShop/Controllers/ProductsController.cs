@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using TinyShop.Utils;
 
 namespace TinyShop.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ShopContext _context;
@@ -32,7 +34,7 @@ namespace TinyShop.Controllers
             return View( await shopContext.ToListAsync() );
         }
 
-        // GET: Products/Details/5
+        // GET: Products/Details/5        
         public async Task<IActionResult> Details( int? id )
         {
             if ( id == null )
@@ -52,6 +54,7 @@ namespace TinyShop.Controllers
             return View( product );
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> DetailsReadOnly( int? id )
         {
             if ( id == null )

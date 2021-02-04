@@ -12,6 +12,7 @@ using TinyShop.Models;
 
 namespace TinyShop.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -23,6 +24,7 @@ namespace TinyShop.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index( int? productGroupId )
         {
             var groups = from g in _context.ProductGroups orderby g.Name select g;
@@ -49,22 +51,26 @@ namespace TinyShop.Controllers
             return View( homeViewModel );
         }
 
+        [AllowAnonymous]
         public IActionResult Payment()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Delivery()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Contacts()
         {
             return View();
         }
 
         [ResponseCache( Duration = 0, Location = ResponseCacheLocation.None, NoStore = true )]
+        [AllowAnonymous]
         public IActionResult Error()
         {
             return View( new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier } );

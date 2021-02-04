@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,6 +13,7 @@ using TinyShop.Utils;
 
 namespace TinyShop.Controllers
 {
+    [Authorize]
     public class FilesController : Controller
     {
         public FilesController( ShopContext context, IWebHostEnvironment appEnvironment )
@@ -20,6 +22,7 @@ namespace TinyShop.Controllers
             _appEnvironment = appEnvironment;            
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> GetFileById( int id )
         {
             FileTag foundFile = await _context.FileTags.FirstOrDefaultAsync( f => f.Id == id );
@@ -30,6 +33,7 @@ namespace TinyShop.Controllers
             return NotFound();
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> GetProductMainImage( int productId )
         {
             Product product = await _context.Products.FirstOrDefaultAsync( p => p.Id == productId );
