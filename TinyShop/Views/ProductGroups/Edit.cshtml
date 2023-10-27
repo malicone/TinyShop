@@ -1,7 +1,7 @@
 ﻿@model TinyShop.Models.ProductGroup
 
 @{
-    ViewData["Title"] = "Зміна групи";
+    ViewData["Title"] = "Editing of the group ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,14 +18,14 @@
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <input type="submit" value="Зберегти" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Назад до списку</a>
+    <a asp-action="Index">Back to the list</a>
 </div>
 
 @section Scripts {

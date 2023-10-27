@@ -14,8 +14,8 @@ namespace TinyShop.Models
         public string CatalogHeader 
         {
             get
-            {   string name = CurrentGroup == null ? "Усі товари" : CurrentGroup.Name;
-                return $"Каталог - {name}";
+            {   string name = CurrentGroup == null ? "All products" : CurrentGroup.Name;
+                return $"Catalog - {name}";
             }
         }
     }

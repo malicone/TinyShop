@@ -2,7 +2,7 @@
 @using TinyShop.Utils;
 
 @{
-    ViewData[ "Title" ] = "Опис товару";
+    ViewData[ "Title" ] = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -43,6 +43,6 @@
     }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Змінити</a> |
-    <a asp-action="Index">Назад до списку</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to the list</a>
 </div>

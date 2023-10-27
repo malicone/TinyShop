@@ -8,7 +8,7 @@ namespace TinyShop.Models
     // todo: create table Options
     public class GlobalOptions
     {
-        public static string SiteTitle { get { return "Магазин Фіалка"; } }
+        public static string SiteTitle { get { return "TinyShop"; } }
         public static string ContactEmail { get { return "tinyshop@gmail.com"; } }
         public static string ContactPhone { get { return "099 123 45 67"; } }
 
@@ -20,7 +20,7 @@ namespace TinyShop.Models
             }
         }
 
-        public static string Payment1 { get { return "картка Приватбанку 1234 5678 1234 5678, Петренко П.П."; } }
+        public static string Payment1 { get { return "card number 1234 5678 1234 5678, John Smith"; } }
 
         public static string PaymentsAll
         {
@@ -30,8 +30,8 @@ namespace TinyShop.Models
             }
         }
 
-        public static string Delivery1 { get { return "Нова Пошта"; } }
-        public static string Delivery2 { get { return "самовивіз м. Луцьк (Волинська обл.)"; } }
+        public static string Delivery1 { get { return "New Post"; } }
+        public static string Delivery2 { get { return "pickup Lutsk (Volyn region)"; } }
 
         public static string DeliveryAll
         {

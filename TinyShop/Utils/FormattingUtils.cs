@@ -14,7 +14,7 @@ namespace TinyShop.Utils
             nfi.NumberGroupSeparator = " ";
             var formatted = value.ToString( "#,0", nfi ); // "1 234 897"
             if ( addCurrencyShortcut )
-                formatted += " грн.";
+                formatted = "$" + formatted;
             return formatted;
         }
     }
