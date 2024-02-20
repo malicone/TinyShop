@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link rel="stylesheet" href="/path/to/cdn/bootstrap.min.css" />
+<script src="/path/to/cdn/jquery.min.js"></script>
+<script src="/path/to/cdn/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js" crossorigin="anonymous"></script><br type="_moz">
+<link rel="stylesheet" href="./jquery.imagesloader.css" />
+<script src="./jquery.imagesloader.js"></script>
+
+</head>
+<body>
+
+<form id="frm" method="post" class="needs-validation" novali<a href="https://www.jqueryscript.net/time-clock/">date</a>="">
+  <!--Image container -->
+  <div class="row"
+    data-type="imagesloader"
+    data-errorformat="Accepted file formats"
+    data-errorsize="Maximum size accepted"
+    data-errorduplicate="File already loaded"
+    data-errormaxfiles="Maximum number of images you can upload"
+    data-errorminfiles="Minimum number of images to upload"
+    data-modifyimagetext="Modify immage">
+    <!-- Progress bar -->
+    <div class="col-12 order-1 mt-2">
+      <div data-type="progress" class="progress" style="height: 25px; display:none;">
+        <div data-type="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 100%;">Load in progress...</div>
+      </div>
+    </div>
+    <!-- Model -->
+    <div data-type="image-model" class="col-4 pl-2 pr-2 pt-2" style="max-width:200px; display:none;">
+      <div class="ratio-box text-center" data-type="image-ratio-box">
+        <img data-type="noimage" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="./img/photo-camera-gray.svg" style="cursor:pointer;">
+        <div data-type="loading" class="img-loading" style="color:#218838; display:none;">
+          <span class="fa fa-2x fa-spin fa-spinner"></span>
+        </div>
+        <img data-type="preview" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="" style="display: none; cursor: default;">
+        <span class="badge badge-pill badge-success p-2 w-50 main-tag" style="display:none;">Main</span>
+      </div>
+      <!-- Buttons -->
+      <div data-type="image-buttons" class="row justify-content-center mt-2">
+        <button data-type="add" class="btn btn-outline-success" type="button"><span class="fa fa-camera mr-2"></span>Add</button>
+        <button data-type="btn-modify" type="button" class="btn btn-outline-success m-0" data-toggle="popover" data-placement="right" style="display:none;">
+        <span class="fa fa-pencil-alt mr-2"></span>Modify
+        </button>
+      </div>
+    </div>
+    <!-- Popover operations -->
+    <div data-type="popover-model" style="display:none">
+      <div data-type="popover" class="ml-3 mr-3" style="min-width:150px;">
+        <div class="row">
+          <div class="col p-0">
+            <button data-operation="main" class="btn btn-block btn-success btn-sm rounded-pill" type="button"><span class="fa fa-angle-double-up mr-2"></span>Main</button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-6 p-0 pr-1">
+            <button data-operation="left" class="btn btn-block btn-outline-success btn-sm rounded-pill" type="button"><span class="fa fa-angle-left mr-2"></span>Left</button>
+          </div>
+          <div class="col-6 p-0 pl-1">
+            <button data-operation="right" class="btn btn-block btn-outline-success btn-sm rounded-pill" type="button">Right<span class="fa fa-angle-right ml-2"></span></button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-6 p-0 pr-1">
+            <button data-operation="rotateanticlockwise" class="btn btn-block btn-outline-success btn-sm rounded-pill" type="button"><span class="fas fa-undo-alt mr-2"></span>Rotate</button>
+          </div>
+          <div class="col-6 p-0 pl-1">
+            <button data-operation="rotateclockwise" class="btn btn-block btn-outline-success btn-sm rounded-pill" type="button">Rotate<span class="fas fa-redo-alt ml-2"></span></button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <button data-operation="remove" class="btn btn-outline-danger btn-sm btn-block" type="button"><span class="fa fa-times mr-2"></span>Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="input-group">
+      <!--Hidden file input for images-->
+      <input id="files" type="file" name="files[]" data-button="" multiple="" accept="image/jpeg, image/png, image/gif," style="display:none;">
+    </div>
+  </div>
+</form>
+
+<!-- Upload Button -->
+<div class="row mt-2">
+  <div class="col-md-4 offset-md-8 text-center mb-4">
+    <button id="btnContinue" type="submit" form="frm" class="btn btn-block btn-outline-success float-right" data-toggle="tooltip" data-trigger="manual" data-placement="top" data-title="Continue">
+      Continue<span id="btnContinueIcon" class="fa fa-chevron-circle-right ml-2"></span><span id="btnContinueLoading" class="fa fa-spin fa-spinner ml-2" style="display:none"></span>
+    </button>
+  </div>
+</div>
+</body>
+<script>
+$(document).ready(function () {
+
+  var imagesloader = $('[data-type=imagesloader]').imagesloader({
+      // options here
+  });
+
+  //Form
+  $frm = $('#frm');
+  // Form submit
+  $frm.submit(function (e) {
+    var $form = $(this);
+    var files = imagesloader.data('format.imagesloader').AttachmentArray;
+    var il = imagesloader.data('format.imagesloader');
+    if (il.CheckValidity())
+      alert('Upload ' + files.length + ' files');        
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+});
+
+var imagesloader = $('[data-type=imagesloader]').imagesloader({
+
+    // animation speed
+    fadeTime: 'slow', 
+
+    // input ID
+    inputID: 'files', 
+
+    // maximum number of files
+    maxfiles: 4,
+
+    // max image bytes
+    maxSize: 5000 * 1024,
+
+    // min image count
+    minSelect: 1,
+    
+    // allowed file types
+    filesType: ["image/jpeg", "image/png", "image/gif"],
+
+    // max/min height
+    maxWidth: 1280,
+    maxHeight: 1024,
+
+    // image type
+    imgType: "image/jpeg"
+
+    // image quality from 0 to 1
+    imgQuality: .9,
+
+    // error messages
+    errorformat: "Accepted format",
+    errorsize: "Max size allowed",
+    errorduplicate: "File already uploaded",
+    errormaxfiles: "Max images you can upload",
+    errorminfiles: "Minimum number of images to upload",
+
+    // text for modify image button
+    modifyimagetext: "Modify image",
+    
+    // angle of each rotation
+    rotation: 90
+    
+});
+</script>
+</html>

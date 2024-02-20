@@ -1,0 +1,143 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0"></script>
+
+
+
+
+
+
+
+
+
+@model TinyShop.Models.Product
+
+@{
+    ViewData["Title"] = "New product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>New Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductGroupId" class="control-label"></label>
+                <select asp-for="ProductGroupId" class="form-control" asp-items="ViewBag.ProductGroupId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="16"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Photo 1</label>
+                <input type="file" class="form-control" name="photos" id="upload"/>
+            </div>
+            <div class="form-group">
+                <img src="" class="w-25" id="imgPreview">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Photo 2</label>
+                <input type="file" class="form-control" name="photos" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Photo 3</label>
+                <input type="file" class="form-control" name="photos" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to the list</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script type="text/javascript">
+        $("#upload").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+</script>
+}
+------------------------------------------
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductGroupId" class="control-label"></label>
+                <select asp-for="ProductGroupId" class="form-control" asp-items="ViewBag.ProductGroupId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="16"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Photo 1</label>
+                <input type="file" class="form-control" name="photos" id="upload" />
+            </div>
+            <div class="form-group">
+                <img src="" class="w-25" id="imgPreview">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Photo 2</label>
+                <input type="file" class="form-control" name="photos" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Photo 3</label>
+                <input type="file" class="form-control" name="photos" />
+            </div>
