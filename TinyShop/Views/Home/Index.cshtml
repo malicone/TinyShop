@@ -1,5 +1,6 @@
 ﻿@model TinyShop.Models.HomeViewModel
 @using TinyShop.Utils;
+@using TinyShop.Infrastructure;
 
 @{
     ViewData[ "Title" ] = "Catalog";
@@ -29,7 +30,6 @@
 
                 @foreach ( var item in Model.Products )
                 {
-
                  <div class="card" style="width: 16rem;">
                     <a href="@Url.Action( "DetailsReadOnly", "Products", new { id = item.Id } )">
                         <img class="card-img-top product-cover" src="@Url.Action( "GetProductMainImage", "Files", new { productId = item.Id } )">
@@ -38,8 +38,14 @@
                             <h6 class="card-subtitle mb-2 text-muted">@FormattingUtils.FormatPrice( item.Price.Value )</h6>
                         </div>
                     </a>
+                        <form id="@item.Id" asp-page="/Cart" method="post">
+                            <input type="hidden" asp-for="@item.Id" />
+                            <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />                                
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Add To Cart
+                            </button>                            
+                        </form>
                  </div>
-
                 }
             </div>
         </div>

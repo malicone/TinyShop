@@ -12,8 +12,7 @@ namespace TinyShop.Data
 {
     public class ShopContext : IdentityDbContext<ShopUser>
     {
-        public ShopContext(DbContextOptions<ShopContext> options)
-            : base(options)
+        public ShopContext(DbContextOptions<ShopContext> options) : base(options)
         {
         }
 

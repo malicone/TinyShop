@@ -29,7 +29,7 @@ namespace TinyShop
         public void ConfigureServices( IServiceCollection services )
         {
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages();            
 
             services.AddDbContext<ShopContext>( options =>
                 options.UseSqlServer( Configuration.GetConnectionString( "ShopContextConnection" ) ) );
