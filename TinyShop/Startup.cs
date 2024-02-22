@@ -28,8 +28,9 @@ namespace TinyShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices( IServiceCollection services )
         {
-            services.AddControllersWithViews();
-            services.AddRazorPages();            
+            services.AddControllersWithViews();            
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             services.AddDbContext<ShopContext>( options =>
                 options.UseSqlServer( Configuration.GetConnectionString( "ShopContextConnection" ) ) );
@@ -64,6 +65,7 @@ namespace TinyShop
 
             app.UseRouting();
 
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -73,7 +75,7 @@ namespace TinyShop
                      name: "default",
                      pattern: "{controller=Home}/{action=Index}/{id?}" );
                  endpoints.MapRazorPages();
-             } );
+             } );            
         }
     }
 }

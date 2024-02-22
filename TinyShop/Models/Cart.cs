@@ -24,7 +24,7 @@ namespace TinyShop.Models
         }
         public void RemoveLine(Product product) =>
         Lines.RemoveAll( l => l.Product.Id == product.Id );
-        public decimal ComputeTotalValue() => Lines.Sum( e => e.Product.Price * e.Quantity );
+        public decimal ComputeTotalValue() => (decimal)Lines.Sum( e => e.Product.Price * e.Quantity );
 
         public void Clear() => Lines.Clear();
     }
@@ -34,5 +34,4 @@ namespace TinyShop.Models
         public Product Product { get; set; } = new();
         public int Quantity { get; set; }
     }
-}
 }

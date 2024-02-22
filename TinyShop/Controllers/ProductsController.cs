@@ -86,7 +86,8 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+        public async Task<IActionResult> Create( 
+            [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
         {
             if ( ModelState.IsValid )
             {
@@ -147,7 +148,8 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( int id, [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+        public async Task<IActionResult> Edit( int id, 
+            [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
         {
             if ( id != product.Id )
             {

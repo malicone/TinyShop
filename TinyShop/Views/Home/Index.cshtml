@@ -28,18 +28,18 @@
 
             <div class="card-columns">
 
-                @foreach ( var item in Model.Products )
+                @foreach ( var product in Model.Products )
                 {
                  <div class="card" style="width: 16rem;">
-                    <a href="@Url.Action( "DetailsReadOnly", "Products", new { id = item.Id } )">
-                        <img class="card-img-top product-cover" src="@Url.Action( "GetProductMainImage", "Files", new { productId = item.Id } )">
+                    <a href="@Url.Action( "DetailsReadOnly", "Products", new { id = product.Id } )">
+                        <img class="card-img-top product-cover" src="@Url.Action( "GetProductMainImage", "Files", new { productId = product.Id } )">
                         <div class="card-body">
-                            <h5 class="card-title">@item.Name</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@FormattingUtils.FormatPrice( item.Price.Value )</h6>
+                            <h5 class="card-title">@product.Name</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@FormattingUtils.FormatPrice( product.Price.Value )</h6>
                         </div>
                     </a>
-                        <form id="@item.Id" asp-page="/Cart" method="post">
-                            <input type="hidden" asp-for="@item.Id" />
+                        <form id="@product.Id" asp-controller="Cart" asp-action="Index" method="post">
+                            <input type="hidden" name="productId" value="@product.Id" />
                             <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />                                
                             <button type="submit" class="btn btn-success btn-sm">
                                 Add To Cart

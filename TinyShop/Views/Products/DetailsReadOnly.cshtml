@@ -1,5 +1,6 @@
 ﻿@model TinyShop.Models.Product
 @using TinyShop.Utils;
+@using TinyShop.Infrastructure;
 
 @{
     ViewData[ "Title" ] = "Product";
@@ -35,9 +36,14 @@
             <img src="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )" width="150" class="img-thumbnail img-fluid">
         </a>
     }
-    <div class="mt-2 pt-3 border border-dark text-center align-middle">
-        <p>To order the product please use the contacts: @GlobalOptions.ContactsAll</p>
-    </div>
+    <form id="@Model.Id" asp-controller="Cart" asp-action="Index" method="post">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+        <button type="submit" class="btn btn-success btn-sm">
+            Add To Cart
+        </button>
+    </form>
+
     <hr />
 </div>
 <div class="mt-3">
