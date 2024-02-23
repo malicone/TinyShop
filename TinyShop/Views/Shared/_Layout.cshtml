@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData[ "Title" ] - @GlobalOptions.SiteTitle</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />    
+    <link rel="stylesheet" href="~/css/site.css" />        
+    <link href="/lib/font-awesome/css/all.css" rel="stylesheet">
+    <script defer src="/lib/font-awesome/js/all.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-90">
     <header>
@@ -33,6 +35,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
                         </li>
                     </ul>
+                    <vc:cart-summary />
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -48,7 +51,7 @@
 
     <footer class="border-top footer text-muted mt-auto">
         <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalOptions.SiteTitle - <a asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
+            &copy; @DateTime.Now.Year - @GlobalOptions.SiteTitle - <a asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>            
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

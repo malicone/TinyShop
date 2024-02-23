@@ -1,0 +1,23 @@
+﻿@using TinyShop.Infrastructure;
+@using TinyShop.Utils;
+
+<div class="">
+    <a asp-controller="Cart" asp-action="Index" asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+
+        @if (Model?.Lines.Count > 0)
+        {
+            <small class="navbar-text">
+                <b>Your cart:</b>
+                @Model?.ComputeTotalQuantity() item(s)
+                @FormattingUtils.FormatPrice(Model?.ComputeTotalValue());
+            </small>
+        }
+        else
+        {
+            <small class="navbar-text">
+                <b>Your cart is empty</b>
+            </small>
+        }
+        <i class="fa fa-shopping-cart"></i>
+    </a>
+</div>

@@ -16,10 +16,9 @@ namespace TinyShop
         public static void Main( string[] args )
         {
             Log.Logger = new LoggerConfiguration()
-            .Enrich.FromLogContext()
-            .WriteTo.Console().WriteTo.File( "Logs\\log.txt", rollingInterval: RollingInterval.Day )
-            .CreateLogger();
-
+                .Enrich.FromLogContext()
+                .WriteTo.Console().WriteTo.File( "Logs\\log.txt", rollingInterval: RollingInterval.Day )
+                .CreateLogger();
             try
             {
                 Log.Information( "Starting up" );

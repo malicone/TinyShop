@@ -2,6 +2,6 @@
 {
     public class GlobalConstants
     {        
-        public static string CartSessionId { get { return "cart"; } }
+        public static string CartSessionId { get { return "_cart"; } }
     }
 }

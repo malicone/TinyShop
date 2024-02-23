@@ -2,7 +2,11 @@
 {
     public class CartModel
     {
-        public Cart? Cart { get; set; }
+        public CartModel(Cart cartService)
+        {
+            Cart = cartService;
+        }
+        public Cart Cart { get; set; }
         public string ReturnUrl { get; set; } = "/";
     }
 }

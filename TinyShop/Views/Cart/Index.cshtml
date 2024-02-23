@@ -1,38 +1,59 @@
-﻿@model TinyShop.Models.CartModel;
+﻿@using TinyShop.Utils;
+@model TinyShop.Models.CartModel;
 @{
     ViewData["Title"] = "Cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Your cart</h2>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Quantity</th>
-            <th>Item</th>
-            <th class="text-right">Price</th>
-            <th class="text-right">Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var line in Model?.Cart?.Lines ?? Enumerable.Empty<CartLine>())
-        {
+
+@if (Model?.Cart?.Lines.Count == 0)
+{    
+    <div class="alert alert-info">
+        Your cart is empty
+    </div>
+}
+else
+{
+    <h2>Your cart</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <td class="text-center">@line.Quantity</td>
-                <td class="text-left">@line.Product.Name</td>
-                <td class="text-right">@line.Product.Price</td>
-                <td class="text-right">@((line.Quantity * line.Product.Price))</td>
+                <th>Quantity</th>
+                <th>Item</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Subtotal</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-right">Total:</td>
-            <td class="text-right">
-                @Model?.Cart?.ComputeTotalValue().ToString( "c" )
-            </td>
-        </tr>
-    </tfoot>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var line in Model?.Cart?.Lines ?? Enumerable.Empty<CartLine>())
+            {
+                <tr>
+                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-left">@line.Product.Name</td>
+                    <td class="text-right">@FormattingUtils.FormatPrice( line.Product.Price.Value )</td>
+                    <td class="text-right">@FormattingUtils.FormatPrice( (line.Quantity * line.Product.Price).Value )</td>
+                    <td class="text-center">
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="productId" value="@line.Product.Id" />
+                            <input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td class="text-right">
+                    @FormattingUtils.FormatPrice( (Model?.Cart?.ComputeTotalValue()).Value )
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
 <div class="text-center">
     <a class="btn btn-primary" href="@Model?.ReturnUrl">Continue shopping</a>
 </div>

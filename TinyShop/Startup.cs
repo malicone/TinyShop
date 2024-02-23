@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Areas.Identity.Data;
 using TinyShop.Data;
+using TinyShop.Models;
 
 namespace TinyShop
 {
@@ -31,6 +33,9 @@ namespace TinyShop
             services.AddControllersWithViews();            
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddScoped<Cart>( sp => SessionCart.GetCart( sp ) );
+            services.AddScoped<CartModel>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<ShopContext>( options =>
                 options.UseSqlServer( Configuration.GetConnectionString( "ShopContextConnection" ) ) );
