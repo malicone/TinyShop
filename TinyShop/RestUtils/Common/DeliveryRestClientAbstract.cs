@@ -14,5 +14,6 @@ namespace TinyShop.RestUtils.Common
         public abstract string ApiKey { get; protected set; }
 
         public abstract Task<List<RegionDto>> GetRegionsAsync();
+        public abstract Task<List<CityDto>> GetCitiesByRegionAsync(string regionId);
     }
 }

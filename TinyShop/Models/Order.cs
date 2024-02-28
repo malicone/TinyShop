@@ -20,7 +20,9 @@ namespace TinyShop.Models
 
         [Display( Name = "Region" )]
         public string RegionId { get; set; }
-        public List<RegionDto> Regions { get; set; } = new List<RegionDto>();
+
+        [Display( Name = "City" )]
+        public string CityId { get; set; }
 
         public string Content { get; set; }
     }

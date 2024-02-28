@@ -30,3 +30,8 @@ Minor
 
 Пункт меню Логін перемістити далі, або взагалі прибрати.
 
+ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name" );
+Додати ProductViewModel (вже є) та передавати список через неї.
+
+Move all view models to ViewModels subfolder.
+
