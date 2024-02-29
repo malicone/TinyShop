@@ -269,7 +269,7 @@ namespace TinyShop.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Name")
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");
 

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using TinyShop.Areas.Identity.Data;
 using TinyShop.Data;
 using TinyShop.Models;
+using TinyShop.RestUtils.NovaPoshta;
 
 namespace TinyShop
 {
@@ -36,6 +37,7 @@ namespace TinyShop
             services.AddScoped<Cart>( sp => SessionCart.GetCart( sp ) );
             services.AddScoped<CartModel>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<NovaPoshtaClient>();
 
             services.AddDbContext<ShopContext>( options =>
                 options.UseSqlServer( Configuration.GetConnectionString( "ShopContextConnection" ) ) );
@@ -76,6 +78,14 @@ namespace TinyShop
 
             app.UseEndpoints( endpoints =>
              {
+                 endpoints.MapControllerRoute(
+                     name: "region",
+                     pattern: "{controller=Order}/{action=Checkout}/{regionId}" );
+
+                 endpoints.MapControllerRoute(
+                     name: "city",
+                     pattern: "{controller=Order}/{action=Checkout}/{cityId}" );
+
                  endpoints.MapControllerRoute(
                      name: "default",
                      pattern: "{controller=Home}/{action=Index}/{id?}" );

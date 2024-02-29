@@ -35,3 +35,7 @@ ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Na
 
 Move all view models to ViewModels subfolder.
 
+Додати назву типу нас. пункта до випадаючого списку на сторінці замовлення. Також індекс, щоб юзер міг розрізнити.
+
+По дефолту вибирати в списку областей Волинську область.
+

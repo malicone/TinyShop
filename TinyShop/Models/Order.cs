@@ -24,6 +24,9 @@ namespace TinyShop.Models
         [Display( Name = "City" )]
         public string CityId { get; set; }
 
+        [Display( Name = "Warehouse" )]
+        public string WarehouseId { get; set; }
+
         public string Content { get; set; }
     }
 }

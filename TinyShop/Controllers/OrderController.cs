@@ -9,28 +9,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TinyShop.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using TinyShop.Data;
 
 namespace TinyShop.Controllers
 {
     [Authorize]
     public class OrderController : Controller
     {
-        [AllowAnonymous]
-        public async Task<ViewResult> CheckoutAsync()
+        public OrderController( ShopContext context, NovaPoshtaClient npClient )
         {
-            var orderVM = new OrderViewModel();
-            NovaPoshtaClient npClient = new NovaPoshtaClient();
-            orderVM.Regions = await npClient.GetRegionsAsync();            
+            _context = context;
+            _npClient = npClient;
+        }
+
+        [AllowAnonymous]
+        public async Task<ViewResult> Checkout()
+        {
+            var orderVM = new OrderViewModel();            
+            orderVM.Regions = await _npClient.GetRegionsAsync();            
             return View( orderVM );
         }
 
         [AllowAnonymous]        
         public async Task<JsonResult> GetCitiesByRegion( string regionId )
-        {
-            //return Json( "[{\"id\": \"1\", \"Name\": \"Lutsk\"}, {\"id\": \"2\", \"Name\": \"Kyiv\"}]" );
-            //return Json( new { Id = 123, Name = "Hero" } );
-            NovaPoshtaClient npClient = new NovaPoshtaClient();
-            return Json(await npClient.GetCitiesByRegionAsync(regionId));
+        {            
+            return Json(await _npClient.GetCitiesByRegionAsync(regionId));
         }
+
+        [AllowAnonymous]
+        public async Task<JsonResult> GetWarehousesByCity(string cityId)
+        {            
+            return Json( await _npClient.GetWarehousesByCityAsync( cityId ) );
+        }
+        
+        private readonly ShopContext _context;
+        private readonly NovaPoshtaClient _npClient;
     }
 }

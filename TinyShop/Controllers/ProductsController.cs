@@ -30,8 +30,8 @@ namespace TinyShop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var shopContext = _context.Products.Include( p => p.ProductGroup );
-            return View( await shopContext.ToListAsync() );
+            var products = _context.Products.Include( p => p.ProductGroup );
+            return View( await products.ToListAsync() );
         }
 
         // GET: Products/Details/5        
@@ -87,7 +87,7 @@ namespace TinyShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( 
-            [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+            [Bind( "Name,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
         {
             if ( ModelState.IsValid )
             {
@@ -149,7 +149,7 @@ namespace TinyShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit( int id, 
-            [Bind( "Description,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+            [Bind( "Name,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
         {
             if ( id != product.Id )
             {

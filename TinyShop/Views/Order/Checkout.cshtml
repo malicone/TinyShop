@@ -23,6 +23,10 @@
         <label asp-for="TheOrder.CityId" class="control-label"></label>
         <select id="city" asp-for="TheOrder.CityId" class="form-control"></select>
     </div>
+    <div class="form-group">
+        <label asp-for="TheOrder.WarehouseId" class="control-label"></label>
+        <select id="warehouse" asp-for="TheOrder.WarehouseId" class="form-control"></select>
+    </div>
 
 </form>
 
@@ -35,6 +39,17 @@
                     $("#city").empty();
                     $.each(data, function (index, row) {                                                
                         $("#city").append("<option value='" + row.id + "'>" + row.name + "</option>");
+                    });
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#city").change(function () {
+                var url = "/Order/GetWarehousesByCity/" + $("#city").val();
+                $.getJSON(url, function (data) {
+                    $("#warehouse").empty();
+                    $.each(data, function (index, row) {
+                        $("#warehouse").append("<option value='" + row.id + "'>" + row.name + "</option>");
                     });
                 });
             });

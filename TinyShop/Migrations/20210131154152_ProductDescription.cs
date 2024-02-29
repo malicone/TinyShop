@@ -7,7 +7,7 @@ namespace TinyShop.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Description",
+                name: "Name",
                 table: "Products",
                 type: "nvarchar(max)",
                 maxLength: 4096,
@@ -17,7 +17,7 @@ namespace TinyShop.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Description",
+                name: "Name",
                 table: "Products");
         }
     }
