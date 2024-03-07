@@ -14,12 +14,14 @@ using TinyShop.Data;
 namespace TinyShop.Controllers
 {
     [Authorize]
+    [Route( "[controller]/[action]" )]
     public class OrderController : Controller
     {
-        public OrderController( ShopContext context, NovaPoshtaClient npClient )
+        public OrderController( ShopContext context, NovaPoshtaClient npClient, Cart cart)
         {
             _context = context;
             _npClient = npClient;
+            _cart = cart;
         }
 
         [AllowAnonymous]
@@ -29,14 +31,36 @@ namespace TinyShop.Controllers
             orderVM.Regions = await _npClient.GetRegionsAsync();            
             return View( orderVM );
         }
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult Checkout(OrderViewModel orderVM)
+        {
+            if (_cart.Lines.Count == 0)
+            {
+                ModelState.AddModelError( string.Empty, "Sorry, your cart is empty!" );
+            }
+            if (ModelState.IsValid)
+            {
+                orderVM.TheOrder.Lines = _cart.Lines.ToArray();                
+                _cart.Clear();
+                return View( "Completed", orderVM );
+            }
+            else
+            {
+                orderVM.Regions = _npClient.GetRegionsAsync().Result;
+                return View(orderVM);
+            }
+        }
 
-        [AllowAnonymous]        
+        [AllowAnonymous]
+        [Route( "{regionId}" )]
         public async Task<JsonResult> GetCitiesByRegion( string regionId )
         {            
             return Json(await _npClient.GetCitiesByRegionAsync(regionId));
         }
 
         [AllowAnonymous]
+        [Route( "{cityId}" )]
         public async Task<JsonResult> GetWarehousesByCity(string cityId)
         {            
             return Json( await _npClient.GetWarehousesByCityAsync( cityId ) );
@@ -44,5 +68,6 @@ namespace TinyShop.Controllers
         
         private readonly ShopContext _context;
         private readonly NovaPoshtaClient _npClient;
+        private readonly Cart _cart;
     }
 }

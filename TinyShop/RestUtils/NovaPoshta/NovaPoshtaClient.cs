@@ -39,14 +39,11 @@ namespace TinyShop.RestUtils.NovaPoshta
             string jsonString = await GetJsonString(
 $@"
 {{
-   ""apiKey"": ""{ApiKey}"",
-   ""modelName"": ""Address"",
-   ""calledMethod"": ""getSettlementAreas"",
-   ""methodProperties"": {{
-""Ref"" : """"
-   }}
-}}
-"
+	""apiKey"": ""{ApiKey}"",
+	""modelName"": ""Address"",
+	""calledMethod"": ""getAreas"",
+	""methodProperties"": {{}}
+}}"
             );
             var jsonValue = JsonNode.Parse( jsonString ).AsObject();            
             return jsonValue["data"].AsArray().Select( x =>
@@ -62,31 +59,22 @@ $@"
         public override async Task<List<CityDto>> GetCitiesByRegionAsync(string regionId)
         {
             List<CityDto> result = new List<CityDto>();
-            int pageNumber = 1;
-            int safeGuardCounter = 0;
             JsonArray itemArray = null;
-            do
-            {
-                string requestText =
-    $@"
+            string requestText =
+$@"
 {{
-""apiKey"": ""{ApiKey}"",
-""modelName"": ""Address"",
-""calledMethod"": ""getSettlements"",
-""methodProperties"": {{
-""AreaRef"" : ""{regionId}"",
-""Ref"" : """",
-""RegionRef"" : """",
-""Page"" : ""{pageNumber}"",
-""Warehouse"" : ""1"",
-""FindByString"" : """",
-""Limit"" : """"
-   }}
-}}";
-                string jsonAsString = await GetJsonString( requestText );
-                var jsonValue = JsonNode.Parse( jsonAsString ).AsObject();
-                itemArray = jsonValue["data"].AsArray();
-                foreach (var item in itemArray)
+	""apiKey"": ""{ApiKey}"",
+	""modelName"": ""Address"",
+	""calledMethod"": ""getCities"",
+	""methodProperties"": {{}}
+}}
+";
+            string jsonAsString = await GetJsonString( requestText );
+            var jsonValue = JsonNode.Parse( jsonAsString ).AsObject();
+            itemArray = jsonValue["data"].AsArray();
+            foreach (var item in itemArray)
+            {
+                if (item.AsObject()["Area"].ToString() == regionId)
                 {
                     result.Add( new CityDto
                     {
@@ -94,22 +82,19 @@ $@"
                         Name = (string)item.AsObject()["Description"],
                         TypeDescription = (string)item.AsObject()["SettlementTypeDescription"],
                         Index = (string)item.AsObject()["Index1"],
+                        RegionId = (string)item.AsObject()["Area"],
                         RawJson = item.ToString()
                     } );
                 }
-                pageNumber++;
-                safeGuardCounter++;
-                if (safeGuardCounter > _CRITICAL_GUARD_VALUE)
-                {
-                    break;
-                }
             }
-            while ( itemArray.Count > 0 );
             return result;
         }
 
         public override async Task<List<WarehouseDto>> GetWarehousesByCityAsync(string cityId)
         {
+            // todo: it's bad to fetch and then filter, but it's a quick solution
+            const string WAREHOUSE_TYPE_OFFICE_30KG_REF = "841339c7-591a-42e2-8233-7a0a00f0ed6f";
+            const string WAREHOUSE_TYPE_OFFICE_1000KG_REF = "9a68df70-0267-42a8-bb5c-37f427e36ee4";
             List<WarehouseDto> result = new List<WarehouseDto>();
             int pageNumber = 1;
             int safeGuardCounter = 0;
@@ -139,12 +124,17 @@ $@"
                 itemArray = jsonValue["data"].AsArray();
                 foreach (var item in itemArray)
                 {
-                    result.Add( new WarehouseDto
+                    bool isOffice30Kg = item.AsObject()["TypeOfWarehouse"].ToString() == WAREHOUSE_TYPE_OFFICE_30KG_REF;
+                    bool isOffice1000Kg = item.AsObject()["TypeOfWarehouse"].ToString() == WAREHOUSE_TYPE_OFFICE_1000KG_REF;
+                    if (isOffice30Kg || isOffice1000Kg)
                     {
-                        Id = (string)item.AsObject()["Ref"],
-                        Name = (string)item.AsObject()["Description"],
-                        RawJson = item.ToString()
-                    } );
+                        result.Add( new WarehouseDto
+                        {
+                            Id = item.AsObject()["Ref"].ToString(),
+                            Name = item.AsObject()["Description"].ToString(),
+                            RawJson = item.ToString()
+                        } );
+                    }
                 }
                 pageNumber++;
                 safeGuardCounter++;
@@ -159,5 +149,6 @@ $@"
 
         private RestClient _restClient;
         private const int _CRITICAL_GUARD_VALUE = 100;
+
     }// NovaPoshtaClient
 }

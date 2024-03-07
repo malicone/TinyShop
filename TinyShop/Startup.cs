@@ -79,14 +79,6 @@ namespace TinyShop
             app.UseEndpoints( endpoints =>
              {
                  endpoints.MapControllerRoute(
-                     name: "region",
-                     pattern: "{controller=Order}/{action=Checkout}/{regionId}" );
-
-                 endpoints.MapControllerRoute(
-                     name: "city",
-                     pattern: "{controller=Order}/{action=Checkout}/{cityId}" );
-
-                 endpoints.MapControllerRoute(
                      name: "default",
                      pattern: "{controller=Home}/{action=Index}/{id?}" );
                  endpoints.MapRazorPages();
