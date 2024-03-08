@@ -1,0 +1,21 @@
+1. All view models moved to ViewModels subfolder.
+
+2. Utils folder content moved to Infrastructure folder.
+
+3. Product model replaced by ProductViewModel in according views.
+
+
+
+
+
+
+
+
+
+
+            [Bind(
+            "TheProduct.Name," +
+            "TheProduct.Description," +
+            "TheProduct.Price," +
+            "TheProduct.ProductGroupId," +
+            "TheProduct.Id" )] ProductViewModel productVM, 

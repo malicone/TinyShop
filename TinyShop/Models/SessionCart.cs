@@ -11,7 +11,7 @@ namespace TinyShop.Models
         public static Cart GetCart(IServiceProvider services)
         {
             ISession? session = services.GetRequiredService<IHttpContextAccessor>().HttpContext?.Session;
-            SessionCart cart = session?.GetJson<SessionCart>( GlobalConstants.CartSessionId ) ?? new SessionCart();
+            SessionCart cart = session?.GetJson<SessionCart>( _SessionId ) ?? new SessionCart();
             cart.Session = session;
             return cart;
         }
@@ -21,17 +21,19 @@ namespace TinyShop.Models
         public override void AddItem(Product product, int quantity)
         {
             base.AddItem( product, quantity );
-            Session?.SetJson( GlobalConstants.CartSessionId, this );
+            Session?.SetJson( _SessionId, this );
         }
         public override void RemoveLine(Product product)
         {
             base.RemoveLine( product );
-            Session?.SetJson( GlobalConstants.CartSessionId, this );
+            Session?.SetJson( _SessionId, this );
         }
         public override void Clear()
         {
             base.Clear();
-            Session?.Remove( GlobalConstants.CartSessionId );
+            Session?.Remove( _SessionId );
         }
+
+        private static string _SessionId { get { return "cart"; } }
     }
 }

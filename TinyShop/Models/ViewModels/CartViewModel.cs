@@ -1,8 +1,8 @@
-﻿namespace TinyShop.Models
+﻿namespace TinyShop.Models.ViewModels
 {
-    public class CartModel
+    public class CartViewModel
     {
-        public CartModel(Cart cartService)
+        public CartViewModel(Cart cartService)
         {
             Cart = cartService;
         }

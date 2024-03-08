@@ -1,4 +1,4 @@
-﻿@model TinyShop.Models.Product
+﻿@model TinyShop.Models.ViewModels.ProductViewModel
 
 @{
     ViewData["Title"] = "Editing of the product";
@@ -12,24 +12,25 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="TheProduct.Name" class="control-label"></label>
+                <input asp-for="TheProduct.Name" class="form-control" />
+                <span asp-validation-for="TheProduct.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="TheProduct.Price" class="control-label"></label>
+                <input asp-for="TheProduct.Price" class="form-control" />
+                <span asp-validation-for="TheProduct.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductGroupId" class="control-label"></label>
-                <select asp-for="ProductGroupId" class="form-control" asp-items="ViewBag.ProductGroupId"></select>
-                <span asp-validation-for="ProductGroupId" class="text-danger"></span>
+                <label asp-for="TheProduct.ProductGroupId" class="control-label"></label>
+                <select asp-for="TheProduct.ProductGroupId" class="form-control"
+                    asp-items='@new SelectList(Model.ProductGroups, "Id", "Name")'></select>
+                <span asp-validation-for="TheProduct.ProductGroupId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" rows="16"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="TheProduct.Description" class="control-label"></label>
+                <textarea asp-for="TheProduct.Description" class="form-control" rows="16"></textarea>
+                <span asp-validation-for="TheProduct.Description" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -45,12 +46,12 @@
                 <input type="file" class="form-control" name="photos" />
             </div>
 
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="TheProduct.Id" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-        @foreach ( var currentImage in Model.DescImages )
+        @foreach ( var currentImage in Model.TheProduct.DescImages )
         {
             <a href="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )">
                 <img src="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )" width="150" class="img-thumbnail img-fluid">

@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TinyShop.Models
+namespace TinyShop.Models.ViewModels
 {
     public class HomeViewModel
     {
         public List<Product> Products { get; set; }
         public List<ProductGroup> ProductGroups { get; set; }
-        
+
         public ProductGroup CurrentGroup { get; set; }
-        public string CatalogHeader 
+        public string CatalogHeader
         {
             get
-            {   string name = CurrentGroup == null ? "All products" : CurrentGroup.Name;
+            {
+                string name = CurrentGroup == null ? "All products" : CurrentGroup.Name;
                 return $"Catalog - {name}";
             }
         }

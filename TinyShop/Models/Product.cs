@@ -17,7 +17,7 @@ namespace TinyShop.Models
         [Required, StringLength( 256, MinimumLength = 3 ), Display(Name = "Name")]
         public string Name { get; set; }
 
-        [StringLength( 4096 ), Display( Name = "Name" )]
+        [StringLength( 4096 ), Display( Name = "Description" )]
         public string Description { get; set; }
 
         [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" ), Display( Name = "Price" )]

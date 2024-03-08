@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using TinyShop.Areas.Identity.Data;
 using TinyShop.Data;
 using TinyShop.Models;
+using TinyShop.Models.ViewModels;
 using TinyShop.RestUtils.NovaPoshta;
 
 namespace TinyShop
@@ -35,7 +36,7 @@ namespace TinyShop
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddScoped<Cart>( sp => SessionCart.GetCart( sp ) );
-            services.AddScoped<CartModel>();
+            services.AddScoped<CartViewModel>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<NovaPoshtaClient>();
 

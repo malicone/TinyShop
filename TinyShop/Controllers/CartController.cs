@@ -6,6 +6,7 @@ using System.Linq;
 using TinyShop.Data;
 using TinyShop.Infrastructure;
 using TinyShop.Models;
+using TinyShop.Models.ViewModels;
 
 namespace TinyShop.Controllers
 {
@@ -13,20 +14,20 @@ namespace TinyShop.Controllers
     public class CartController : Controller
     {
         public CartController(ILogger<HomeController> logger, ShopContext context, 
-            IWebHostEnvironment appEnvironment, CartModel cartModel)
+            IWebHostEnvironment appEnvironment, CartViewModel cartModel)
         {
             _context = context;
             _appEnvironment = appEnvironment;
             _logger = logger;
-            _cartModel = cartModel;
+            _cartVM = cartModel;
         }
 
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Index(string returnUrl)
         {
-            _cartModel.ReturnUrl = returnUrl;
-            return View( _cartModel );
+            _cartVM.ReturnUrl = returnUrl;
+            return View( _cartVM );
         }
 
         [AllowAnonymous]
@@ -36,23 +37,23 @@ namespace TinyShop.Controllers
             Product? product = _context.Products.FirstOrDefault( p => p.Id == productId );
             if (product != null)
             {                
-                _cartModel.Cart.AddItem( product, 1 );
+                _cartVM.Cart.AddItem( product, 1 );
             }                    
-            _cartModel.ReturnUrl = returnUrl;
-            return View( _cartModel );
+            _cartVM.ReturnUrl = returnUrl;
+            return View( _cartVM );
         }
 
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Remove(int productId, string returnUrl)
         {
-            _cartModel.Cart.RemoveLine( _cartModel.Cart.Lines.First( cl => cl.Product.Id == productId ).Product );            
+            _cartVM.Cart.RemoveLine( _cartVM.Cart.Lines.First( cl => cl.Product.Id == productId ).Product );            
             return Redirect( returnUrl );
         }
 
         private ILogger<HomeController> _logger;
         private ShopContext _context;
         private IWebHostEnvironment _appEnvironment;
-        private CartModel _cartModel;
+        private CartViewModel _cartVM;
     }
 }

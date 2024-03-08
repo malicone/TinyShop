@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Data;
 using TinyShop.Models;
+using TinyShop.Models.ViewModels;
 
 namespace TinyShop.Controllers
 {

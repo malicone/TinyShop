@@ -10,8 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TinyShop.Data;
+using TinyShop.Infrastructure;
 using TinyShop.Models;
-using TinyShop.Utils;
+using TinyShop.Models.ViewModels;
 
 namespace TinyShop.Controllers
 {
@@ -77,8 +78,9 @@ namespace TinyShop.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name" );
-            return View();
+            ProductViewModel productVM = new ProductViewModel();
+            productVM.ProductGroups = _context.ProductGroups.ToList();
+            return View( productVM );
         }
 
         // POST: Products/Create
@@ -86,21 +88,21 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( 
-            [Bind( "Name,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+        public async Task<IActionResult> Create( [Bind( "TheProduct" )] ProductViewModel productVM, 
+            IFormFileCollection photos )
         {
             if ( ModelState.IsValid )
             {
                 if ( photos != null )
                 {
-                    await AddPhotos( photos, product );
+                    await AddPhotos( photos, productVM.TheProduct );
                 }
-                _context.Add( product );
+                _context.Add( productVM.TheProduct );
                 await _context.SaveChangesAsync();
                 return RedirectToAction( nameof( Index ) );
             }
-            ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name", product.ProductGroupId );
-            return View( product );
+            productVM.ProductGroups = _context.ProductGroups.ToList();
+            return View( productVM );
         }
 
         private async Task AddPhotos( IFormFileCollection photos, Product product, bool removeOldPhotos = false )
@@ -138,9 +140,11 @@ namespace TinyShop.Controllers
             {
                 return NotFound();
             }
-            ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name", product.ProductGroupId );
+            ProductViewModel productVM = new ProductViewModel();
+            productVM.ProductGroups = _context.ProductGroups.ToList();
             _context.Entry( product ).Collection( p => p.DescImages ).Load();
-            return View( product );
+            productVM.TheProduct = product;
+            return View( productVM );
         }
 
         // POST: Products/Edit/5
@@ -148,10 +152,10 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( int id, 
-            [Bind( "Name,Name,Price,ProductGroupId,Id" )] Product product, IFormFileCollection photos )
+        public async Task<IActionResult> Edit( int id, [Bind( "TheProduct" )] ProductViewModel productVM, 
+            IFormFileCollection photos )
         {
-            if ( id != product.Id )
+            if ( id != productVM.TheProduct.Id )
             {
                 return NotFound();
             }
@@ -160,19 +164,19 @@ namespace TinyShop.Controllers
             {
                 try
                 {
-                    _context.Update( product );
+                    _context.Update( productVM.TheProduct );
                     if ( photos != null )
                     {
                         if ( photos.Count > 0 )
                         {
-                            await AddPhotos( photos, product, true );
+                            await AddPhotos( photos, productVM.TheProduct, true );
                         }
                     }
                     await _context.SaveChangesAsync();
                 }
                 catch ( DbUpdateConcurrencyException )
                 {
-                    if ( !ProductExists( product.Id ) )
+                    if ( !ProductExists( productVM.TheProduct.Id ) )
                     {
                         return NotFound();
                     }
@@ -183,8 +187,8 @@ namespace TinyShop.Controllers
                 }
                 return RedirectToAction( nameof( Index ) );
             }
-            ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name", product.ProductGroupId );
-            return View( product );
+            productVM.ProductGroups = _context.ProductGroups.ToList();
+            return View( productVM );
         }
 
         // GET: Products/Delete/5

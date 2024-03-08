@@ -30,10 +30,10 @@ Minor
 
 Пункт меню Логін перемістити далі, або взагалі прибрати.
 
-ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name" );
-Додати ProductViewModel (вже є) та передавати список через неї.
+#ViewData[ "ProductGroupId" ] = new SelectList( _context.ProductGroups, "Id", "Name" );
+#Додати ProductViewModel (вже є) та передавати список через неї.
 
-Move all view models to ViewModels subfolder.
+#Move all view models to ViewModels subfolder.
 
 Додати назву типу нас. пункта до випадаючого списку на сторінці замовлення. Також індекс, щоб юзер міг розрізнити.
 
@@ -43,4 +43,21 @@ Move all view models to ViewModels subfolder.
 Коли змінюється область очищати список відділень.
 
 Змінити список груп товарів на кнопки як у книзі Фрімена.
+
+---------------------------------------------------------------------
+16:56 2024-03-07
+Маркетинг
+
+Оригінальне оформлення фото товарів:
+https://pikabu.ru/story/luchshee_chto_ya_videl_na_avito_11196874#comments
+
+
+
+
+
+
+
+
+
+
 

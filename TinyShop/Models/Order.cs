@@ -9,10 +9,13 @@ namespace TinyShop.Models
     {
         [BindNever]
         public int Id { get; set; }
+
         [Required( ErrorMessage = "Please enter a First Name" )]
         public string FirstName { get; set; }
+        
         [Required( ErrorMessage = "Please enter a Last Name" )]
         public string LastName { get; set; }
+        
         public string MiddleName { get; set; }
 
         [BindNever]
@@ -25,8 +28,6 @@ namespace TinyShop.Models
         public string CityId { get; set; }
 
         [Display( Name = "Warehouse" )]
-        public string WarehouseId { get; set; }
-
-        public string Content { get; set; }
+        public string WarehouseId { get; set; }       
     }
 }

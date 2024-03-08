@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TinyShop.Models
+namespace TinyShop.Infrastructure
 {
     // todo: create table Options
     public class GlobalOptions

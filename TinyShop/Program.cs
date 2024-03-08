@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TinyShop.Utils;
+using TinyShop.Infrastructure;
 using Serilog;
 
 namespace TinyShop

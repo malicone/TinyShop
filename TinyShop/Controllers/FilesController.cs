@@ -8,8 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Data;
+using TinyShop.Infrastructure;
 using TinyShop.Models;
-using TinyShop.Utils;
 
 namespace TinyShop.Controllers
 {
