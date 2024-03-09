@@ -10,8 +10,8 @@ using TinyShop.Data;
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20210204215155_SeedUser")]
-    partial class SeedUser
+    [Migration("20240308171329_CustomersTableCreation")]
+    partial class CustomersTableCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,6 +236,33 @@ namespace TinyShop.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("TinyShop.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("TinyShop.Models.FileTag", b =>
                 {
                     b.Property<int>("Id")
@@ -269,7 +296,7 @@ namespace TinyShop.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");
 

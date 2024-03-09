@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TinyShop.Models
 {
-    public class Product : BaseEntity
+    public class Product : SoftDeletableEntity
     {
         public Product()
         {
@@ -17,7 +17,7 @@ namespace TinyShop.Models
         [Required, StringLength( 256, MinimumLength = 3 ), Display(Name = "Name")]
         public string Name { get; set; }
 
-        [StringLength( 4096 ), Display( Name = "Description" )]
+        [Display( Name = "Description" )]
         public string Description { get; set; }
 
         [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" ), Display( Name = "Price" )]
@@ -41,5 +41,6 @@ namespace TinyShop.Models
                 return null;
             }
         }        
+        public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
     }
 }

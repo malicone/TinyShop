@@ -259,7 +259,7 @@ namespace TinyShop.Migrations
                     b.ToTable("FileTags");
                 });
 
-            modelBuilder.Entity("TinyShop.Models.Product", b =>
+            modelBuilder.Entity("TinyShop.Models.TheProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -313,7 +313,7 @@ namespace TinyShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TinyShop.Models.Product", null)
+                    b.HasOne("TinyShop.Models.TheProduct", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -371,7 +371,7 @@ namespace TinyShop.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TinyShop.Models.Product", b =>
+            modelBuilder.Entity("TinyShop.Models.TheProduct", b =>
                 {
                     b.HasOne("TinyShop.Models.ProductGroup", "ProductGroup")
                         .WithMany("Products")

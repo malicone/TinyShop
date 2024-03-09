@@ -5,16 +5,17 @@ namespace TinyShop.Models
 {
     public class Cart
     {
-        public List<CartLine> Lines { get; set; } = new List<CartLine>();
+        public List<OrderLine> Lines { get; set; } = new List<OrderLine>();
         public virtual void AddItem(Product product, int quantity)
         {
-            CartLine? line = Lines.Where( p => p.Product.Id == product.Id ).FirstOrDefault();
+            OrderLine? line = Lines.Where( p => p.TheProduct.Id == product.Id ).FirstOrDefault();
             if (line == null)
             {
-                Lines.Add( new CartLine
+                Lines.Add( new OrderLine
                 {
-                    Product = product,
-                    Quantity = quantity
+                    TheProduct = product,
+                    Quantity = quantity,
+                    PriceSnapshot = product.Price
                 } );
             }
             else
@@ -22,16 +23,10 @@ namespace TinyShop.Models
                 line.Quantity += quantity;
             }
         }
-        public virtual void RemoveLine(Product product) => Lines.RemoveAll( l => l.Product.Id == product.Id );
-        public decimal ComputeTotalValue() => (decimal)Lines.Sum( e => e.Product.Price * e.Quantity );
+        public virtual void RemoveLine(Product product) => Lines.RemoveAll( l => l.TheProduct.Id == product.Id );
+        public decimal ComputeTotalValue() => (decimal)Lines.Sum( e => e.TheProduct.Price * e.Quantity );
         public int ComputeTotalQuantity() => Lines.Sum( e => e.Quantity );
 
         public virtual void Clear() => Lines.Clear();
-    }
-    public class CartLine
-    {
-        public int Id { get; set; }
-        public Product Product { get; set; } = new();
-        public int Quantity { get; set; }
     }
 }

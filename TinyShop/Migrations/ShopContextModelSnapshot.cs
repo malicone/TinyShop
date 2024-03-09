@@ -234,6 +234,62 @@ namespace TinyShop.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("TinyShop.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("MiddleName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime?>("SoftDeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SoftDeletedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("TinyShop.Models.FileTag", b =>
                 {
                     b.Property<int>("Id")
@@ -260,6 +316,108 @@ namespace TinyShop.Migrations
                     b.ToTable("FileTags");
                 });
 
+            modelBuilder.Entity("TinyShop.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CityId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<DateTime>("OrderDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RegionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SoftDeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SoftDeletedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<int?>("TheCustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TheCustomerId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("TinyShop.Models.OrderLine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<decimal?>("PriceSnapshot")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("SoftDeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SoftDeletedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<int?>("TheOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TheProductId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TheOrderId");
+
+                    b.HasIndex("TheProductId");
+
+                    b.ToTable("OrderLines");
+                });
+
             modelBuilder.Entity("TinyShop.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -267,8 +425,14 @@ namespace TinyShop.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(4096)
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -281,6 +445,20 @@ namespace TinyShop.Migrations
 
                     b.Property<int>("ProductGroupId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("SoftDeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SoftDeletedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
 
@@ -296,10 +474,31 @@ namespace TinyShop.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime?>("SoftDeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SoftDeletedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
 
@@ -372,6 +571,30 @@ namespace TinyShop.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TinyShop.Models.Order", b =>
+                {
+                    b.HasOne("TinyShop.Models.Customer", "TheCustomer")
+                        .WithMany()
+                        .HasForeignKey("TheCustomerId");
+
+                    b.Navigation("TheCustomer");
+                });
+
+            modelBuilder.Entity("TinyShop.Models.OrderLine", b =>
+                {
+                    b.HasOne("TinyShop.Models.Order", "TheOrder")
+                        .WithMany("Lines")
+                        .HasForeignKey("TheOrderId");
+
+                    b.HasOne("TinyShop.Models.Product", "TheProduct")
+                        .WithMany("OrderLines")
+                        .HasForeignKey("TheProductId");
+
+                    b.Navigation("TheOrder");
+
+                    b.Navigation("TheProduct");
+                });
+
             modelBuilder.Entity("TinyShop.Models.Product", b =>
                 {
                     b.HasOne("TinyShop.Models.ProductGroup", "ProductGroup")
@@ -381,6 +604,16 @@ namespace TinyShop.Migrations
                         .IsRequired();
 
                     b.Navigation("ProductGroup");
+                });
+
+            modelBuilder.Entity("TinyShop.Models.Order", b =>
+                {
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("TinyShop.Models.Product", b =>
+                {
+                    b.Navigation("OrderLines");
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductGroup", b =>

@@ -1,0 +1,5 @@
+1. Customer model added.
+
+2. TrackableEntity and SoftDeletableEntity added.
+
+3. Order model added. Checkout view updated.

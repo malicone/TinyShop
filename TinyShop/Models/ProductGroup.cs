@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TinyShop.Models
 {
-    public class ProductGroup : BaseEntity
+    public class ProductGroup : SoftDeletableEntity
     {
         [Required, StringLength( 256, MinimumLength = 3 ), Display(Name = "Name")]
         public string Name { get; set; }

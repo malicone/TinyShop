@@ -221,7 +221,7 @@ namespace TinyShop.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("TinyShop.Models.Product", b =>
+            modelBuilder.Entity("TinyShop.Models.TheProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -314,7 +314,7 @@ namespace TinyShop.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TinyShop.Models.Product", b =>
+            modelBuilder.Entity("TinyShop.Models.TheProduct", b =>
                 {
                     b.HasOne("TinyShop.Models.ProductGroup", "ProductGroup")
                         .WithMany("Products")

@@ -7,13 +7,24 @@
 <form asp-action="Checkout" method="post">
     <h3>Ship to</h3>
     <div class="form-group">
-        <label>First Name:</label><input asp-for="TheOrder.FirstName" class="form-control" />
+        <label asp-for="TheOrder.TheCustomer.FirstName" class="control-label"></label>
+        <input asp-for="TheOrder.TheCustomer.FirstName" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Last Name:</label><input asp-for="TheOrder.LastName" class="form-control" />
+        <label asp-for="TheOrder.TheCustomer.LastName" class="control-label"></label>
+        <input asp-for="TheOrder.TheCustomer.LastName" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Middle Name:</label><input asp-for="TheOrder.MiddleName" class="form-control" />
+        <label asp-for="TheOrder.TheCustomer.MiddleName" class="control-label"></label>
+        <input asp-for="TheOrder.TheCustomer.MiddleName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TheOrder.TheCustomer.Phone" class="control-label"></label>
+        <input asp-for="TheOrder.TheCustomer.Phone" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TheOrder.TheCustomer.Email" class="control-label"></label>
+        <input asp-for="TheOrder.TheCustomer.Email" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="TheOrder.RegionId" class="control-label"></label>
@@ -41,6 +52,10 @@
                 Pay by card
             </label>
         </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="TheOrder.Comments" class="control-label"></label>
+        <input asp-for="TheOrder.Comments" class="form-control" />
     </div>
     <div class="form-group">
         <input class="btn btn-primary" type="submit" value="Complete Order" />

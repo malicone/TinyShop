@@ -20,6 +20,9 @@ namespace TinyShop.Data
         public DbSet<ProductGroup> ProductGroups { get; set; }
 
         public DbSet<FileTag> FileTags { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderLine> OrderLines { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

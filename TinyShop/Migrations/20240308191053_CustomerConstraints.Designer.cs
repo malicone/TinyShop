@@ -10,8 +10,8 @@ using TinyShop.Data;
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20210204215155_SeedUser")]
-    partial class SeedUser
+    [Migration("20240308191053_CustomerConstraints")]
+    partial class CustomerConstraints
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,6 +236,41 @@ namespace TinyShop.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("TinyShop.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("MiddleName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("TinyShop.Models.FileTag", b =>
                 {
                     b.Property<int>("Id")
@@ -269,8 +304,7 @@ namespace TinyShop.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(4096)
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

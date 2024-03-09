@@ -14,12 +14,12 @@ namespace TinyShop.Controllers
     public class CartController : Controller
     {
         public CartController(ILogger<HomeController> logger, ShopContext context, 
-            IWebHostEnvironment appEnvironment, CartViewModel cartModel)
+            IWebHostEnvironment appEnvironment, CartViewModel cartViewModel)
         {
             _context = context;
             _appEnvironment = appEnvironment;
             _logger = logger;
-            _cartVM = cartModel;
+            _cartVM = cartViewModel;
         }
 
         [AllowAnonymous]
@@ -47,7 +47,7 @@ namespace TinyShop.Controllers
         [HttpPost]
         public IActionResult Remove(int productId, string returnUrl)
         {
-            _cartVM.Cart.RemoveLine( _cartVM.Cart.Lines.First( cl => cl.Product.Id == productId ).Product );            
+            _cartVM.Cart.RemoveLine( _cartVM.Cart.Lines.First( cl => cl.TheProduct.Id == productId ).TheProduct );            
             return Redirect( returnUrl );
         }
 
