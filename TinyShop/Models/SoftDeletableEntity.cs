@@ -13,6 +13,10 @@ namespace TinyShop.Models
         
         [NotMapped]
         public bool IsSoftDeleted => SoftDeletedAt.HasValue;
+
+        [NotMapped]
+        public bool IsNotSoftDeleted => SoftDeletedAt.HasValue == false;
+
         public void SoftDelete( string? deletedBy = null )
         {
             SoftDeletedAt = DateTime.Now;

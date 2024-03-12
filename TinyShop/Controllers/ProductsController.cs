@@ -19,9 +19,6 @@ namespace TinyShop.Controllers
     [Authorize]
     public class ProductsController : Controller
     {
-        private readonly ShopContext _context;
-        private readonly IWebHostEnvironment _appEnvironment;
-
         public ProductsController( ShopContext context, IWebHostEnvironment appEnvironment )
         {
             _context = context;
@@ -31,7 +28,8 @@ namespace TinyShop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products.Include( p => p.ProductGroup );
+            var products = _context.Products.Include( p => p.ProductGroup )
+                .Where( p => p.SoftDeletedAt.HasValue == false );
             return View( await products.ToListAsync() );
         }
 
@@ -97,6 +95,7 @@ namespace TinyShop.Controllers
                 {
                     await AddPhotos( photos, productVM.TheProduct );
                 }
+                productVM.TheProduct.SetCreateStamp( User.Identity.Name );
                 _context.Add( productVM.TheProduct );
                 await _context.SaveChangesAsync();
                 return RedirectToAction( nameof( Index ) );
@@ -164,6 +163,7 @@ namespace TinyShop.Controllers
             {
                 try
                 {
+                    productVM.TheProduct.SetUpdateStamp( User.Identity.Name );
                     _context.Update( productVM.TheProduct );
                     if ( photos != null )
                     {
@@ -216,7 +216,7 @@ namespace TinyShop.Controllers
         public async Task<IActionResult> DeleteConfirmed( int id )
         {
             var product = await _context.Products.FindAsync( id );
-            _context.Products.Remove( product );
+            product.SoftDelete( User.Identity.Name );            
             await _context.SaveChangesAsync();
             return RedirectToAction( nameof( Index ) );
         }
@@ -225,5 +225,8 @@ namespace TinyShop.Controllers
         {
             return _context.Products.Any( e => e.Id == id );
         }
+
+        private readonly ShopContext _context;
+        private readonly IWebHostEnvironment _appEnvironment;
     }
 }

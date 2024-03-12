@@ -18,6 +18,32 @@ namespace TinyShop.Models
         public int Quantity { get; set; }
     }
 
+    public enum DeliveryType
+    {
+        [Display( Name = "Pickup" )]
+        Pickup,
+        [Display( Name = "Nova poshta warehouse" )]
+        NovaPoshtaWarehouse
+    }
+    public enum PaymentType
+    {
+        [Display( Name = "Card" )]
+        Card,
+        [Display( Name = "Imposed" )]
+        Imposed
+    }
+    public enum OrderStatus
+    {
+        [Display( Name = "New" )]
+        New,
+        [Display( Name = "In progress" )]
+        InProgress,
+        [Display( Name = "Completed" )]
+        Completed,
+        [Display( Name = "Canceled" )]
+        Canceled
+    }
+
     public class Order : SoftDeletableEntity
     {
         public DateTime OrderDateTime { get; set; }

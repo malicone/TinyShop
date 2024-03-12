@@ -24,7 +24,7 @@ namespace TinyShop.Controllers
         // GET: ProductGroups
         public async Task<IActionResult> Index()
         {
-            var groups = await _context.ProductGroups.ToListAsync();
+            var groups = await _context.ProductGroups.Where( g => g.SoftDeletedAt.HasValue == false ).ToListAsync();
             foreach ( var group in groups )
             {
                 _context.Entry( group ).Collection( g => g.Products ).Load();
@@ -40,8 +40,7 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
 
-            var productGroup = await _context.ProductGroups
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var productGroup = await _context.ProductGroups.FirstOrDefaultAsync(m => m.Id == id);
             if (productGroup == null)
             {
                 return NotFound();
@@ -65,6 +64,7 @@ namespace TinyShop.Controllers
         {
             if (ModelState.IsValid)
             {
+                productGroup.SetCreateStamp( User.Identity.Name );
                 _context.Add(productGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -104,6 +104,7 @@ namespace TinyShop.Controllers
             {
                 try
                 {
+                    productGroup.SetUpdateStamp( User.Identity.Name );
                     _context.Update(productGroup);
                     await _context.SaveChangesAsync();
                 }
@@ -147,7 +148,7 @@ namespace TinyShop.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var productGroup = await _context.ProductGroups.FindAsync(id);
-            _context.ProductGroups.Remove(productGroup);
+            productGroup.SoftDelete( User.Identity.Name );            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
