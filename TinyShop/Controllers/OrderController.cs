@@ -17,7 +17,7 @@ namespace TinyShop.Controllers
     [Route( "[controller]/[action]" )]
     public class OrderController : Controller
     {
-        public OrderController( ShopContext context, NovaPoshtaClient npClient, Cart cart)
+        public OrderController( ShopContext context, NovaPoshtaClient npClient, Cart cart )
         {
             _context = context;
             _npClient = npClient;
@@ -28,6 +28,8 @@ namespace TinyShop.Controllers
         public async Task<ViewResult> Checkout()
         {
             var orderVM = new OrderViewModel();            
+            orderVM.DeliveryTypes = await _context.DeliveryTypes.ToListAsync();
+            orderVM.PaymentTypes = await _context.PaymentTypes.ToListAsync();
             orderVM.Regions = await _npClient.GetRegionsAsync();            
             return View( orderVM );
         }
@@ -50,6 +52,12 @@ namespace TinyShop.Controllers
                 orderVM.Regions = _npClient.GetRegionsAsync().Result;
                 return View(orderVM);
             }
+        }
+
+        [AllowAnonymous]
+        public async Task<JsonResult> GetRegions()
+        {
+            return Json( await _npClient.GetRegionsAsync() );
         }
 
         [AllowAnonymous]

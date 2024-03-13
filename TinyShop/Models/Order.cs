@@ -18,49 +18,32 @@ namespace TinyShop.Models
         public int Quantity { get; set; }
     }
 
-    public enum DeliveryType
-    {
-        [Display( Name = "Pickup" )]
-        Pickup,
-        [Display( Name = "Nova poshta warehouse" )]
-        NovaPoshtaWarehouse
-    }
-    public enum PaymentType
-    {
-        [Display( Name = "Card" )]
-        Card,
-        [Display( Name = "Imposed" )]
-        Imposed
-    }
-    public enum OrderStatus
-    {
-        [Display( Name = "New" )]
-        New,
-        [Display( Name = "In progress" )]
-        InProgress,
-        [Display( Name = "Completed" )]
-        Completed,
-        [Display( Name = "Canceled" )]
-        Canceled
-    }
-
     public class Order : SoftDeletableEntity
     {
+        /// <summary>
+        /// Important! These are values got from Nova Poshta api.
+        /// </summary>
+        [NotMapped]
+        public static string NovaPoshtaVolynRegionId { get { return "7150812b-9b87-11de-822f-000c2965ae0e"; } }
         public DateTime OrderDateTime { get; set; }
         public virtual Customer TheCustomer { get; set; } = new();
+        public virtual OrderStatus TheOrderStatus { get; set; } = new();
+        public virtual DeliveryType TheDeliveryType { get; set; } = new();
+        public virtual PaymentType ThePaymentType { get; set; } = new();
+
+        [Display( Name = "Область" ), StringLength(512)]
+        public string RegionId { get; set; }
+
+        [Display( Name = "Місто/село" ), StringLength(512)]
+        public string CityId { get; set; }
+
+        [Display( Name = "Відділення" ), StringLength( 512 )]
+        public string WarehouseId { get; set; }
+
+        [Display( Name = "Коментарій до замовлення" )]
+        public string Comments { get; set; }
 
         [BindNever]
         public virtual ICollection<OrderLine> Lines { get; set; } = new List<OrderLine>();
-
-        [Display( Name = "Region" )]
-        public string RegionId { get; set; }
-
-        [Display( Name = "City" )]
-        public string CityId { get; set; }
-
-        [Display( Name = "Warehouse" )]
-        public string WarehouseId { get; set; }
-
-        public string Comments { get; set; }
     }
 }

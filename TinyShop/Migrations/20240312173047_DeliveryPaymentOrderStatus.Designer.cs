@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TinyShop.Data;
 
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240312173047_DeliveryPaymentOrderStatus")]
+    partial class DeliveryPaymentOrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,8 +342,7 @@ namespace TinyShop.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("CityId")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
@@ -357,8 +358,7 @@ namespace TinyShop.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RegionId")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("SoftDeletedAt")
                         .HasColumnType("datetime2");
@@ -387,8 +387,7 @@ namespace TinyShop.Migrations
                         .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("WarehouseId")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

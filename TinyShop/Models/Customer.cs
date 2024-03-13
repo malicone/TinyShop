@@ -4,15 +4,15 @@ namespace TinyShop.Models
 {
     public class Customer : SoftDeletableEntity
     {
-        [Required, StringLength( 256, MinimumLength = 3 ), Display( Name = "First Name" )]
+        [Required, StringLength( 256, MinimumLength = 3 ), Display( Name = "Ім'я" )]
         public string FirstName { get; set; }
-        [Required, StringLength( 256, MinimumLength = 3 ), Display( Name = "Last Name" )]
+        [Required, StringLength( 256, MinimumLength = 3 ), Display( Name = "Прізвище" )]
         public string LastName { get; set; }
-        [StringLength( 256, MinimumLength = 3 ), Display( Name = "Middle Name" )]
+        [StringLength( 256, MinimumLength = 3 ), Display( Name = "По-батькові" )]
         public string MiddleName { get; set; }
         [StringLength( 256, MinimumLength = 3 ), Display( Name = "e-mail" )]
         public string Email { get; set; }
-        [Required, StringLength( 256, MinimumLength = 3 ), Display( Name = "Phone" )]
+        [Required, StringLength( 256, MinimumLength = 3 ), Display( Name = "Телефон" )]
         public string Phone { get; set; }
 
         public override bool Equals( object obj )

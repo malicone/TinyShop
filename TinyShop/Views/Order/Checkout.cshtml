@@ -1,18 +1,16 @@
 ﻿@using TinyShop.Models.ViewModels;
 @model OrderViewModel
 
-<h2>Check out now</h2>
-<p>Please enter your details, and we'll ship your goods right away.</p>
+<h2>Оформлення замовлення</h2>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Checkout" method="post">
-    <h3>Ship to</h3>
-    <div class="form-group">
-        <label asp-for="TheOrder.TheCustomer.FirstName" class="control-label"></label>
-        <input asp-for="TheOrder.TheCustomer.FirstName" class="form-control" />
-    </div>
     <div class="form-group">
         <label asp-for="TheOrder.TheCustomer.LastName" class="control-label"></label>
         <input asp-for="TheOrder.TheCustomer.LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TheOrder.TheCustomer.FirstName" class="control-label"></label>
+        <input asp-for="TheOrder.TheCustomer.FirstName" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="TheOrder.TheCustomer.MiddleName" class="control-label"></label>
@@ -27,31 +25,27 @@
         <input asp-for="TheOrder.TheCustomer.Email" class="form-control" />
     </div>
     <div class="form-group">
+        <label asp-for="TheOrder.TheDeliveryType.Name" class="control-label"></label>
+        <select id="deliveryType" asp-for="TheOrder.TheDeliveryType.Name" class="form-control"
+                asp-items='@new SelectList(Model.DeliveryTypes, "Id" , "Name")'></select>
+    </div>
+    <div id="regionContainer" class="form-group" hidden>
         <label asp-for="TheOrder.RegionId" class="control-label"></label>
         <select id="region" asp-for="TheOrder.RegionId" class="form-control"
                 asp-items='@new SelectList(Model.Regions, "Id" , "Name")'></select>
     </div>
-    <div class="form-group">
+    <div id="cityContainer" class="form-group" hidden>
         <label asp-for="TheOrder.CityId" class="control-label"></label>
         <select id="city" asp-for="TheOrder.CityId" class="form-control"></select>
     </div>
-    <div class="form-group">
+    <div id="warehouseContainer" class="form-group" hidden>
         <label asp-for="TheOrder.WarehouseId" class="control-label"></label>
         <select id="warehouse" asp-for="TheOrder.WarehouseId" class="form-control"></select>
     </div>
     <div class="form-group">
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="payment" id="postPay">
-            <label class="form-check-label" for="postPay">
-                Post pay
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="payment" id="payByCard" checked>
-            <label class="form-check-label" for="payByCard">
-                Pay by card
-            </label>
-        </div>
+        <label asp-for="TheOrder.ThePaymentType.Name" class="control-label"></label>
+        <select id="paymentType" asp-for="TheOrder.ThePaymentType.Name" class="form-control"
+                asp-items='@new SelectList(Model.PaymentTypes, "Id" , "Name")'></select>
     </div>
     <div class="form-group">
         <label asp-for="TheOrder.Comments" class="control-label"></label>
@@ -64,6 +58,32 @@
 
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            $("#deliveryType").change(function () {
+                var deliveryType = $("#deliveryType").val();
+                if (deliveryType == @DeliveryType.NovaPoshtaWarehouseId) {
+                    $("#regionContainer").removeAttr("hidden");
+                    $("#cityContainer").removeAttr("hidden");
+                    $("#warehouseContainer").removeAttr("hidden");
+
+                    var url = "/Order/GetRegions";
+                    $.getJSON(url, function (data) {
+                        $("#region").empty();
+                        $.each(data, function (index, row) {
+                            $("#region").append("<option value='" + row.id + "'>" + row.name + "</option>");
+                        });
+                    });
+                    document.querySelector("#region").value = "7150812b-9b87-11de-822f-000c2965ae0e";
+                    //$("#region").val("7150812b-9b87-11de-822f-000c2965ae0e");
+                }
+                else {
+                    $("#regionContainer").attr("hidden", "hidden");
+                    $("#cityContainer").attr("hidden", "hidden");
+                    $("#warehouseContainer").attr("hidden", "hidden");
+                }
+            });
+        });
+
         $(document).ready(function () {
             $("#region").change(function () {
                 var url = "/Order/GetCitiesByRegion/" + $("#region").val();
