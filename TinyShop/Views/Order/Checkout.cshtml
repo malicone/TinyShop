@@ -58,53 +58,86 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
-            $("#deliveryType").change(function () {
+        $(document).ready(function () 
+        {
+            $("#deliveryType").change(function () 
+            {
                 var deliveryType = $("#deliveryType").val();
-                if (deliveryType == @DeliveryType.NovaPoshtaWarehouseId) {
-                    $("#regionContainer").removeAttr("hidden");
-                    $("#cityContainer").removeAttr("hidden");
-                    $("#warehouseContainer").removeAttr("hidden");
-
-                    var url = "/Order/GetRegions";
-                    $.getJSON(url, function (data) {
-                        $("#region").empty();
-                        $.each(data, function (index, row) {
-                            $("#region").append("<option value='" + row.id + "'>" + row.name + "</option>");
-                        });
-                    });
-                    document.querySelector("#region").value = "7150812b-9b87-11de-822f-000c2965ae0e";
-                    //$("#region").val("7150812b-9b87-11de-822f-000c2965ae0e");
+                if (deliveryType == @DeliveryType.NovaPoshtaWarehouseId) 
+                {
+                    showNovaPoshtaWarehouseControls();
+                    getRegions(setDefaultRegion);
+                    //getCities();
+                    //getWarehouses();
                 }
-                else {
-                    $("#regionContainer").attr("hidden", "hidden");
-                    $("#cityContainer").attr("hidden", "hidden");
-                    $("#warehouseContainer").attr("hidden", "hidden");
+                else 
+                {
+                    hideNovaPoshtaWarehouseControls();
                 }
             });
         });
-
-        $(document).ready(function () {
-            $("#region").change(function () {
-                var url = "/Order/GetCitiesByRegion/" + $("#region").val();
-                $.getJSON(url, function (data) {                                        
-                    $("#city").empty();
-                    $.each(data, function (index, row) {                                                
-                        $("#city").append("<option value='" + row.id + "'>" + row.name + "</option>");
-                    });
+        function hideNovaPoshtaWarehouseControls() 
+        { 
+            $("#regionContainer").attr("hidden", "hidden");
+            $("#cityContainer").attr("hidden", "hidden");
+            $("#warehouseContainer").attr("hidden", "hidden");
+        }
+        function showNovaPoshtaWarehouseControls() 
+        { 
+            $("#regionContainer").removeAttr("hidden");
+            $("#cityContainer").removeAttr("hidden");
+            $("#warehouseContainer").removeAttr("hidden");
+        }
+        function setDefaultRegion() 
+        { 
+            $("#region").val("@Order.NovaPoshtaDefaultRegionId");
+        }
+        function getRegions(afterDataLoadFunc) 
+        { 
+            var url = "/Order/GetRegions";
+            $.getJSON(url, function (data) 
+            {
+                $("#region").empty();
+                $.each(data, function (index, row) 
+                {
+                    $("#region").append("<option value='" + row.id + "'>" + row.name + "</option>");
+                });            
+                afterDataLoadFunc();
+                getCities();
+            });
+        }
+        function getCities() 
+        {            
+            var url = "/Order/GetCitiesByRegion/" + $("#region").val();
+            $.getJSON(url, function (data) 
+            {                
+                $("#city").empty();
+                $.each(data, function (index, row) 
+                {
+                    $("#city").append("<option value='" + row.id + "'>" + row.name + "</option>");
+                });
+                getWarehouses();
+            });
+        }
+        function getWarehouses() 
+        {            
+            var url = "/Order/GetWarehousesByCity/" + $("#city").val();
+            $.getJSON(url, function (data) 
+            {
+                $("#warehouse").empty();
+                $.each(data, function (index, row) 
+                {
+                    $("#warehouse").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });
             });
+        }
+        $(document).ready(function () 
+        {            
+            $("#region").change(getCities);
         });
-        $(document).ready(function () {
-            $("#city").change(function () {
-                var url = "/Order/GetWarehousesByCity/" + $("#city").val();
-                $.getJSON(url, function (data) {
-                    $("#warehouse").empty();
-                    $.each(data, function (index, row) {
-                        $("#warehouse").append("<option value='" + row.id + "'>" + row.name + "</option>");
-                    });
-                });
-            });
+        $(document).ready(function () 
+        {         
+            $("#city").change(getWarehouses);
         });
     </script>
 }

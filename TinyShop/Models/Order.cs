@@ -21,10 +21,12 @@ namespace TinyShop.Models
     public class Order : SoftDeletableEntity
     {
         /// <summary>
-        /// Important! These are values got from Nova Poshta api.
+        /// Important! These are values got from Nova Poshta api - https://api.novaposhta.ua/v2.0/json/
+        /// calledMethod : getAreas
         /// </summary>
         [NotMapped]
-        public static string NovaPoshtaVolynRegionId { get { return "7150812b-9b87-11de-822f-000c2965ae0e"; } }
+        public static string NovaPoshtaVolynRegionId { get { return "7150812a-9b87-11de-822f-000c2965ae0e"; } }
+        public static string NovaPoshtaDefaultRegionId { get { return NovaPoshtaVolynRegionId; } }
         public DateTime OrderDateTime { get; set; }
         public virtual Customer TheCustomer { get; set; } = new();
         public virtual OrderStatus TheOrderStatus { get; set; } = new();

@@ -1,0 +1,60 @@
+1. Delivery frontend reworked.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    var url = "/Order/GetRegions";
+                    $.getJSON(url, function (data) {
+                        $("#region").empty();
+                        $.each(data, function (index, row) {
+                            $("#region").append("<option value='" + row.id + "'>" + row.name + "</option>");
+                        });
+                        $("#region").val("@Order.NovaPoshtaDefaultRegionId");
+                        getCities();
+                    });                    
+
+
+
+
+            $("#region").change(function () {
+                var url = "/Order/GetCitiesByRegion/" + $("#region").val();
+                $.getJSON(url, function (data) {                                        
+                    $("#city").empty();
+                    $.each(data, function (index, row) {                                                
+                        $("#city").append("<option value='" + row.id + "'>" + row.name + "</option>");
+                    });
+                });
+            });
+
+            $("#city").change(function () {
+                var url = "/Order/GetWarehousesByCity/" + $("#city").val();
+                $.getJSON(url, function (data) {
+                    $("#warehouse").empty();
+                    $.each(data, function (index, row) {
+                        $("#warehouse").append("<option value='" + row.id + "'>" + row.name + "</option>");
+                    });
+                });
+            });
+
+
+
+
+
+
+
+
