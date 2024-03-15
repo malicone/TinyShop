@@ -6,15 +6,15 @@
         @if (Model?.Lines.Count > 0)
         {
             <small class="navbar-text">
-                <b>Your cart:</b>
-                @Model?.ComputeTotalQuantity() item(s)
+                <b>Кошик:</b>
+                @Model?.ComputeTotalQuantity() @Model?.Lines.Count > 1 ? товарів : товар
                 @FormattingUtils.FormatPrice(Model?.ComputeTotalValue());
             </small>
         }
         else
         {
             <small class="navbar-text">
-                <b>Your cart is empty</b>
+                <b>Кошик пустий</b>
             </small>
         }
         <span class="btn btn-sm btn-secondary navbar-btn"><i class="fa fa-shopping-cart"></i></span>

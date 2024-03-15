@@ -12,9 +12,9 @@ namespace TinyShop.Infrastructure
         {
             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
-            var formatted = value.ToString("#,0", nfi); // "1 234 897"
+            var formatted = value.ToString("#,0", nfi);
             if (addCurrencyShortcut)
-                formatted = "$" + formatted;
+                formatted = formatted + " грн.";
             return formatted;
         }
     }

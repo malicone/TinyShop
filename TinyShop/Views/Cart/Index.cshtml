@@ -10,19 +10,19 @@
 @if (Model?.Cart?.Lines.Count == 0)
 {    
     <div class="alert alert-info">
-        Your cart is empty
+        Кошик пустий
     </div>
 }
 else
 {
-    <h2>Your cart</h2>
+    <h2>Кошик</h2>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Quantity</th>
-                <th>Item</th>
-                <th class="text-right">Price</th>
-                <th class="text-right">Subtotal</th>
+                <th>Кількість</th>
+                <th>Товар</th>
+                <th class="text-right">Ціна</th>
+                <th class="text-right">Всього</th>
                 <th></th>
             </tr>
         </thead>
@@ -39,7 +39,7 @@ else
                             <input type="hidden" name="productId" value="@line.TheProduct.Id" />
                             <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
                             <button type="submit" class="btn btn-sm btn-danger">
-                                Remove
+                                Видалити
                             </button>
                         </form>
                     </td>
@@ -57,8 +57,6 @@ else
     </table>
 }
 <div class="text-center">
-    <a class="btn btn-primary" href="@Model?.ReturnUrl">Continue shopping</a>
-    <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">
-        Checkout
-    </a>
+    <a class="btn btn-primary" href="@Model?.ReturnUrl">Продовжити покупки</a>
+    <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">Оформити замовлення</a>
 </div>

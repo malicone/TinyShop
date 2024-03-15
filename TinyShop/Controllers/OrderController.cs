@@ -29,27 +29,35 @@ namespace TinyShop.Controllers
         {
             var orderVM = new OrderViewModel();            
             orderVM.DeliveryTypes = await _context.DeliveryTypes.ToListAsync();
-            orderVM.PaymentTypes = await _context.PaymentTypes.ToListAsync();
-            orderVM.Regions = await _npClient.GetRegionsAsync();            
+            orderVM.PaymentTypes = await _context.PaymentTypes.ToListAsync();            
             return View( orderVM );
         }
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Checkout(OrderViewModel orderVM)
+        public async Task<IActionResult> Checkout(OrderViewModel orderVM)
         {
             if (_cart.Lines.Count == 0)
             {
-                ModelState.AddModelError( string.Empty, "Sorry, your cart is empty!" );
+                ModelState.AddModelError( string.Empty, "Ваш кошик пустий" );
             }
             if (ModelState.IsValid)
             {
-                orderVM.TheOrder.Lines = _cart.Lines.ToArray();                
+                orderVM.TheOrder.SetCreateStamp( User.Identity.Name );
+                orderVM.TheOrder.TheOrderStatus = await _context.OrderStatuses.FirstOrDefaultAsync( 
+                    s => s.Id == OrderStatus.NewId );
+                orderVM.TheOrder.Lines = _cart.Lines.ToArray(); 
+                orderVM.TheOrder.OrderDateTime = System.DateTime.Now;
+                _context.Add( orderVM.TheOrder.TheCustomer );
+                _context.Add( orderVM.TheOrder );                
+                await _context.SaveChangesAsync();
+
                 _cart.Clear();
                 return View( "Completed", orderVM );
             }
             else
             {
-                orderVM.Regions = _npClient.GetRegionsAsync().Result;
+                orderVM.DeliveryTypes = await _context.DeliveryTypes.ToListAsync();
+                orderVM.PaymentTypes = await _context.PaymentTypes.ToListAsync();                
                 return View(orderVM);
             }
         }

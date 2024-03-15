@@ -31,8 +31,7 @@
     </div>
     <div id="regionContainer" class="form-group" hidden>
         <label asp-for="TheOrder.RegionId" class="control-label"></label>
-        <select id="region" asp-for="TheOrder.RegionId" class="form-control"
-                asp-items='@new SelectList(Model.Regions, "Id" , "Name")'></select>
+        <select id="region" asp-for="TheOrder.RegionId" class="form-control"></select>
     </div>
     <div id="cityContainer" class="form-group" hidden>
         <label asp-for="TheOrder.CityId" class="control-label"></label>
@@ -49,10 +48,10 @@
     </div>
     <div class="form-group">
         <label asp-for="TheOrder.Comments" class="control-label"></label>
-        <input asp-for="TheOrder.Comments" class="form-control" />
+        <textarea asp-for="TheOrder.Comments" class="form-control"></textarea>        
     </div>
     <div class="form-group">
-        <input class="btn btn-primary" type="submit" value="Complete Order" />
+        <input class="btn btn-primary" type="submit" value="Завершити" />
     </div>
 </form>
 
@@ -66,9 +65,7 @@
                 if (deliveryType == @DeliveryType.NovaPoshtaWarehouseId) 
                 {
                     showNovaPoshtaWarehouseControls();
-                    getRegions(setDefaultRegion);
-                    //getCities();
-                    //getWarehouses();
+                    getRegions(setDefaultRegion);                                       
                 }
                 else 
                 {

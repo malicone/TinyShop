@@ -8,7 +8,7 @@ namespace TinyShop.Infrastructure
     // todo: create table Options
     public class GlobalOptions
     {
-        public static string SiteTitle { get { return "TinyShop"; } }
+        public static string SiteTitle { get { return "Пролісок"; } }
         public static string ContactEmail { get { return "tinyshop@gmail.com"; } }
         public static string ContactPhone { get { return "099 123 45 67"; } }
 
@@ -30,7 +30,7 @@ namespace TinyShop.Infrastructure
             }
         }
 
-        public static string Delivery1 { get { return "New Post"; } }
+        public static string Delivery1 { get { return "NewId Post"; } }
         public static string Delivery2 { get { return "pickup Lutsk (Volyn region)"; } }
 
         public static string DeliveryAll
