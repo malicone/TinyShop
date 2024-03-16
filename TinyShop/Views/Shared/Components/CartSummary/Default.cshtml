@@ -7,7 +7,7 @@
         {
             <small class="navbar-text">
                 <b>Кошик:</b>
-                @Model?.ComputeTotalQuantity() @Model?.Lines.Count > 1 ? товарів : товар
+                @Model?.ComputeTotalQuantity() @FormattingUtils.GetGoodSingleOrPlural(Model?.Lines.Count)
                 @FormattingUtils.FormatPrice(Model?.ComputeTotalValue());
             </small>
         }

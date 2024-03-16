@@ -45,9 +45,19 @@ namespace TinyShop.Controllers
                 orderVM.TheOrder.SetCreateStamp( User.Identity.Name );
                 orderVM.TheOrder.TheOrderStatus = await _context.OrderStatuses.FirstOrDefaultAsync( 
                     s => s.Id == OrderStatus.NewId );
-                orderVM.TheOrder.Lines = _cart.Lines.ToArray(); 
+                orderVM.TheOrder.Lines = _cart.Lines;
                 orderVM.TheOrder.OrderDateTime = System.DateTime.Now;
-                _context.Add( orderVM.TheOrder.TheCustomer );
+                var foundCustomer = await _context.Customers.FirstOrDefaultAsync( c => c == orderVM.TheOrder.TheCustomer );
+                if (foundCustomer == null)
+                {
+                    // it's a new customer so we need to add it to the db
+                    _context.Add( orderVM.TheOrder.TheCustomer );                    
+                }
+                else
+                {
+                    // customer already exists in the db so use it
+                    orderVM.TheOrder.TheCustomer = foundCustomer;
+                }                
                 _context.Add( orderVM.TheOrder );                
                 await _context.SaveChangesAsync();
 
