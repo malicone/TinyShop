@@ -1,0 +1,6 @@
+1. Bug with Products identity fixed. The property should be initialized from the db before order creation.
+
+2. Delivery and payment types bug (null) fixed. Same issue - need initialization.
+
+3. Order save implemented.
+

@@ -5,7 +5,7 @@ namespace TinyShop.Models
 {
     public class DeliveryType : BaseEntity
     {
-        [Display( Name = "Спосіб доставки"), StringLength( 64 )]
+        [Display( Name = "Спосіб доставки"), StringLength( LENGTH_SMALL )]
         public string Name { get; set; }
 
         /// <summary>

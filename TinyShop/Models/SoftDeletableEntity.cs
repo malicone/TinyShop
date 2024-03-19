@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
-    public class SoftDeletableEntity : TrackableEntity
+    public abstract class SoftDeletableEntity : TrackableEntity
     {
         public DateTime? SoftDeletedAt { get; set; }
         
-        [StringLength( 512 )]
+        [StringLength( LENGTH_LARGE )]
         public string? SoftDeletedBy { get; set; }
         
         [NotMapped]

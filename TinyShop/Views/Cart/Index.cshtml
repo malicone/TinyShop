@@ -22,7 +22,7 @@ else
                 <th>Кількість</th>
                 <th>Товар</th>
                 <th class="text-right">Ціна</th>
-                <th class="text-right">Всього</th>
+                <th class="text-right">Сума</th>
                 <th></th>
             </tr>
         </thead>
@@ -48,7 +48,7 @@ else
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3" class="text-right">Total:</td>
+                <td colspan="3" class="text-right">Всього:</td>
                 <td class="text-right">
                     @FormattingUtils.FormatPrice( (Model?.Cart?.ComputeTotalValue()).Value )
                 </td>

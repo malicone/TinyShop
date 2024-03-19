@@ -13,10 +13,10 @@ namespace TinyShop.Models
             Products = new HashSet<Product>();
         }
 
-        [StringLength( 256 )]
+        [StringLength( LENGTH_MEDIUM )]
         public string Name { get; set; }
 
-        [StringLength( 32 )]
+        [StringLength( LENGTH_SMALL_EXTRA )]
         public string Ext { get; set; }
 
         public byte[] Body { get; set; }

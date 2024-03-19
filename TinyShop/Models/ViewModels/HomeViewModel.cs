@@ -15,8 +15,8 @@ namespace TinyShop.Models.ViewModels
         {
             get
             {
-                string name = CurrentGroup == null ? "All products" : CurrentGroup.Name;
-                return $"Catalog - {name}";
+                string name = CurrentGroup == null ? "Усі товари" : CurrentGroup.Name;
+                return $"Каталог - {name}";
             }
         }
     }

@@ -4,15 +4,19 @@ namespace TinyShop.Models
 {
     public class Customer : SoftDeletableEntity
     {
-        [Required(ErrorMessage = "Вкажіть ім'я"), StringLength( 256, MinimumLength = 3 ), Display( Name = "Ім'я*" )]
+        [Required(ErrorMessage = "Вкажіть ім'я"), StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display( Name = "Ім'я*" )]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "Вкажіть прізвище"), StringLength( 256, MinimumLength = 3 ), Display( Name = "Прізвище*" )]
+        
+        [Required(ErrorMessage = "Вкажіть прізвище"), StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display( Name = "Прізвище*" )]
         public string LastName { get; set; }
-        [StringLength( 256, MinimumLength = 3 ), Display( Name = "По-батькові" )]
+        
+        [StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display( Name = "По-батькові" )]
         public string MiddleName { get; set; }
-        [StringLength( 256, MinimumLength = 3 ), Display( Name = "e-mail" )]
+        
+        [StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display( Name = "e-mail" )]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Вкажіть телефон"), StringLength( 256, MinimumLength = 3 ), Display( Name = "Телефон*" )]
+
+        [Required(ErrorMessage = "Вкажіть телефон"), StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display( Name = "Телефон*" )]
         public string Phone { get; set; }
 
         public override bool Equals( object obj )
@@ -26,7 +30,7 @@ namespace TinyShop.Models
                 && LastName.Trim().ToUpper().Equals( target.LastName.Trim().ToUpper() ) 
                 // I'm not sure if we need to compare MiddleName; buyer can input it one time but not in other
                 //&& MiddleName.Trim().ToUpper().Equals( target.MiddleName.Trim().ToUpper() ) 
-                && Email.Trim().Equals( target.Email.Trim() ) 
+                //&& Email.Trim().Equals( target.Email.Trim() ) 
                 && Phone.Trim().Equals( target.Phone.Trim() );
         }
 

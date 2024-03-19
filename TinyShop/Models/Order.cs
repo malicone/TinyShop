@@ -33,13 +33,13 @@ namespace TinyShop.Models
         public virtual DeliveryType TheDeliveryType { get; set; } = new();
         public virtual PaymentType ThePaymentType { get; set; } = new();
 
-        [Display( Name = "Область" ), StringLength(512)]
+        [Display( Name = "Область" ), StringLength( LENGTH_LARGE )]
         public string RegionId { get; set; }
 
-        [Display( Name = "Місто/село" ), StringLength(512)]
+        [Display( Name = "Місто/село" ), StringLength( LENGTH_LARGE )]
         public string CityId { get; set; }
 
-        [Display( Name = "Відділення" ), StringLength( 512 )]
+        [Display( Name = "Відділення" ), StringLength( LENGTH_LARGE )]
         public string WarehouseId { get; set; }
 
         [Display( Name = "Коментарій до замовлення" )]

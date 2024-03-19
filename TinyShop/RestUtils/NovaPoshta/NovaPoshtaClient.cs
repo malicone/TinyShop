@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using TinyShop.Models;
 using TinyShop.RestUtils.Common;
 using TinyShop.RestUtils.Common.Dto;
 
@@ -34,7 +35,7 @@ namespace TinyShop.RestUtils.NovaPoshta
             }
             return response.Content;
         }
-        public override async Task<List<RegionDto>> GetRegionsAsync()
+        public override async Task<List<Region>> GetRegionsAsync()
         {
             string jsonString = await GetJsonString(
 $@"
@@ -47,18 +48,18 @@ $@"
             );
             var jsonValue = JsonNode.Parse( jsonString ).AsObject();            
             return jsonValue["data"].AsArray().Select( x =>
-                new RegionDto
+                new Region
                 {
-                    Id = (string)x.AsObject()["Ref"],
+                    IdExternal = (string)x.AsObject()["Ref"],
                     Name = (string)x.AsObject()["Description"],
                     RawJson = x.ToString()
                 } )
                 .ToList();
         }
 
-        public override async Task<List<CityDto>> GetCitiesByRegionAsync(string regionId)
+        public override async Task<List<City>> GetCitiesByRegionAsync(string regionIdExternal)
         {
-            List<CityDto> result = new List<CityDto>();
+            List<City> result = new List<City>();
             JsonArray itemArray = null;
             string requestText =
 $@"
@@ -74,15 +75,15 @@ $@"
             itemArray = jsonValue["data"].AsArray();
             foreach (var item in itemArray)
             {
-                if (item.AsObject()["Area"].ToString() == regionId)
+                if (item.AsObject()["Area"].ToString() == regionIdExternal)
                 {
-                    result.Add( new CityDto
+                    result.Add( new City
                     {
-                        Id = (string)item.AsObject()["Ref"],
+                        IdExternal = (string)item.AsObject()["Ref"],
                         Name = (string)item.AsObject()["Description"],
                         TypeDescription = (string)item.AsObject()["SettlementTypeDescription"],
                         Index = (string)item.AsObject()["Index1"],
-                        RegionId = (string)item.AsObject()["Area"],
+                        RegionIdExternal = (string)item.AsObject()["Area"],
                         RawJson = item.ToString()
                     } );
                 }
@@ -90,12 +91,12 @@ $@"
             return result;
         }
 
-        public override async Task<List<WarehouseDto>> GetWarehousesByCityAsync(string cityId)
+        public override async Task<List<Warehouse>> GetWarehousesByCityAsync(string cityIdExternal)
         {
             // todo: it's bad to fetch and then filter, but it's a quick solution
             const string WAREHOUSE_TYPE_OFFICE_30KG_REF = "841339c7-591a-42e2-8233-7a0a00f0ed6f";
             const string WAREHOUSE_TYPE_OFFICE_1000KG_REF = "9a68df70-0267-42a8-bb5c-37f427e36ee4";
-            List<WarehouseDto> result = new List<WarehouseDto>();
+            List<Warehouse> result = new List<Warehouse>();
             int pageNumber = 1;
             int safeGuardCounter = 0;
             JsonArray itemArray = null;
@@ -110,7 +111,7 @@ $@"
 ""methodProperties"": {{
 ""FindByString"" : """",
 ""CityName"" : """",
-""CityRef"" : ""{cityId}"",
+""CityRef"" : ""{cityIdExternal}"",
 ""Page"" : ""{pageNumber}"",
 ""Limit"" : """",
 ""Language"" : ""UA"",
@@ -128,9 +129,9 @@ $@"
                     bool isOffice1000Kg = item.AsObject()["TypeOfWarehouse"].ToString() == WAREHOUSE_TYPE_OFFICE_1000KG_REF;
                     if (isOffice30Kg || isOffice1000Kg)
                     {
-                        result.Add( new WarehouseDto
+                        result.Add( new Warehouse
                         {
-                            Id = item.AsObject()["Ref"].ToString(),
+                            IdExternal = item.AsObject()["Ref"].ToString(),
                             Name = item.AsObject()["Description"].ToString(),
                             RawJson = item.ToString()
                         } );

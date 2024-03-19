@@ -14,7 +14,7 @@ namespace TinyShop.Models
             DescImages = new HashSet<FileTag>();
         }
 
-        [Required, StringLength( 256, MinimumLength = 3 ), Display(Name = "Name")]
+        [Required, StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display(Name = "Name")]
         public string Name { get; set; }
 
         [Display( Name = "Description" )]
