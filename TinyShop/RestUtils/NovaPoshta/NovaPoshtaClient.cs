@@ -35,6 +35,29 @@ namespace TinyShop.RestUtils.NovaPoshta
             }
             return response.Content;
         }
+        public override async Task<List<WarehouseType>> GetWarehouseTypesAsync()
+        {
+            string jsonString = await GetJsonString(
+$@"
+{{
+	""apiKey"": ""{ApiKey}"",
+	""modelName"": ""Address"",
+	""calledMethod"": ""getWarehouseTypes"",
+	""methodProperties"": {{}}
+}}
+"
+            );
+            var jsonValue = JsonNode.Parse( jsonString ).AsObject();
+            return jsonValue[ "data" ].AsArray().Select( x =>
+                new WarehouseType
+                {
+                    IdExternal = (string)x.AsObject()[ "Ref" ],
+                    Name = (string)x.AsObject()[ "Description" ],
+                    RawJson = x.ToString()
+                } )
+                .ToList();
+        }
+
         public override async Task<List<Region>> GetRegionsAsync()
         {
             string jsonString = await GetJsonString(
@@ -75,6 +98,7 @@ $@"
             itemArray = jsonValue["data"].AsArray();
             foreach (var item in itemArray)
             {
+                // to-do: it's bad to fetch and then filter, should be done by request parameters
                 if (item.AsObject()["Area"].ToString() == regionIdExternal)
                 {
                     result.Add( new City
@@ -87,6 +111,37 @@ $@"
                         RawJson = item.ToString()
                     } );
                 }
+            }
+            return result;
+        }
+        public override async Task<List<City>> GetCitiesAllAsync()
+        {
+            List<City> result = new List<City>();
+            JsonArray itemArray = null;
+            string requestText =
+$@"
+{{
+	""apiKey"": ""{ApiKey}"",
+	""modelName"": ""Address"",
+	""calledMethod"": ""getCities"",
+	""methodProperties"": {{}}
+}}
+";
+            string jsonAsString = await GetJsonString( requestText );
+            var jsonValue = JsonNode.Parse( jsonAsString ).AsObject();
+            itemArray = jsonValue[ "data" ].AsArray();
+            foreach ( var item in itemArray )
+            {
+                result.Add( new City
+                {
+                    IdExternal = (string)item.AsObject()[ "Ref" ],
+                    Name = (string)item.AsObject()[ "Description" ],
+                    TypeDescription = (string)item.AsObject()[ "SettlementTypeDescription" ],
+                    Index = (string)item.AsObject()[ "Index1" ],
+                    RegionIdExternal = (string)item.AsObject()[ "Area" ],
+                    RawJson = item.ToString()
+                } );
+
             }
             return result;
         }
@@ -127,15 +182,17 @@ $@"
                 {
                     bool isOffice30Kg = item.AsObject()["TypeOfWarehouse"].ToString() == WAREHOUSE_TYPE_OFFICE_30KG_REF;
                     bool isOffice1000Kg = item.AsObject()["TypeOfWarehouse"].ToString() == WAREHOUSE_TYPE_OFFICE_1000KG_REF;
-                    if (isOffice30Kg || isOffice1000Kg)
-                    {
+                    //if (isOffice30Kg || isOffice1000Kg)
+                    //{
                         result.Add( new Warehouse
                         {
                             IdExternal = item.AsObject()["Ref"].ToString(),
                             Name = item.AsObject()["Description"].ToString(),
+                            WarehouseTypeIdExternal = item.AsObject()["TypeOfWarehouse"].ToString(),
+                            CityIdExternal = item.AsObject()[ "CityRef" ].ToString(),
                             RawJson = item.ToString()
                         } );
-                    }
+                    //}
                 }
                 pageNumber++;
                 safeGuardCounter++;

@@ -7,6 +7,6 @@ namespace TinyShop.Models
         [StringLength( LENGTH_LARGE )]
         public string Name { get; set; }
 
-        public DeliveryType? TheDeliveryType { get; set; }
+        public DeliveryType TheDeliveryType { get; set; }
     }
 }

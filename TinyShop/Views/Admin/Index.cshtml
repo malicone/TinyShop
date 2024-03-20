@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData[ "Title" ] = "Control panel";
+    ViewData[ "Title" ] = "Панель управління";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Control panel</h4>
+<h4>Панель управління</h4>
 
 <div class="container-table" id="contable">
     <div class="row vertical-middle text-center">
@@ -13,17 +13,25 @@
 
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">List of products</h5>
-                        <p class="card-text">Creation, editing, deletion of products</p>
-                        <a href="@Url.Action( "Index", "Products" )" class="btn btn-primary">Open</a>
+                        <h5 class="card-title">Список товарів</h5>
+                        <p class="card-text">Створення, редагування та видалення товарів</p>
+                        <a href="@Url.Action( "Index", "Products" )" class="btn btn-primary">Відкрити</a>
                     </div>
                 </div>
 
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">List of groups</h5>
-                        <p class="card-text">Creation, editing, deletion of groups</p>
-                        <a href="@Url.Action( "Index", "ProductGroups" )" class="btn btn-primary">Open</a>
+                        <h5 class="card-title">Список груп товарів</h5>
+                        <p class="card-text">Створення, редагування та видалення груп товарів</p>
+                        <a href="@Url.Action( "Index", "ProductGroups" )" class="btn btn-primary">Відкрити</a>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Нова Пошта</h5>
+                        <p class="card-text">Взаємодія з сайтом Нової Пошти</p>
+                        <a href="@Url.Action( "NovaposhtaIndex", "Admin" )" class="btn btn-primary">Відкрити</a>
                     </div>
                 </div>
 

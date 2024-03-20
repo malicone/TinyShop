@@ -1,0 +1,6 @@
+1. Region, City, Warehouse, warehouseTypes models added.
+
+2. Novaposhta views and controller methods added to AdminController.
+
+3. Refresh NP methods implemented. Takes too long. Need to be fixed.
+

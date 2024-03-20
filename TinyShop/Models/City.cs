@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models
 {
+    [Index( nameof( RegionIdExternal ) )]
     public class City : JsonSupportable
     {
         [StringLength( LENGTH_LARGE )]
@@ -18,6 +20,6 @@ namespace TinyShop.Models
 
         public Region TheRegion { get; set; }
 
-        public DeliveryType? TheDeliveryType { get; set; }
+        public DeliveryType TheDeliveryType { get; set; }
     }
 }

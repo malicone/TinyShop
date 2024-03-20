@@ -1,0 +1,25 @@
+﻿@{
+    ViewData[ "Title" ] = "Панель управління - Нова Пошта";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Панель управління - Нова Пошта</h4>
+
+<div class="container-table" id="contable">
+    <div class="row vertical-middle text-center">
+        <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+
+            <div class="card-columns">
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Доставка</h5>
+                        <p class="card-text">Оновити списки областей, міст та відділеннь (операція може бути тривалою)</p>
+                        <a href="@Url.Action( "RefreshNPAddresses", "Admin" )" class="btn btn-primary">Оновити</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

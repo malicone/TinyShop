@@ -11,7 +11,7 @@ namespace TinyShop.Models
         public const int LENGTH_SMALL = 64;
         public const int LENGTH_MEDIUM = 256;
         public const int LENGTH_LARGE = 512;
-        public const int LENGTH_EXTRA_LARGE = 1024;
+        public const int LENGTH_LARGE_EXTRA = 1024;
 
         // The default convention creates a primary key column for a property whose name is Id or <Entity Class Name>Id.
         // The Key attribute overrides this default convention.

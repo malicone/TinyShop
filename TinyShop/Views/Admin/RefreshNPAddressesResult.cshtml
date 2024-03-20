@@ -1,0 +1,22 @@
+﻿@using TinyShop.Models.ViewModels;
+@model RefreshNPAddressesResultViewModel;
+
+@{
+    ViewData[ "Title" ] = "Панель управління - Нова Пошта - Результати оновлення";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Результати оновлення</h4>
+
+<div class="container-table" id="contable">
+    <div class="row vertical-middle text-center">
+        <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+
+            <p>@Model.Message</p>
+            <a class="btn btn-primary" href="@Url.Action( "Index", "Admin" )" role="button">
+                Повернутись в Панель управління
+            </a>
+            <p>@Model.ErrorDescription</p>
+        </div>
+    </div>
+</div>

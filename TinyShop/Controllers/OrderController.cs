@@ -63,7 +63,7 @@ namespace TinyShop.Controllers
             order.ThePaymentType = await _context.PaymentTypes.FirstOrDefaultAsync(
                 p => p.Id == order.ThePaymentType.Id );
             order.Lines = _cart.Lines;
-            // we need to get the product from the db to avoid the error
+            // we need to get the product from the db to avoid the error:
             // "SqlException: Cannot insert explicit value for identity column in table 'Products' when
             // IDENTITY_INSERT is set to OFF."
             foreach ( var line in order.Lines )
