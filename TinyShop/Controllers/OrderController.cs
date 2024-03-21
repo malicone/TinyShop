@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Data;
 using TinyShop.Models;
@@ -18,6 +19,11 @@ namespace TinyShop.Controllers
             _context = context;
             _npClient = npClient;
             _cart = cart;
+        }
+        
+        public async Task<ViewResult> Index()
+        {
+            return View( await _context.Orders.OrderByDescending( o => o.OrderDateTime ).ToListAsync() );
         }
 
         [AllowAnonymous]

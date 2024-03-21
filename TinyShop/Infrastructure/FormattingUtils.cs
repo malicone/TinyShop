@@ -26,5 +26,13 @@ namespace TinyShop.Infrastructure
                 return "товара";
             return "товарів";
         }
+
+        public static string FormatDateTime( DateTime value, bool includeTime = true )
+        {
+            if ( includeTime )
+                return value.ToString( "yyyy-MM-dd HH:mm" );
+            else
+                return value.ToString( "yyyy-MM-dd" );
+        }
     }
 }

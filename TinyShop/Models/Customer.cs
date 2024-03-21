@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
@@ -12,6 +13,9 @@ namespace TinyShop.Models
         
         [StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display( Name = "По-батькові" )]
         public string MiddleName { get; set; }
+
+        [NotMapped, Display( Name = "ПІБ" )]
+        public string FullName { get { return $"{LastName} {FirstName} {MiddleName}"; } }
         
         [StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display( Name = "e-mail" )]
         public string Email { get; set; }

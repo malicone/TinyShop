@@ -58,19 +58,23 @@ namespace TinyShop.Controllers
         private async Task RefreshNPWarehouseTypes()
         {
             var warehouseTypes = await _npClient.GetWarehouseTypesAsync();
+            var deliveryTypeFromDb = await _context.DeliveryTypes.FirstOrDefaultAsync(
+                x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
             foreach (var currentType in warehouseTypes)
             {
-                if (_context.WarehouseTypes.Any( x => x.IdExternal == currentType.IdExternal ))
-                {                     
-                    currentType.SetUpdateStamp( User.Identity.Name );
-                    _context.WarehouseTypes.Update( currentType );
+                var typeFromDb = await _context.WarehouseTypes.FirstOrDefaultAsync(
+                    x => x.IdExternal == currentType.IdExternal );
+                if ( typeFromDb == null )
+                {
+                    currentType.SetCreateStamp( User.Identity.Name );
+                    currentType.TheDeliveryType = deliveryTypeFromDb;
+                    _context.WarehouseTypes.Add( currentType );
+
                 }
                 else
                 {
-                    currentType.SetCreateStamp( User.Identity.Name );
-                    currentType.TheDeliveryType = await _context.DeliveryTypes.FirstOrDefaultAsync( 
-                        x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
-                    _context.WarehouseTypes.Add( currentType );
+                    typeFromDb.SetUpdateStamp( User.Identity.Name );
+                    _context.WarehouseTypes.Update( typeFromDb );
                 }
             }
             _context.SaveChanges();
@@ -79,19 +83,23 @@ namespace TinyShop.Controllers
         private async Task RefreshNPRegions()
         {
             var regions = await _npClient.GetRegionsAsync();
-            foreach (var currentRegion in regions)
+            var deliveryTypeFromDb = await _context.DeliveryTypes.FirstOrDefaultAsync(
+                x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
+            foreach ( var currentRegion in regions)
             {
-                if (_context.Regions.Any( x => x.IdExternal == currentRegion.IdExternal ))
+                var regionFromDb = await _context.Regions.FirstOrDefaultAsync(
+                    x => x.IdExternal == currentRegion.IdExternal );
+                if ( regionFromDb == null )
                 {
-                    currentRegion.SetUpdateStamp( User.Identity.Name );
-                    _context.Regions.Update( currentRegion );
+                    currentRegion.SetCreateStamp( User.Identity.Name );
+                    currentRegion.TheDeliveryType = deliveryTypeFromDb;
+                    _context.Regions.Add( currentRegion );
+
                 }
                 else
                 {
-                    currentRegion.SetCreateStamp( User.Identity.Name );
-                    currentRegion.TheDeliveryType = await _context.DeliveryTypes.FirstOrDefaultAsync(
-                        x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
-                    _context.Regions.Add( currentRegion );
+                    regionFromDb.SetUpdateStamp( User.Identity.Name );
+                    _context.Regions.Update( regionFromDb );
                 }
             }
             _context.SaveChanges();
@@ -100,24 +108,28 @@ namespace TinyShop.Controllers
         private async Task RefreshNPCities()
         {
             var regions = await _npClient.GetRegionsAsync();
+            var deliveryTypeFromDb = await _context.DeliveryTypes.FirstOrDefaultAsync(
+                x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
             foreach ( var currentRegion in regions )
             {
                 var cities = await _npClient.GetCitiesByRegionAsync( currentRegion.IdExternal );
+                var regionFromDb = await _context.Regions.FirstOrDefaultAsync( x => x.IdExternal == currentRegion.IdExternal );
                 foreach ( var currentCity in cities )
                 {
-                    if ( _context.Cities.Any( x => x.IdExternal == currentCity.IdExternal ) )
+                    var cityFromDb = await _context.Cities.FirstOrDefaultAsync( x => x.IdExternal == currentCity.IdExternal );
+                    if ( cityFromDb == null )
                     {
-                        currentCity.SetUpdateStamp( User.Identity.Name );
-                        _context.Cities.Update( currentCity );
+                        currentCity.SetCreateStamp( User.Identity.Name );
+                        currentCity.TheRegion = regionFromDb;
+                        currentCity.TheDeliveryType = deliveryTypeFromDb;
+                        _context.Cities.Add( currentCity );
                     }
                     else
                     {
-                        currentCity.SetCreateStamp( User.Identity.Name );
-                        currentCity.TheRegion = await _context.Regions.FirstOrDefaultAsync(
-                            x => x.IdExternal == currentRegion.IdExternal );
-                        currentCity.TheDeliveryType = await _context.DeliveryTypes.FirstOrDefaultAsync(
-                            x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
-                        _context.Cities.Add( currentCity );
+                        cityFromDb.SetUpdateStamp( User.Identity.Name );
+                        // city can be moved to another region; it's low probability, but it's possible
+                        cityFromDb.TheRegion = regionFromDb;
+                        _context.Cities.Update( cityFromDb );
                     }
                 }
             }
@@ -127,26 +139,30 @@ namespace TinyShop.Controllers
         private async Task RefreshNPWarehouses()
         {
             var cities = await _npClient.GetCitiesAllAsync();
+            var deliveryTypeFromDb = await _context.DeliveryTypes.FirstOrDefaultAsync(
+                x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
             foreach ( var currentCity in cities )
             {
+                var cityFromDb = await _context.Cities.FirstOrDefaultAsync( x => x.IdExternal == currentCity.IdExternal );
                 var warehouses = await _npClient.GetWarehousesByCityAsync( currentCity.IdExternal );
                 foreach ( var currentWarehouse in warehouses )
                 {
-                    if ( _context.Warehouses.Any( x => x.IdExternal == currentWarehouse.IdExternal ) )
+                    var warehouseFromDb = await _context.Warehouses.FirstOrDefaultAsync(
+                        x => x.IdExternal == currentWarehouse.IdExternal );
+                    if ( warehouseFromDb == null )
                     {
-                        currentWarehouse.SetUpdateStamp( User.Identity.Name );
-                        _context.Warehouses.Update( currentWarehouse );
+                        currentWarehouse.SetCreateStamp( User.Identity.Name );
+                        currentWarehouse.TheCity = cityFromDb;
+                        currentWarehouse.TheWarehouseType = await _context.WarehouseTypes.FirstOrDefaultAsync(
+                            x => x.IdExternal == currentWarehouse.WarehouseTypeIdExternal );
+                        currentWarehouse.TheDeliveryType = deliveryTypeFromDb;
+                        _context.Warehouses.Add( currentWarehouse );
                     }
                     else
                     {
-                        currentWarehouse.SetCreateStamp( User.Identity.Name );
-                        currentWarehouse.TheCity = await _context.Cities.FirstOrDefaultAsync(
-                            x => x.IdExternal == currentCity.IdExternal );
-                        currentWarehouse.TheWarehouseType = await _context.WarehouseTypes.FirstOrDefaultAsync(
-                            x => x.IdExternal == currentWarehouse.WarehouseTypeIdExternal );
-                        currentWarehouse.TheDeliveryType = await _context.DeliveryTypes.FirstOrDefaultAsync(
-                            x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
-                        _context.Warehouses.Add( currentWarehouse );
+                        warehouseFromDb.SetUpdateStamp( User.Identity.Name );
+                        warehouseFromDb.TheCity = cityFromDb;
+                        _context.Warehouses.Update( warehouseFromDb );
                     }
                 }
             }

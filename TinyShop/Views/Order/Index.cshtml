@@ -1,28 +1,24 @@
-﻿@model IEnumerable<TinyShop.Models.Product>
+﻿@model IEnumerable<TinyShop.Models.Order>
 @using TinyShop.Infrastructure;
 
 @{
-    ViewData[ "Title" ] = "Список товарів";
+    ViewData[ "Title" ] = "Список замовлень";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Список товарів</h4>
-
-<p>
-    <a asp-action="Create">Створити новий товар</a>
-</p>
+<h4>Список замовлень</h4>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor( model => model.Name )
+                @Html.DisplayNameFor( model => model.Id )
             </th>
             <th>
-                @Html.DisplayNameFor( model => model.Price )
+                @Html.DisplayNameFor( model => model.OrderDateTime )
             </th>
             <th>
-                @Html.DisplayNameFor( model => model.ProductGroup )
+                @Html.DisplayNameFor( model => model.TheCustomer.FullName )
             </th>
             <th></th>
         </tr>
@@ -32,13 +28,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor( modelItem => item.Name )
+                    @Html.DisplayFor( modelItem => item.Id )
                 </td>
                 <td>
-                    @FormattingUtils.FormatPrice( item.Price.Value )
+                    @FormattingUtils.FormatDateTime( item.OrderDateTime )
                 </td>
                 <td>
-                    @Html.DisplayFor( modelItem => item.ProductGroup.Name )
+                    @Html.DisplayFor( modelItem => item.TheCustomer.FullName )
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |

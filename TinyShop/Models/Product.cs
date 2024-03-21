@@ -17,16 +17,16 @@ namespace TinyShop.Models
         [Required, StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Display( Name = "Description" )]
+        [Display( Name = "Опис" )]
         public string Description { get; set; }
 
-        [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" ), Display( Name = "Price" )]
+        [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" ), Display( Name = "Ціна" )]
         public decimal? Price { get; set; }
 
-        [Display( Name = "Group" )]
+        [Display( Name = "Група" )]
         public int ProductGroupId { get; set; }
 
-        [Display( Name = "Group" )]
+        [Display( Name = "Група" )]
         public virtual ProductGroup ProductGroup { get; set; }
 
         public virtual ICollection<FileTag> DescImages { get; set; }        

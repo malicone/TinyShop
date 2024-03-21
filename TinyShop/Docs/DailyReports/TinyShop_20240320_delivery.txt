@@ -1,0 +1,55 @@
+1. Bug fixed - records were not updated but inserted while addresses refresh.
+Need to search a record in db and update it.
+
+2. Order list added to Control panel.
+
+
+
+
+
+
+
+
+
+
+
+
+
+cities 9772 9772
+warehouses 15973 26833 27697 27877 27884
+
+2 iter
+select COUNT(*) from Warehouses where UpdatedAt is not null
+11336
+
+select COUNT(*) from Warehouses where UpdatedAt is null
+15497
+
+/* select COUNT(*) from Warehouses
+
+*/
+delete from Warehouses;
+delete from Cities;
+delete from Regions;
+delete from WarehouseTypes;
+
+DBCC CHECKIDENT ('[Warehouses]', RESEED, 0)
+DBCC CHECKIDENT ('[WarehouseTypes]', RESEED, 0)
+DBCC CHECKIDENT ('[Cities]', RESEED, 0)
+DBCC CHECKIDENT ('[Regions]', RESEED, 0)
+
+SELECT IdExternal, COUNT(IdExternal) 
+FROM Warehouses
+GROUP BY IdExternal
+HAVING COUNT(IdExternal) > 1
+
+
+
+
+
+
+
+
+
+
+
