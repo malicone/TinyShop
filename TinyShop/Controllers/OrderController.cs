@@ -23,7 +23,8 @@ namespace TinyShop.Controllers
         
         public async Task<ViewResult> Index()
         {
-            return View( await _context.Orders.OrderByDescending( o => o.OrderDateTime ).ToListAsync() );
+            return View( await _context.Orders.Where( o => o.SoftDeletedAt.HasValue == false )
+                .OrderByDescending( o => o.OrderDateTime ).ToListAsync() );
         }
 
         [AllowAnonymous]

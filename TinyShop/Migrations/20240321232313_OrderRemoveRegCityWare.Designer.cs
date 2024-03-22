@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TinyShop.Data;
 
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240321232313_OrderRemoveRegCityWare")]
+    partial class OrderRemoveRegCityWare
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,66 +358,6 @@ namespace TinyShop.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("TinyShop.Models.DeliveryAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("CityNameSnapshot")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("RegionNameSnapshot")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<DateTime?>("SoftDeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SoftDeletedBy")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<int?>("TheCityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TheRegionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TheWarehouseId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("WarehouseNameSnapshot")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TheCityId");
-
-                    b.HasIndex("TheRegionId");
-
-                    b.HasIndex("TheWarehouseId");
-
-                    b.ToTable("DeliveryAddresses");
-                });
-
             modelBuilder.Entity("TinyShop.Models.DeliveryType", b =>
                 {
                     b.Property<int>("Id")
@@ -488,9 +430,6 @@ namespace TinyShop.Migrations
                     b.Property<int?>("TheCustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TheDeliveryAddressId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("TheDeliveryTypeId")
                         .HasColumnType("int");
 
@@ -510,8 +449,6 @@ namespace TinyShop.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("TheCustomerId");
-
-                    b.HasIndex("TheDeliveryAddressId");
 
                     b.HasIndex("TheDeliveryTypeId");
 
@@ -536,7 +473,7 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<decimal>("PriceSnapshot")
+                    b.Property<decimal?>("PriceSnapshot")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
@@ -946,36 +883,11 @@ namespace TinyShop.Migrations
                     b.Navigation("TheRegion");
                 });
 
-            modelBuilder.Entity("TinyShop.Models.DeliveryAddress", b =>
-                {
-                    b.HasOne("TinyShop.Models.City", "TheCity")
-                        .WithMany()
-                        .HasForeignKey("TheCityId");
-
-                    b.HasOne("TinyShop.Models.Region", "TheRegion")
-                        .WithMany()
-                        .HasForeignKey("TheRegionId");
-
-                    b.HasOne("TinyShop.Models.Warehouse", "TheWarehouse")
-                        .WithMany()
-                        .HasForeignKey("TheWarehouseId");
-
-                    b.Navigation("TheCity");
-
-                    b.Navigation("TheRegion");
-
-                    b.Navigation("TheWarehouse");
-                });
-
             modelBuilder.Entity("TinyShop.Models.Order", b =>
                 {
                     b.HasOne("TinyShop.Models.Customer", "TheCustomer")
                         .WithMany()
                         .HasForeignKey("TheCustomerId");
-
-                    b.HasOne("TinyShop.Models.DeliveryAddress", "TheDeliveryAddress")
-                        .WithMany()
-                        .HasForeignKey("TheDeliveryAddressId");
 
                     b.HasOne("TinyShop.Models.DeliveryType", "TheDeliveryType")
                         .WithMany()
@@ -990,8 +902,6 @@ namespace TinyShop.Migrations
                         .HasForeignKey("ThePaymentTypeId");
 
                     b.Navigation("TheCustomer");
-
-                    b.Navigation("TheDeliveryAddress");
 
                     b.Navigation("TheDeliveryType");
 

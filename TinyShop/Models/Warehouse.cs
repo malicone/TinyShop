@@ -7,7 +7,7 @@ namespace TinyShop.Models
     [Index( nameof( WarehouseTypeIdExternal ) )]
     public class Warehouse : JsonSupportable
     {
-        [StringLength( LENGTH_LARGE )]
+        [StringLength( LENGTH_LARGE ), Display( Name = "Відділення" )]
         public string Name { get; set; }
 
         [StringLength( LENGTH_ID_EXTERNAL )]

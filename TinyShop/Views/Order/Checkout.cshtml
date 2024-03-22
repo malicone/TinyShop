@@ -30,16 +30,16 @@
                 asp-items='@new SelectList(Model.DeliveryTypes, "Id" , "Name")'></select>
     </div>
     <div id="regionContainer" class="form-group" hidden>
-        <label asp-for="TheOrder.RegionId" class="control-label"></label>
-        <select id="region" asp-for="TheOrder.RegionId" class="form-control"></select>
+        <label asp-for="TheOrder.TheDeliveryAddress.TheRegion.Name" class="control-label"></label>
+        <select id="region" asp-for="TheOrder.TheDeliveryAddress.TheRegion.Id" class="form-control"></select>
     </div>
     <div id="cityContainer" class="form-group" hidden>
-        <label asp-for="TheOrder.CityId" class="control-label"></label>
-        <select id="city" asp-for="TheOrder.CityId" class="form-control"></select>
+        <label asp-for="TheOrder.TheDeliveryAddress.TheCity.Name" class="control-label"></label>
+        <select id="city" asp-for="TheOrder.TheDeliveryAddress.TheCity.Id" class="form-control"></select>
     </div>
     <div id="warehouseContainer" class="form-group" hidden>
-        <label asp-for="TheOrder.WarehouseId" class="control-label"></label>
-        <select id="warehouse" asp-for="TheOrder.WarehouseId" class="form-control"></select>
+        <label asp-for="TheOrder.TheDeliveryAddress.TheWarehouse.Name" class="control-label"></label>
+        <select id="warehouse" asp-for="TheOrder.TheDeliveryAddress.TheWarehouse.Id" class="form-control"></select>
     </div>
     <div class="form-group">
         <label asp-for="TheOrder.ThePaymentType.Name" class="control-label"></label>
@@ -64,22 +64,22 @@
                 var deliveryType = $("#deliveryType").val();
                 if (deliveryType == @DeliveryType.NovaPoshtaWarehouseId) 
                 {
-                    showNovaPoshtaWarehouseControls();
+                    showDeliveryControls();
                     getRegions(setDefaultRegion);                                       
                 }
                 else 
                 {
-                    hideNovaPoshtaWarehouseControls();
+                    hideDeliveryControls();
                 }
             });
         });
-        function hideNovaPoshtaWarehouseControls() 
+        function hideDeliveryControls() 
         { 
             $("#regionContainer").attr("hidden", "hidden");
             $("#cityContainer").attr("hidden", "hidden");
             $("#warehouseContainer").attr("hidden", "hidden");
         }
-        function showNovaPoshtaWarehouseControls() 
+        function showDeliveryControls() 
         { 
             $("#regionContainer").removeAttr("hidden");
             $("#cityContainer").removeAttr("hidden");

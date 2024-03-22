@@ -105,8 +105,7 @@ $@"
                     {
                         IdExternal = (string)item.AsObject()["Ref"],
                         Name = (string)item.AsObject()["Description"],
-                        TypeDescription = (string)item.AsObject()["SettlementTypeDescription"],
-                        Index = (string)item.AsObject()["Index1"],
+                        TypeDescription = (string)item.AsObject()["SettlementTypeDescription"],                        
                         RegionIdExternal = (string)item.AsObject()["Area"],
                         RawJson = item.ToString()
                     } );
@@ -136,8 +135,7 @@ $@"
                 {
                     IdExternal = (string)item.AsObject()[ "Ref" ],
                     Name = (string)item.AsObject()[ "Description" ],
-                    TypeDescription = (string)item.AsObject()[ "SettlementTypeDescription" ],
-                    Index = (string)item.AsObject()[ "Index1" ],
+                    TypeDescription = (string)item.AsObject()[ "SettlementTypeDescription" ],                    
                     RegionIdExternal = (string)item.AsObject()[ "Area" ],
                     RawJson = item.ToString()
                 } );
@@ -202,6 +200,35 @@ $@"
                 }
             }
             while (itemArray.Count > 0);
+            return result;
+        }
+        public override async Task<List<Warehouse>> GetWarehousesAllAsync()
+        {
+            List<Warehouse> result = new List<Warehouse>();
+            JsonArray itemArray = null;
+            string requestText =
+$@"
+{{
+	""apiKey"": ""{ApiKey}"",
+	""modelName"": ""Address"",
+	""calledMethod"": ""getWarehouses"",
+	""methodProperties"": {{}}
+}}
+";
+            string jsonAsString = await GetJsonString( requestText );
+            var jsonValue = JsonNode.Parse( jsonAsString ).AsObject();
+            itemArray = jsonValue[ "data" ].AsArray();
+            foreach ( var item in itemArray )
+            {
+                result.Add( new Warehouse
+                {
+                    IdExternal = item.AsObject()[ "Ref" ].ToString(),
+                    Name = item.AsObject()[ "Description" ].ToString(),
+                    WarehouseTypeIdExternal = item.AsObject()[ "TypeOfWarehouse" ].ToString(),
+                    CityIdExternal = item.AsObject()[ "CityRef" ].ToString(),
+                    RawJson = item.ToString()
+                } );
+            }
             return result;
         }
 

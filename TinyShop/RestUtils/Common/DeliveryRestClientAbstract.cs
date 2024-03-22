@@ -19,5 +19,6 @@ namespace TinyShop.RestUtils.Common
         public abstract Task<List<City>> GetCitiesByRegionAsync(string regionIdExternal);
         public abstract Task<List<City>> GetCitiesAllAsync();
         public abstract Task<List<Warehouse>> GetWarehousesByCityAsync(string cityIdExternal);
+        public abstract Task<List<Warehouse>> GetWarehousesAllAsync();
     }
 }

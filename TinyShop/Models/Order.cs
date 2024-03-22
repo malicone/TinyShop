@@ -14,7 +14,7 @@ namespace TinyShop.Models
         public virtual Product TheProduct { get; set; } = new();
 
         [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" )]
-        public decimal? PriceSnapshot { get; set; }
+        public decimal PriceSnapshot { get; set; }
 
         public int Quantity { get; set; }
     }
@@ -34,23 +34,17 @@ namespace TinyShop.Models
         public virtual OrderStatus TheOrderStatus { get; set; } = new();
         public virtual DeliveryType TheDeliveryType { get; set; } = new();
         public virtual PaymentType ThePaymentType { get; set; } = new();
+#nullable enable
+        public virtual DeliveryAddress? TheDeliveryAddress { get; set; } = new();
+#nullable disable
 
-        [Display( Name = "Область" ), StringLength( LENGTH_LARGE )]
-        public string RegionId { get; set; }
-
-        [Display( Name = "Місто/село" ), StringLength( LENGTH_LARGE )]
-        public string CityId { get; set; }
-
-        [Display( Name = "Відділення" ), StringLength( LENGTH_LARGE )]
-        public string WarehouseId { get; set; }
-
-        [Display( Name = "Коментарій до замовлення" )]
-        public string Comments { get; set; }
+        [Display( Name = "Коментар до замовлення" )]
+        public string? Comments { get; set; }
 
         [BindNever]
         public virtual ICollection<OrderLine> Lines { get; set; } = new List<OrderLine>();
 
-        public decimal ComputeTotalValue() => (decimal)Lines.Sum( e => e.TheProduct.Price * e.Quantity );
+        public decimal ComputeTotalValue() => Lines.Sum( e => e.PriceSnapshot * e.Quantity );
         public int ComputeTotalQuantity() => Lines.Sum( e => e.Quantity );
     }
 }

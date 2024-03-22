@@ -15,7 +15,7 @@ namespace TinyShop.Models
                 {
                     TheProduct = product,
                     Quantity = quantity,
-                    PriceSnapshot = product.Price
+                    PriceSnapshot = product.Price.Value
                 } );
             }
             else

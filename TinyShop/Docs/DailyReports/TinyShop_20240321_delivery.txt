@@ -1,0 +1,50 @@
+1. Bug with warehouses fixed. Api demo on NovaPoshta site works incorrectly.
+2. Index field removed from City model.
+3. IDeliveryAddressProvider added.
+4. Order model updated.
+5. DeliveryAddress model added.
+
+
+
+
+
+
+
+
+
+
+
+    <div id="regionContainer" class="form-group" hidden>
+        <label asp-for="TheOrder.RegionId" class="control-label"></label>
+        <select id="region" asp-for="TheOrder.RegionId" class="form-control"></select>
+    </div>
+    <div id="cityContainer" class="form-group" hidden>
+        <label asp-for="TheOrder.CityId" class="control-label"></label>
+        <select id="city" asp-for="TheOrder.CityId" class="form-control"></select>
+    </div>
+    <div id="warehouseContainer" class="form-group" hidden>
+        <label asp-for="TheOrder.WarehouseId" class="control-label"></label>
+        <select id="warehouse" asp-for="TheOrder.WarehouseId" class="form-control"></select>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+w 27903 27803
+c 9775 9775

@@ -137,33 +137,30 @@ namespace TinyShop.Controllers
         }
 
         private async Task RefreshNPWarehouses()
-        {
-            var cities = await _npClient.GetCitiesAllAsync();
+        {            
             var deliveryTypeFromDb = await _context.DeliveryTypes.FirstOrDefaultAsync(
                 x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
-            foreach ( var currentCity in cities )
+            var warehouses = await _npClient.GetWarehousesAllAsync();
+            foreach ( var currentWarehouse in warehouses )
             {
-                var cityFromDb = await _context.Cities.FirstOrDefaultAsync( x => x.IdExternal == currentCity.IdExternal );
-                var warehouses = await _npClient.GetWarehousesByCityAsync( currentCity.IdExternal );
-                foreach ( var currentWarehouse in warehouses )
+                var warehouseFromDb = await _context.Warehouses.FirstOrDefaultAsync(
+                    x => x.IdExternal == currentWarehouse.IdExternal );
+                var cityFromDb = await _context.Cities.FirstOrDefaultAsync(
+                    x => x.IdExternal == currentWarehouse.CityIdExternal );
+                if ( warehouseFromDb == null )
                 {
-                    var warehouseFromDb = await _context.Warehouses.FirstOrDefaultAsync(
-                        x => x.IdExternal == currentWarehouse.IdExternal );
-                    if ( warehouseFromDb == null )
-                    {
-                        currentWarehouse.SetCreateStamp( User.Identity.Name );
-                        currentWarehouse.TheCity = cityFromDb;
-                        currentWarehouse.TheWarehouseType = await _context.WarehouseTypes.FirstOrDefaultAsync(
-                            x => x.IdExternal == currentWarehouse.WarehouseTypeIdExternal );
-                        currentWarehouse.TheDeliveryType = deliveryTypeFromDb;
-                        _context.Warehouses.Add( currentWarehouse );
-                    }
-                    else
-                    {
-                        warehouseFromDb.SetUpdateStamp( User.Identity.Name );
-                        warehouseFromDb.TheCity = cityFromDb;
-                        _context.Warehouses.Update( warehouseFromDb );
-                    }
+                    currentWarehouse.SetCreateStamp( User.Identity.Name );
+                    currentWarehouse.TheCity = cityFromDb;
+                    currentWarehouse.TheWarehouseType = await _context.WarehouseTypes.FirstOrDefaultAsync(
+                        x => x.IdExternal == currentWarehouse.WarehouseTypeIdExternal );
+                    currentWarehouse.TheDeliveryType = deliveryTypeFromDb;
+                    _context.Warehouses.Add( currentWarehouse );
+                }
+                else
+                {
+                    warehouseFromDb.SetUpdateStamp( User.Identity.Name );
+                    warehouseFromDb.TheCity = cityFromDb;
+                    _context.Warehouses.Update( warehouseFromDb );
                 }
             }
             _context.SaveChanges();
