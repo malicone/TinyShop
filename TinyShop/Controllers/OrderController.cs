@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Data;
+using TinyShop.Infrastructure;
 using TinyShop.Models;
 using TinyShop.Models.ViewModels;
 using TinyShop.RestUtils.NovaPoshta;
@@ -14,11 +15,11 @@ namespace TinyShop.Controllers
     [Route( "[controller]/[action]" )]
     public class OrderController : Controller
     {
-        public OrderController( ShopContext context, NovaPoshtaClient npClient, Cart cart )
+        public OrderController( ShopContext context, IDeliveryAddressProvider deliveryAddressProvider, Cart cart )
         {
-            _context = context;
-            _npClient = npClient;
+            _context = context;            
             _cart = cart;
+            _deliveryAddressProvider = deliveryAddressProvider;
         }
         
         public async Task<ViewResult> Index()
@@ -104,27 +105,28 @@ namespace TinyShop.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<JsonResult> GetRegions()
+        [Route( "{deliveryTypeId}" )]
+        public async Task<JsonResult> GetRegions( int deliveryTypeId )
         {
-            return Json( await _npClient.GetRegionsAsync() );
+            return Json( await _deliveryAddressProvider.GetRegionsAsync( deliveryTypeId ) );
         }
 
         [AllowAnonymous]
-        [Route( "{regionIdExternal}" )]
-        public async Task<JsonResult> GetCitiesByRegion( string regionIdExternal )
-        {            
-            return Json(await _npClient.GetCitiesByRegionAsync(regionIdExternal));
+        [Route( "{regionId}" )]
+        public async Task<JsonResult> GetCitiesByRegion( int regionId )
+        {
+            return Json( await _deliveryAddressProvider.GetCitiesByRegionAsync( regionId ) );
         }
 
         [AllowAnonymous]
-        [Route( "{cityIdExternal}" )]
-        public async Task<JsonResult> GetWarehousesByCity(string cityIdExternal)
+        [Route( "{cityId}" )]
+        public async Task<JsonResult> GetWarehousesByCity( int cityId )
         {            
-            return Json( await _npClient.GetWarehousesByCityAsync( cityIdExternal ) );
+            return Json( await _deliveryAddressProvider.GetWarehousesByCityAsync( cityId ) );
         }
         
         private readonly ShopContext _context;
-        private readonly NovaPoshtaClient _npClient;
+        private readonly IDeliveryAddressProvider _deliveryAddressProvider;
         private readonly Cart _cart;
     }
 }

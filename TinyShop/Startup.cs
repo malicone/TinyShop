@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Areas.Identity.Data;
 using TinyShop.Data;
+using TinyShop.Infrastructure;
 using TinyShop.Models;
 using TinyShop.Models.ViewModels;
 using TinyShop.RestUtils.NovaPoshta;
@@ -39,6 +40,7 @@ namespace TinyShop
             services.AddScoped<CartViewModel>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<NovaPoshtaClient>();
+            services.AddScoped<IDeliveryAddressProvider, DbDeliveryAddressProvider>();
 
             services.AddDbContext<ShopContext>( options =>
                 options.UseSqlServer( Configuration.GetConnectionString( "ShopContextConnection" ) ) );

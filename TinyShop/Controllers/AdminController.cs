@@ -82,7 +82,7 @@ namespace TinyShop.Controllers
 
         private async Task RefreshNPRegions()
         {
-            var regions = await _npClient.GetRegionsAsync();
+            var regions = await _npClient.GetRegionsAllAsync();
             var deliveryTypeFromDb = await _context.DeliveryTypes.FirstOrDefaultAsync(
                 x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
             foreach ( var currentRegion in regions)
@@ -107,7 +107,7 @@ namespace TinyShop.Controllers
 
         private async Task RefreshNPCities()
         {
-            var regions = await _npClient.GetRegionsAsync();
+            var regions = await _npClient.GetRegionsAllAsync();
             var deliveryTypeFromDb = await _context.DeliveryTypes.FirstOrDefaultAsync(
                 x => x.Id == DeliveryType.NovaPoshtaWarehouseId );
             foreach ( var currentRegion in regions )

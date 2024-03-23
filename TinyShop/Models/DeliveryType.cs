@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
-    public class DeliveryType : BaseEntity
+    public class DeliveryType : SoftDeletableEntity
     {
         [Display( Name = "Спосіб доставки"), StringLength( LENGTH_SMALL )]
         public string Name { get; set; }

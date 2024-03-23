@@ -41,7 +41,7 @@
                         <form id="@product.Id" asp-controller="Cart" asp-action="Index" method="post">
                             <input type="hidden" name="productId" value="@product.Id" />
                             <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />                                
-                            <button type="submit" class="btn btn-success btn-sm">
+                            <button type="submit" class="btn btn-success btn-sm mb-2">
                                 Додати в кошик
                             </button>                            
                         </form>

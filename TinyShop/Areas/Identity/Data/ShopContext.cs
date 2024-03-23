@@ -31,6 +31,7 @@ namespace TinyShop.Data
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<WarehouseType> WarehouseTypes { get; set; }
         public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
+        public DbSet<DeliveryFirm> DeliveryFirms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

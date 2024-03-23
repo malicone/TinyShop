@@ -61,11 +61,11 @@
         {
             $("#deliveryType").change(function () 
             {
-                var deliveryType = $("#deliveryType").val();
-                if (deliveryType == @DeliveryType.NovaPoshtaWarehouseId) 
+                var deliveryTypeId = $("#deliveryType").val();
+                if (deliveryTypeId == @DeliveryType.NovaPoshtaWarehouseId) 
                 {
                     showDeliveryControls();
-                    getRegions(setDefaultRegion);                                       
+                    getRegions(deliveryTypeId, setDefaultRegion);                                       
                 }
                 else 
                 {
@@ -89,15 +89,15 @@
         { 
             $("#region").val("@Order.NovaPoshtaDefaultRegionId");
         }
-        function getRegions(afterDataLoadFunc) 
+        function getRegions(deliveryTypeId, afterDataLoadFunc) 
         { 
-            var url = "/Order/GetRegions";
+            var url = "/Order/GetRegions/" + deliveryTypeId;
             $.getJSON(url, function (data) 
             {
                 $("#region").empty();
                 $.each(data, function (index, row) 
                 {
-                    $("#region").append("<option value='" + row.idExternal + "'>" + row.name + "</option>");
+                    $("#region").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });            
                 afterDataLoadFunc();
                 getCities();
@@ -111,7 +111,7 @@
                 $("#city").empty();
                 $.each(data, function (index, row) 
                 {
-                    $("#city").append("<option value='" + row.idExternal + "'>" + row.name + "</option>");
+                    $("#city").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });
                 getWarehouses();
             });
@@ -124,7 +124,7 @@
                 $("#warehouse").empty();
                 $.each(data, function (index, row) 
                 {
-                    $("#warehouse").append("<option value='" + row.idExternal + "'>" + row.name + "</option>");
+                    $("#warehouse").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });
             });
         }

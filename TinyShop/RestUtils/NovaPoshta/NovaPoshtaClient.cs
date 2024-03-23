@@ -58,7 +58,7 @@ $@"
                 .ToList();
         }
 
-        public override async Task<List<Region>> GetRegionsAsync()
+        public override async Task<List<Region>> GetRegionsAllAsync()
         {
             string jsonString = await GetJsonString(
 $@"
@@ -225,7 +225,7 @@ $@"
                     IdExternal = item.AsObject()[ "Ref" ].ToString(),
                     Name = item.AsObject()[ "Description" ].ToString(),
                     WarehouseTypeIdExternal = item.AsObject()[ "TypeOfWarehouse" ].ToString(),
-                    CityIdExternal = item.AsObject()[ "CityRef" ].ToString(),
+                    CityIdExternal = item.AsObject()[ "CityRef" ].ToString(),                    
                     RawJson = item.ToString()
                 } );
             }
