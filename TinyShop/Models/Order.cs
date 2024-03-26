@@ -9,13 +9,16 @@ using TinyShop.RestUtils.Common.Dto;
 namespace TinyShop.Models
 {
     public class OrderLine : SoftDeletableEntity
-    {        
+    {
+        [Required]
         public virtual Order TheOrder { get; set; } = new();
+        [Required]
         public virtual Product TheProduct { get; set; } = new();
 
-        [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" )]
+        [Required, DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" )]
         public decimal PriceSnapshot { get; set; }
 
+        [Required]
         public int Quantity { get; set; }
     }
 
@@ -26,11 +29,12 @@ namespace TinyShop.Models
         /// </summary>
         [NotMapped]
         public static int NovaPoshtaVolynRegionId { get { return 22; } }
+        [NotMapped]
         public static int NovaPoshtaDefaultRegionId { get { return NovaPoshtaVolynRegionId; } }
         [Display( Name = "Дата замовлення" )]
         public DateTime OrderDateTime { get; set; }
         public virtual Customer TheCustomer { get; set; } = new();
-        public virtual OrderStatus TheOrderStatus { get; set; } = new();
+        public virtual OrderStatus? TheOrderStatus { get; set; } = new();
         public virtual DeliveryType TheDeliveryType { get; set; } = new();
         public virtual PaymentType ThePaymentType { get; set; } = new();
 #nullable enable

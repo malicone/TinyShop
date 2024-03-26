@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TinyShop.Data;
 
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240326004832_DeliveryFirmKeyAdded")]
+    partial class DeliveryFirmKeyAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,9 +485,6 @@ namespace TinyShop.Migrations
                     b.Property<string>("SoftDeletedBy")
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
-
-                    b.Property<int>("SortingColumn")
-                        .HasColumnType("int");
 
                     b.Property<int?>("TheDeliveryFirmId")
                         .HasColumnType("int");

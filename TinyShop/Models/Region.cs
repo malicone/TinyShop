@@ -4,9 +4,9 @@ namespace TinyShop.Models
 {
     public class Region : JsonSupportable
     {
-        [StringLength( LENGTH_LARGE ), Display( Name = "Область") ]
-        public string Name { get; set; }
+        [Required, StringLength( LengthLarge ), Display( Name = "Область") ]
+        public string Name { get; set; } = string.Empty;
 
-        public DeliveryType TheDeliveryType { get; set; }
+        public DeliveryFirm? TheDeliveryFirm { get; set; }
     }
 }

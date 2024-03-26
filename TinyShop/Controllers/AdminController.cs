@@ -67,7 +67,7 @@ namespace TinyShop.Controllers
                 if ( typeFromDb == null )
                 {
                     currentType.SetCreateStamp( User.Identity.Name );
-                    currentType.TheDeliveryType = deliveryTypeFromDb;
+                    //currentType.TheDeliveryType = deliveryTypeFromDb;
                     _context.WarehouseTypes.Add( currentType );
 
                 }
@@ -92,7 +92,7 @@ namespace TinyShop.Controllers
                 if ( regionFromDb == null )
                 {
                     currentRegion.SetCreateStamp( User.Identity.Name );
-                    currentRegion.TheDeliveryType = deliveryTypeFromDb;
+                    //currentRegion.TheDeliveryType = deliveryTypeFromDb;
                     _context.Regions.Add( currentRegion );
 
                 }
@@ -121,7 +121,7 @@ namespace TinyShop.Controllers
                     {
                         currentCity.SetCreateStamp( User.Identity.Name );
                         currentCity.TheRegion = regionFromDb;
-                        currentCity.TheDeliveryType = deliveryTypeFromDb;
+                        //currentCity.TheDeliveryType = deliveryTypeFromDb;
                         _context.Cities.Add( currentCity );
                     }
                     else
@@ -153,7 +153,7 @@ namespace TinyShop.Controllers
                     currentWarehouse.TheCity = cityFromDb;
                     currentWarehouse.TheWarehouseType = await _context.WarehouseTypes.FirstOrDefaultAsync(
                         x => x.IdExternal == currentWarehouse.WarehouseTypeIdExternal );
-                    currentWarehouse.TheDeliveryType = deliveryTypeFromDb;
+                    //currentWarehouse.TheDeliveryFirm = deliveryTypeFromDb;
                     _context.Warehouses.Add( currentWarehouse );
                 }
                 else

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TinyShop.Data;
 
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240326001307_DeliveryTypeToDeliveryFirm")]
+    partial class DeliveryTypeToDeliveryFirm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -484,12 +486,6 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int>("SortingColumn")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TheDeliveryFirmId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -498,8 +494,6 @@ namespace TinyShop.Migrations
                         .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TheDeliveryFirmId");
 
                     b.ToTable("DeliveryTypes");
                 });
@@ -1044,15 +1038,6 @@ namespace TinyShop.Migrations
                     b.Navigation("TheRegion");
 
                     b.Navigation("TheWarehouse");
-                });
-
-            modelBuilder.Entity("TinyShop.Models.DeliveryType", b =>
-                {
-                    b.HasOne("TinyShop.Models.DeliveryFirm", "TheDeliveryFirm")
-                        .WithMany()
-                        .HasForeignKey("TheDeliveryFirmId");
-
-                    b.Navigation("TheDeliveryFirm");
                 });
 
             modelBuilder.Entity("TinyShop.Models.Order", b =>

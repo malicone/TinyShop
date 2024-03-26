@@ -5,8 +5,8 @@ namespace TinyShop.Models
 {
     public class OrderStatus : BaseEntity
     {
-        [StringLength( LENGTH_SMALL )]
-        public string Name { get; set; }
+        [Required, StringLength( LengthSmall )]
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// Important! These are values from database.
         /// </summary>

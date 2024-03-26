@@ -32,7 +32,7 @@ namespace TinyShop.Controllers
         public async Task<ViewResult> Checkout()
         {
             var orderVM = new OrderViewModel();            
-            orderVM.DeliveryTypes = await _context.DeliveryTypes.ToListAsync();
+            orderVM.DeliveryTypes = await _context.DeliveryTypes.OrderBy( t => t.SortingColumn ).ToListAsync();
             orderVM.PaymentTypes = await _context.PaymentTypes.ToListAsync();            
             return View( orderVM );
         }
@@ -63,7 +63,7 @@ namespace TinyShop.Controllers
 
         private async Task PrepareForInsert( Order order )
         {
-            order.SetCreateStamp( User.Identity.Name );
+            order.SetCreateStamp( User?.Identity?.Name );
             order.TheOrderStatus = await _context.OrderStatuses.FirstOrDefaultAsync(
                 s => s.Id == OrderStatus.NewId );
             order.TheDeliveryType = await _context.DeliveryTypes.FirstOrDefaultAsync(
@@ -77,7 +77,7 @@ namespace TinyShop.Controllers
             foreach ( var line in order.Lines )
             {
                 line.TheProduct = await _context.Products.FirstOrDefaultAsync( p => p.Id == line.TheProduct.Id );
-                line.SetCreateStamp( User.Identity.Name );
+                line.SetCreateStamp( User?.Identity?.Name );
             }
             order.OrderDateTime = System.DateTime.Now;
             // LINQ doesn't work here so use loop
@@ -94,7 +94,7 @@ namespace TinyShop.Controllers
             if ( foundCustomer == null )
             {
                 // it's a new customer so we need to add it to the db
-                order.TheCustomer.SetCreateStamp( User.Identity.Name );
+                order.TheCustomer.SetCreateStamp( User?.Identity?.Name );
                 _context.Add( order.TheCustomer );
             }
             else

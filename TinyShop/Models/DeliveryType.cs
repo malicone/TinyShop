@@ -5,8 +5,14 @@ namespace TinyShop.Models
 {
     public class DeliveryType : SoftDeletableEntity
     {
-        [Display( Name = "Спосіб доставки"), StringLength( LENGTH_SMALL )]
-        public string Name { get; set; }
+        [Required, Display( Name = "Спосіб доставки"), StringLength( LengthSmall )]
+        public string Name { get; set; } = string.Empty;
+
+        [Required]
+        public DeliveryFirm TheDeliveryFirm { get; set; } = new DeliveryFirm();
+
+        [Required]
+        public int SortingColumn { get; set; }
 
         /// <summary>
         /// Important! These are values from the database.

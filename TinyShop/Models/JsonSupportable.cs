@@ -9,7 +9,7 @@ namespace TinyShop.Models
         public const int LENGTH_ID_EXTERNAL = 1024;
 
         [StringLength( LENGTH_ID_EXTERNAL )]        
-        public string IdExternal { get; set; }
+        public string? IdExternal { get; set; }
         public string? RawJson { get; set; }        
     }
 }

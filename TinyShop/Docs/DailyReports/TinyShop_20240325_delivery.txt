@@ -1,0 +1,32 @@
+1. Nullable enabled added and code fixed.
+2. DeliveryFirm references added.
+3. DbDeliveryAddressProvider updated (not completed).
+
+
+
+
+
+
+
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace TinyShop.Migrations
+{
+    public partial class DeliveryFirmSeedOtherItem : Migration
+    {
+        protected override void Up( MigrationBuilder migrationBuilder )
+        {
+            migrationBuilder.Sql( "INSERT INTO DeliveryFirms (Name, SortingColumn) VALUES (N'Інше', 1000)" );
+            migrationBuilder.Sql( "UPDATE DeliveryTypes SET TheDeliveryFirmId = 1 WHERE Name = N'Нова Пошта (на відділення)'" );
+            migrationBuilder.Sql( "UPDATE DeliveryTypes SET TheDeliveryFirmId = 2 WHERE Name = N'Самовивіз (м. Луцьк)'" );
+        }
+
+        protected override void Down( MigrationBuilder migrationBuilder )
+        {
+            migrationBuilder.Sql( "DELETE FROM DeliveryFirms WHERE Name = N'Інше'" );
+        }
+    }
+}
+
+
+

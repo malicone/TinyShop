@@ -14,19 +14,19 @@ namespace TinyShop.Models
             DescImages = new HashSet<FileTag>();
         }
 
-        [Required, StringLength( LENGTH_MEDIUM, MinimumLength = 3 ), Display(Name = "Назва")]
-        public string Name { get; set; }
+        [Required, StringLength( LengthMedium, MinimumLength = 3 ), Display(Name = "Назва")]
+        public string Name { get; set; } = string.Empty;
 
         [Display( Name = "Опис" )]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" ), Display( Name = "Ціна" )]
         public decimal? Price { get; set; }
 
-        [Display( Name = "Група" )]
+        [Required, Display( Name = "Група" )]
         public int ProductGroupId { get; set; }
 
-        [Display( Name = "Група" )]
+        [Required, Display( Name = "Група" )]
         public virtual ProductGroup ProductGroup { get; set; }
 
         public virtual ICollection<FileTag> DescImages { get; set; }        

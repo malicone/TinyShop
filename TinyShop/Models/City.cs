@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models
@@ -6,17 +7,19 @@ namespace TinyShop.Models
     [Index( nameof( RegionIdExternal ) )]
     public class City : JsonSupportable
     {
-        [StringLength( LENGTH_LARGE ), Display(Name = "Місто/село")]
-        public string Name { get; set; }
+        [Required, StringLength( LengthLarge ), Display(Name = "Місто/село")]
+        public string Name { get; set; } = string.Empty;
 
-        [StringLength( LENGTH_SMALL )]
-        public string TypeDescription { get; set; }
+        [StringLength( LengthSmall )]
+        public string? TypeDescription { get; set; }
 
         [StringLength( LENGTH_ID_EXTERNAL )]
-        public string RegionIdExternal { get; set; }
+        public string? RegionIdExternal { get; set; }
 
-        public Region TheRegion { get; set; }
-
-        public DeliveryType TheDeliveryType { get; set; }
+        public Region? TheRegion { get; set; }
+        
+        public DeliveryFirm? TheDeliveryFirm { get; set; }
+        
+        public virtual ICollection<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
     }
 }

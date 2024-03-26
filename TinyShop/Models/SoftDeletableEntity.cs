@@ -8,7 +8,7 @@ namespace TinyShop.Models
     {
         public DateTime? SoftDeletedAt { get; set; }
         
-        [StringLength( LENGTH_LARGE )]
+        [StringLength( LengthLarge )]
         public string? SoftDeletedBy { get; set; }
         
         [NotMapped]

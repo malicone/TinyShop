@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TinyShop.Data;
 
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240325231341_NullableEnabled")]
+    partial class NullableEnabled
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,7 +273,7 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int?>("TheDeliveryFirmId")
+                    b.Property<int?>("TheDeliveryTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TheRegionId")
@@ -294,7 +296,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("RegionIdExternal");
 
-                    b.HasIndex("TheDeliveryFirmId");
+                    b.HasIndex("TheDeliveryTypeId");
 
                     b.HasIndex("TheRegionId");
 
@@ -484,12 +486,6 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int>("SortingColumn")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TheDeliveryFirmId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -498,8 +494,6 @@ namespace TinyShop.Migrations
                         .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TheDeliveryFirmId");
 
                     b.ToTable("DeliveryTypes");
                 });
@@ -799,7 +793,7 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int?>("TheDeliveryFirmId")
+                    b.Property<int?>("TheDeliveryTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -813,7 +807,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("IdExternal");
 
-                    b.HasIndex("TheDeliveryFirmId");
+                    b.HasIndex("TheDeliveryTypeId");
 
                     b.ToTable("Regions");
                 });
@@ -858,7 +852,7 @@ namespace TinyShop.Migrations
                     b.Property<int?>("TheCityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TheDeliveryFirmId")
+                    b.Property<int?>("TheDeliveryTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TheWarehouseTypeId")
@@ -883,7 +877,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheCityId");
 
-                    b.HasIndex("TheDeliveryFirmId");
+                    b.HasIndex("TheDeliveryTypeId");
 
                     b.HasIndex("TheWarehouseTypeId");
 
@@ -925,7 +919,7 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int?>("TheDeliveryFirmId")
+                    b.Property<int?>("TheDeliveryTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -939,7 +933,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("IdExternal");
 
-                    b.HasIndex("TheDeliveryFirmId");
+                    b.HasIndex("TheDeliveryTypeId");
 
                     b.ToTable("WarehouseTypes");
                 });
@@ -1012,15 +1006,15 @@ namespace TinyShop.Migrations
 
             modelBuilder.Entity("TinyShop.Models.City", b =>
                 {
-                    b.HasOne("TinyShop.Models.DeliveryFirm", "TheDeliveryFirm")
+                    b.HasOne("TinyShop.Models.DeliveryType", "TheDeliveryType")
                         .WithMany()
-                        .HasForeignKey("TheDeliveryFirmId");
+                        .HasForeignKey("TheDeliveryTypeId");
 
                     b.HasOne("TinyShop.Models.Region", "TheRegion")
                         .WithMany()
                         .HasForeignKey("TheRegionId");
 
-                    b.Navigation("TheDeliveryFirm");
+                    b.Navigation("TheDeliveryType");
 
                     b.Navigation("TheRegion");
                 });
@@ -1044,15 +1038,6 @@ namespace TinyShop.Migrations
                     b.Navigation("TheRegion");
 
                     b.Navigation("TheWarehouse");
-                });
-
-            modelBuilder.Entity("TinyShop.Models.DeliveryType", b =>
-                {
-                    b.HasOne("TinyShop.Models.DeliveryFirm", "TheDeliveryFirm")
-                        .WithMany()
-                        .HasForeignKey("TheDeliveryFirmId");
-
-                    b.Navigation("TheDeliveryFirm");
                 });
 
             modelBuilder.Entity("TinyShop.Models.Order", b =>
@@ -1120,11 +1105,11 @@ namespace TinyShop.Migrations
 
             modelBuilder.Entity("TinyShop.Models.Region", b =>
                 {
-                    b.HasOne("TinyShop.Models.DeliveryFirm", "TheDeliveryFirm")
+                    b.HasOne("TinyShop.Models.DeliveryType", "TheDeliveryType")
                         .WithMany()
-                        .HasForeignKey("TheDeliveryFirmId");
+                        .HasForeignKey("TheDeliveryTypeId");
 
-                    b.Navigation("TheDeliveryFirm");
+                    b.Navigation("TheDeliveryType");
                 });
 
             modelBuilder.Entity("TinyShop.Models.Warehouse", b =>
@@ -1133,9 +1118,9 @@ namespace TinyShop.Migrations
                         .WithMany()
                         .HasForeignKey("TheCityId");
 
-                    b.HasOne("TinyShop.Models.DeliveryFirm", "TheDeliveryFirm")
+                    b.HasOne("TinyShop.Models.DeliveryType", "TheDeliveryType")
                         .WithMany()
-                        .HasForeignKey("TheDeliveryFirmId");
+                        .HasForeignKey("TheDeliveryTypeId");
 
                     b.HasOne("TinyShop.Models.WarehouseType", "TheWarehouseType")
                         .WithMany()
@@ -1143,18 +1128,18 @@ namespace TinyShop.Migrations
 
                     b.Navigation("TheCity");
 
-                    b.Navigation("TheDeliveryFirm");
+                    b.Navigation("TheDeliveryType");
 
                     b.Navigation("TheWarehouseType");
                 });
 
             modelBuilder.Entity("TinyShop.Models.WarehouseType", b =>
                 {
-                    b.HasOne("TinyShop.Models.DeliveryFirm", "TheDeliveryFirm")
+                    b.HasOne("TinyShop.Models.DeliveryType", "TheDeliveryType")
                         .WithMany()
-                        .HasForeignKey("TheDeliveryFirmId");
+                        .HasForeignKey("TheDeliveryTypeId");
 
-                    b.Navigation("TheDeliveryFirm");
+                    b.Navigation("TheDeliveryType");
                 });
 
             modelBuilder.Entity("TinyShop.Models.Order", b =>
