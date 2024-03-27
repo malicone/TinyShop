@@ -28,26 +28,38 @@ namespace TinyShop.Infrastructure
             return new List<Region>();
         }
 
-        public async Task<List<City>> GetCitiesByRegionAsync( int regionId )
-        {            
-            return await _context.Cities.Where( c => 
-                ( c.TheRegion != null ) 
-                && ( c.TheRegion.Id == regionId )
-                && ( c.SoftDeletedAt.HasValue == false ) 
-                && ( c.Warehouses.Any( 
-                    w => ( w.TheWarehouseType != null ) && 
-                    ( ( w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse30kgTypeId ) 
-                    || ( w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse1000kgTypeId ) ) ) 
+        public async Task<List<City>> GetCitiesByRegionAsync( int deliveryTypeId, int regionId )
+        {
+            if ( deliveryTypeId == DeliveryType.NovaPoshtaWarehouseId )
+            {
+                return await _context.Cities.Where( c =>
+                    ( c.TheRegion != null )
+                    && ( c.TheRegion.Id == regionId )
+                    && ( c.SoftDeletedAt.HasValue == false )
+                    && ( c.Warehouses.Any(
+                        w => ( w.TheWarehouseType != null ) &&
+                        ( ( w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse30kgTypeId )
+                        || ( w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse1000kgTypeId ) ) )
+                        )
                     )
-                )
-                .OrderBy( c => c.Name ).ToListAsync();
+                    .OrderBy( c => c.Name ).ToListAsync();
+            }
+            return new List<City>();
         }
 
-        public async Task<List<Warehouse>> GetWarehousesByCityAsync( int cityId )
+        public async Task<List<Warehouse>> GetWarehousesByCityAsync( int deliveryTypeId, int cityId )
         {
-            return await _context.Warehouses.Where( w => ( w.TheCity.Id == cityId )
-                && ( w.SoftDeletedAt.HasValue == false ) ).OrderBy( w => w.Name, 
-                StringComparison.OrdinalIgnoreCase.WithNaturalSort() ).ToListAsync();
+            if ( deliveryTypeId == DeliveryType.NovaPoshtaWarehouseId )
+            {
+                return await _context.Warehouses.Where( w => ( w.TheCity != null ) && ( w.TheCity.Id == cityId )
+                    && ( w.SoftDeletedAt.HasValue == false ) 
+                    && ( ( w.TheWarehouseType != null ) 
+                        && ( ( w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse30kgTypeId ) 
+                            || w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse1000kgTypeId ) )
+            )
+                    .OrderBy( w => w.Name, StringComparison.OrdinalIgnoreCase.WithNaturalSort() ).ToListAsync();
+            }
+            return new List<Warehouse>();
         }
 
         private readonly ShopContext _context;

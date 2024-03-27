@@ -112,17 +112,17 @@ namespace TinyShop.Controllers
         }
 
         [AllowAnonymous]
-        [Route( "{regionId}" )]
-        public async Task<JsonResult> GetCitiesByRegion( int regionId )
+        [Route( "{deliveryTypeId}/{regionId}" )]
+        public async Task<JsonResult> GetCitiesByRegion( int deliveryTypeId, int regionId )
         {
-            return Json( await _deliveryAddressProvider.GetCitiesByRegionAsync( regionId ) );
+            return Json( await _deliveryAddressProvider.GetCitiesByRegionAsync( deliveryTypeId, regionId ) );
         }
 
         [AllowAnonymous]
-        [Route( "{cityId}" )]
-        public async Task<JsonResult> GetWarehousesByCity( int cityId )
+        [Route( "{deliveryTypeId}/{cityId}" )]
+        public async Task<JsonResult> GetWarehousesByCity( int deliveryTypeId, int cityId )
         {            
-            return Json( await _deliveryAddressProvider.GetWarehousesByCityAsync( cityId ) );
+            return Json( await _deliveryAddressProvider.GetWarehousesByCityAsync( deliveryTypeId, cityId ) );
         }
         
         private readonly ShopContext _context;

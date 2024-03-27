@@ -100,12 +100,12 @@
                     $("#region").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });            
                 afterDataLoadFunc();
-                getCities();
+                getCities(deliveryTypeId);
             });
         }
-        function getCities() 
+        function getCities(deliveryTypeId)
         {            
-            var url = "/Order/GetCitiesByRegion/" + $("#region").val();
+            var url = "/Order/GetCitiesByRegion/" + deliveryTypeId + "/" + $("#region").val();
             $.getJSON(url, function (data) 
             {                
                 $("#city").empty();
@@ -113,12 +113,12 @@
                 {
                     $("#city").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });
-                getWarehouses();
+                getWarehouses(deliveryTypeId);
             });
         }
         function getWarehouses() 
         {            
-            var url = "/Order/GetWarehousesByCity/" + $("#city").val();
+            var url = "/Order/GetWarehousesByCity/" + deliveryTypeId + "/" + $("#city").val();
             $.getJSON(url, function (data) 
             {
                 $("#warehouse").empty();
@@ -130,11 +130,13 @@
         }
         $(document).ready(function () 
         {            
-            $("#region").change(getCities);
+            var deliveryTypeId = $("#deliveryType").val();
+            $("#region").change(() => getCities(deliveryTypeId));
         });
         $(document).ready(function () 
         {         
-            $("#city").change(getWarehouses);
+            var deliveryTypeId = $("#deliveryType").val();
+            $("#city").change(() => getWarehouses(deliveryTypeId));
         });
     </script>
 }
