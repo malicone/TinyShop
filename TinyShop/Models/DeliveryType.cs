@@ -3,16 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
-    public class DeliveryType : SoftDeletableEntity
+    public class DeliveryType : NamedEntity
     {
-        [Required, Display( Name = "Спосіб доставки"), StringLength( LengthSmall )]
-        public string Name { get; set; } = string.Empty;
-
         [Required]
         public DeliveryFirm TheDeliveryFirm { get; set; } = new DeliveryFirm();
-
-        [Required]
-        public int SortingColumn { get; set; }
 
         /// <summary>
         /// Important! These are values from the database.

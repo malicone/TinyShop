@@ -64,8 +64,8 @@
                 var deliveryTypeId = $("#deliveryType").val();
                 if (deliveryTypeId == @DeliveryType.NovaPoshtaWarehouseId) 
                 {
-                    showDeliveryControls();
-                    getRegions(deliveryTypeId, setDefaultRegion);                                       
+                    showDeliveryControls();                    
+                    getRegions(setDefaultRegion);
                 }
                 else 
                 {
@@ -85,12 +85,18 @@
             $("#cityContainer").removeAttr("hidden");
             $("#warehouseContainer").removeAttr("hidden");
         }
-        function setDefaultRegion() 
+        function setDefaultRegion(deliveryTypeId, afterDataLoadFunc) 
         { 
-            $("#region").val("@Order.NovaPoshtaDefaultRegionId");
+            var url = "/Order/GetDefaultRegionId/" + deliveryTypeId;
+            $.get(url, function (data) 
+            {
+                $("#region").val(data);
+                afterDataLoadFunc();
+            });
         }
-        function getRegions(deliveryTypeId, afterDataLoadFunc) 
+        function getRegions(afterDataLoadFunc) 
         { 
+            var deliveryTypeId = $("#deliveryType").val();            
             var url = "/Order/GetRegions/" + deliveryTypeId;
             $.getJSON(url, function (data) 
             {
@@ -99,26 +105,29 @@
                 {
                     $("#region").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });            
-                afterDataLoadFunc();
-                getCities(deliveryTypeId);
+                afterDataLoadFunc(deliveryTypeId, getCities);
             });
         }
-        function getCities(deliveryTypeId)
+        function getCities()
         {            
-            var url = "/Order/GetCitiesByRegion/" + deliveryTypeId + "/" + $("#region").val();
+            var deliveryTypeId = $("#deliveryType").val();            
+            var regionId = $("#region").val();
+            var url = "/Order/GetCitiesByRegion/" + deliveryTypeId + "/" + regionId;
             $.getJSON(url, function (data) 
-            {                
+            {   
                 $("#city").empty();
                 $.each(data, function (index, row) 
                 {
                     $("#city").append("<option value='" + row.id + "'>" + row.name + "</option>");
                 });
-                getWarehouses(deliveryTypeId);
+                getWarehouses();
             });
         }
         function getWarehouses() 
         {            
-            var url = "/Order/GetWarehousesByCity/" + deliveryTypeId + "/" + $("#city").val();
+            var deliveryTypeId = $("#deliveryType").val();            
+            var cityId = $("#city").val();
+            var url = "/Order/GetWarehousesByCity/" + deliveryTypeId + "/" + cityId;
             $.getJSON(url, function (data) 
             {
                 $("#warehouse").empty();
@@ -129,14 +138,12 @@
             });
         }
         $(document).ready(function () 
-        {            
-            var deliveryTypeId = $("#deliveryType").val();
-            $("#region").change(() => getCities(deliveryTypeId));
+        {                        
+            $("#region").change(getCities);
         });
         $(document).ready(function () 
         {         
-            var deliveryTypeId = $("#deliveryType").val();
-            $("#city").change(() => getWarehouses(deliveryTypeId));
+            $("#city").change(getWarehouses);
         });
     </script>
 }

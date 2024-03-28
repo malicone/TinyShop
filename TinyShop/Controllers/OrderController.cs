@@ -124,6 +124,17 @@ namespace TinyShop.Controllers
         {            
             return Json( await _deliveryAddressProvider.GetWarehousesByCityAsync( deliveryTypeId, cityId ) );
         }
+
+        [AllowAnonymous]
+        [Route( "{deliveryTypeId}" )]
+        public int GetDefaultRegionId( int deliveryTypeId )
+        {
+            if ( deliveryTypeId == DeliveryType.NovaPoshtaWarehouseId )
+            {
+                return Order.NovaPoshtaDefaultRegionId;
+            }
+            return 0;
+        }
         
         private readonly ShopContext _context;
         private readonly IDeliveryAddressProvider _deliveryAddressProvider;

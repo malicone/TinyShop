@@ -2,9 +2,8 @@
 
 namespace TinyShop.Models
 {
-    public class PaymentType : BaseEntity
+    public class PaymentType : NamedEntity
     {
-        [Required, Display( Name = "Спосіб оплати" ), StringLength( LengthSmall )]
-        public string Name { get; set; } = string.Empty;
+
     }
 }

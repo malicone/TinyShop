@@ -32,7 +32,7 @@ namespace TinyShop.Infrastructure
         {
             if ( deliveryTypeId == DeliveryType.NovaPoshtaWarehouseId )
             {
-                return await _context.Cities.Where( c =>
+                var cities = await _context.Cities.Where( c =>
                     ( c.TheRegion != null )
                     && ( c.TheRegion.Id == regionId )
                     && ( c.SoftDeletedAt.HasValue == false )
@@ -43,6 +43,7 @@ namespace TinyShop.Infrastructure
                         )
                     )
                     .OrderBy( c => c.Name ).ToListAsync();
+                return cities;
             }
             return new List<City>();
         }
@@ -51,13 +52,17 @@ namespace TinyShop.Infrastructure
         {
             if ( deliveryTypeId == DeliveryType.NovaPoshtaWarehouseId )
             {
-                return await _context.Warehouses.Where( w => ( w.TheCity != null ) && ( w.TheCity.Id == cityId )
-                    && ( w.SoftDeletedAt.HasValue == false ) 
-                    && ( ( w.TheWarehouseType != null ) 
-                        && ( ( w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse30kgTypeId ) 
-                            || w.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse1000kgTypeId ) )
-            )
-                    .OrderBy( w => w.Name, StringComparison.OrdinalIgnoreCase.WithNaturalSort() ).ToListAsync();
+                var warehouses = await _context.Warehouses.Where( w =>
+                    ( w.TheCity != null )
+                    && ( w.TheCity.Id == cityId )
+                    && ( w.SoftDeletedAt.HasValue == false ) )
+                    .Where( w2 =>
+                        ( w2.TheWarehouseType != null )
+                        && ( ( w2.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse30kgTypeId )
+                            || ( w2.TheWarehouseType.Id == WarehouseType.NovaposhtaWarehouse1000kgTypeId ) )
+                    )
+                    .ToListAsync();
+                return new List<Warehouse>( warehouses.OrderByNatural( w => w.Name ) );
             }
             return new List<Warehouse>();
         }

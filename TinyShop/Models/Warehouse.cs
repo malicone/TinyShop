@@ -17,10 +17,10 @@ namespace TinyShop.Models
         [Required, StringLength( LengthLarge ), Display( Name = "Відділення" )]
         public string Name { get; set; } = string.Empty;
 
-        [StringLength( LENGTH_ID_EXTERNAL )]
+        [StringLength( LengthIdExturnal )]
         public string? CityIdExternal { get; set; }
 
-        [StringLength( LENGTH_ID_EXTERNAL )]
+        [StringLength( LengthIdExturnal )]
         public string? WarehouseTypeIdExternal { get; set; }
 
         public City? TheCity { get; set; }

@@ -13,7 +13,7 @@ namespace TinyShop.Models
         [StringLength( LengthSmall )]
         public string? TypeDescription { get; set; }
 
-        [StringLength( LENGTH_ID_EXTERNAL )]
+        [StringLength( LengthIdExturnal )]
         public string? RegionIdExternal { get; set; }
 
         public Region? TheRegion { get; set; }

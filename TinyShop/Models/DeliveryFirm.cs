@@ -2,10 +2,8 @@
 
 namespace TinyShop.Models
 {
-    public class DeliveryFirm : SoftDeletableEntity
+    public class DeliveryFirm : NamedEntity
     {
-        [Required, StringLength(LengthMedium)]
-        public string Name { get; set; } = string.Empty;
-        public int SortingColumn { get; set; }
+
     }
 }
