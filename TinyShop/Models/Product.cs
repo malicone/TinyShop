@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TinyShop.Models
 {
+#nullable enable
     public class Product : SoftDeletableEntity
     {
         public Product()
@@ -27,7 +28,7 @@ namespace TinyShop.Models
         public int ProductGroupId { get; set; }
 
         [Required, Display( Name = "Група" )]
-        public virtual ProductGroup ProductGroup { get; set; }
+        public virtual ProductGroup ProductGroup { get; set; } = new();
 
         public virtual ICollection<FileTag> DescImages { get; set; }        
 
@@ -43,4 +44,5 @@ namespace TinyShop.Models
         }        
         public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
     }
+#nullable disable
 }

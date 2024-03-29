@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
+#nullable enable
     public class OrderStatus : BaseEntity
     {
         [Required, StringLength( LengthSmall )]
@@ -19,4 +20,5 @@ namespace TinyShop.Models
         [NotMapped]
         public static int CanceledId { get { return 4; } }
     }
+#nullable disable
 }

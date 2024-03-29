@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using TinyShop.RestUtils.Common.Dto;
 
 namespace TinyShop.Models
 {
+#nullable enable
     public class OrderLine : SoftDeletableEntity
     {
         [Required]
@@ -37,9 +37,7 @@ namespace TinyShop.Models
         public virtual OrderStatus? TheOrderStatus { get; set; } = new();
         public virtual DeliveryType TheDeliveryType { get; set; } = new();
         public virtual PaymentType ThePaymentType { get; set; } = new();
-#nullable enable
-        public virtual DeliveryAddress? TheDeliveryAddress { get; set; } = new();
-#nullable disable
+        public virtual DeliveryAddress? TheDeliveryAddress { get; set; }
 
         [Display( Name = "Коментар до замовлення" )]
         public string? Comments { get; set; }
@@ -50,4 +48,5 @@ namespace TinyShop.Models
         public decimal ComputeTotalValue() => Lines.Sum( e => e.PriceSnapshot * e.Quantity );
         public int ComputeTotalQuantity() => Lines.Sum( e => e.Quantity );
     }
+#nullable disable
 }

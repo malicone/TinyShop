@@ -30,27 +30,31 @@ namespace TinyShop.Controllers
         {
             _logger.LogInformation( "HomeController.Index started" );
         
-            var groups = from g in _context.ProductGroups orderby g.Name select g;
-            var products = from p in _context.Products select p;
+            var groups = _context.ProductGroups.Where( g => g.SoftDeletedAt.HasValue == false )
+                .Include( g => g.Products ).OrderBy( g => g.Name );                
+            IQueryable<Product> products;
             ProductGroup foundGroup = null;
 
-            if ( productGroupId != null )
+            if ( productGroupId == null )
             {
-                products = products.Where( x => x.ProductGroupId == productGroupId );
+                // Select all products
+                products = _context.Products.Where( p => p.SoftDeletedAt.HasValue == false )
+                    .OrderByDescending( p => p.Id );
+            }
+            else
+            {
+                // Select products of specified group
+                products = _context.Products.Where( 
+                    p => ( p.SoftDeletedAt.HasValue == false ) && ( p.ProductGroupId == productGroupId ) )
+                    .OrderByDescending( p => p.Id );
                 foundGroup = _context.ProductGroups.FirstOrDefault( g => g.Id == productGroupId );
             }
-
             var homeViewModel = new HomeViewModel
             {
                 ProductGroups = await groups.ToListAsync(),
                 Products = await products.ToListAsync(),
                 CurrentGroup = foundGroup
             };
-
-            foreach(var group in homeViewModel.ProductGroups)
-            {
-                _context.Entry( group ).Collection( g => g.Products ).Load();
-            }            
             return View( homeViewModel );
         }
 

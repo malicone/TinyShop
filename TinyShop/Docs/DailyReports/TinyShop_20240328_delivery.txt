@@ -1,0 +1,62 @@
+1. Delivery refresh methods for NP updated (AdminController).
+2. Order saving (not completed yet).
+
+
+
+
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Index( int? productGroupId )
+        {
+            _logger.LogInformation( "HomeController.Index started" );
+        
+            var groups = _context.ProductGroups.Where( g => g.SoftDeletedAt.HasValue == false )
+                .OrderBy( g => g.Name );
+            IQueryable<Product> products;
+            ProductGroup foundGroup = null;
+
+            if ( productGroupId == null )
+            {
+                products = _context.Products.Where( p => p.SoftDeletedAt.HasValue == false );
+            }
+            else
+            {
+                products = _context.Products.Where( 
+                    p => ( p.SoftDeletedAt.HasValue == false ) && ( p.ProductGroupId == productGroupId ) );
+                foundGroup = _context.ProductGroups.FirstOrDefault( g => g.Id == productGroupId );
+            }
+
+            var homeViewModel = new HomeViewModel
+            {
+                ProductGroups = await groups.ToListAsync(),
+                Products = await products.ToListAsync();
+                CurrentGroup = foundGroup;
+            }
+
+            foreach(var group in homeViewModel.ProductGroups)
+            {
+                _context.Entry( group ).Collection( g => g.Products ).Load();
+            }            
+            return View( homeViewModel );
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+27903
+9775
+
+28167
+9835
+
+<Nullable>enable</Nullable>

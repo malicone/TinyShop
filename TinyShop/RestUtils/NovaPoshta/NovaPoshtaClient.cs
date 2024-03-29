@@ -5,7 +5,6 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using TinyShop.Models;
 using TinyShop.RestUtils.Common;
-using TinyShop.RestUtils.Common.Dto;
 
 namespace TinyShop.RestUtils.NovaPoshta
 {

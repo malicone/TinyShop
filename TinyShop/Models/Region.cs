@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 namespace TinyShop.Models
 {
+#nullable enable
     [DebuggerDisplay( "{Name}" )]
     public class Region : JsonSupportable
     {
@@ -11,4 +12,5 @@ namespace TinyShop.Models
 
         public DeliveryFirm? TheDeliveryFirm { get; set; }
     }
+#nullable disable
 }

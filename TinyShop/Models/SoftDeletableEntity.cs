@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
+#nullable enable
     public abstract class SoftDeletableEntity : TrackableEntity
     {
         public DateTime? SoftDeletedAt { get; set; }
@@ -28,4 +29,5 @@ namespace TinyShop.Models
             SoftDeletedBy = null;
         }
     }
+#nullable disable
 }

@@ -17,7 +17,8 @@ namespace TinyShop.Infrastructure
         {
             var regex = new Regex( @"\d+", RegexOptions.Compiled );
             int maxDigits = items.SelectMany( 
-                i => regex.Matches( selector( i ) ).Cast<Match>().Select( digitChunk => (int?)digitChunk.Value.Length ) )
+                i => regex.Matches( selector( i ) ).Cast<Match>()
+                .Select( digitChunk => (int?)digitChunk.Value.Length ) )
                 .Max() ?? 0;
 
             return items.OrderBy( 

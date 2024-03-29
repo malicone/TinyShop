@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
+#nullable enable
     public class Customer : SoftDeletableEntity
     {
         [Required(ErrorMessage = "Вкажіть ім'я"), StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "Ім'я*" )]
@@ -23,14 +24,14 @@ namespace TinyShop.Models
         [Required(ErrorMessage = "Вкажіть телефон"), StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "Телефон*" )]
         public string Phone { get; set; } = string.Empty;
 
-        public override bool Equals( object obj )
+        public override bool Equals( object? obj )
         {
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
-            Customer target = obj as Customer;
-            return FirstName.Trim().ToUpper().Equals( target.FirstName.Trim().ToUpper() ) 
+            Customer? target = obj as Customer;
+            return FirstName.Trim().ToUpper().Equals( target?.FirstName.Trim().ToUpper() ) 
                 && LastName.Trim().ToUpper().Equals( target.LastName.Trim().ToUpper() ) 
                 // I'm not sure if we need to compare MiddleName; buyer can input it one time but not in other
                 //&& MiddleName.Trim().ToUpper().Equals( target.MiddleName.Trim().ToUpper() ) 
@@ -68,4 +69,5 @@ namespace TinyShop.Models
             return !a.Equals( b );
         }
     }
+#nullable disable
 }

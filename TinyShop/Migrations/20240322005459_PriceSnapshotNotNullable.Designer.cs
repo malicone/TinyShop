@@ -358,7 +358,7 @@ namespace TinyShop.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("TinyShop.Models.DeliveryAddress", b =>
+            modelBuilder.Entity("TinyShop.Models.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -948,7 +948,7 @@ namespace TinyShop.Migrations
                     b.Navigation("TheRegion");
                 });
 
-            modelBuilder.Entity("TinyShop.Models.DeliveryAddress", b =>
+            modelBuilder.Entity("TinyShop.Models.Address", b =>
                 {
                     b.HasOne("TinyShop.Models.City", "TheCity")
                         .WithMany()
@@ -975,7 +975,7 @@ namespace TinyShop.Migrations
                         .WithMany()
                         .HasForeignKey("TheCustomerId");
 
-                    b.HasOne("TinyShop.Models.DeliveryAddress", "TheDeliveryAddress")
+                    b.HasOne("TinyShop.Models.Address", "TheDeliveryAddress")
                         .WithMany()
                         .HasForeignKey("TheDeliveryAddressId");
 

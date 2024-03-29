@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models
 {
+#nullable enable
     [Index( nameof( IdExternal ) )]
     public abstract class JsonSupportable : SoftDeletableEntity
     {
@@ -12,4 +13,5 @@ namespace TinyShop.Models
         public string? IdExternal { get; set; }
         public string? RawJson { get; set; }        
     }
+#nullable disable
 }

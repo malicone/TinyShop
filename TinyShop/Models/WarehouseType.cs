@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
+#nullable enable
     public class WarehouseType : JsonSupportable
     {
         [Required, StringLength( LengthMedium )]
@@ -17,4 +18,5 @@ namespace TinyShop.Models
         [NotMapped]
         public static int NovaposhtaWarehousePoshtomatTypeId { get { return 5; } }
     }
+#nullable disable
 }
