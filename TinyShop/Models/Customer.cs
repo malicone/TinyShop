@@ -19,6 +19,7 @@ namespace TinyShop.Models
         public string FullName { get { return $"{LastName} {FirstName} {MiddleName}"; } }
         
         [StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "e-mail" )]
+        [DataType( DataType.EmailAddress )]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "Вкажіть телефон"), StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "Телефон*" )]
@@ -42,31 +43,6 @@ namespace TinyShop.Models
         public override int GetHashCode()
         {
             return (FirstName + LastName + MiddleName + Email + Phone).GetHashCode();
-        }
-
-        public static bool operator ==( Customer a, Customer b )
-        {
-            if ( ( a is null ) && ( b is null ) )
-            {
-                return true;
-            }
-            if ( a is null )
-            {
-                return false;
-            }
-            return a.Equals( b );
-        }
-        public static bool operator !=( Customer a, Customer b )
-        {
-            if ( ( a is null ) && ( b is null ) )
-            {
-                return false;
-            }
-            if ( a is null )
-            {
-                return true;
-            }
-            return !a.Equals( b );
         }
     }
 #nullable disable

@@ -1,0 +1,2 @@
+1. Problem with validation fixed. Need to add properties to OrderViewModel to avoid required properties check.
+2. Order prepare and save (not completed yet - problem on customer update).

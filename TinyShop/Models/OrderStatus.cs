@@ -6,6 +6,10 @@ namespace TinyShop.Models
 #nullable enable
     public class OrderStatus : BaseEntity
     {
+        public OrderStatus() 
+        { 
+            Name = string.Empty;
+        }
         [Required, StringLength( LengthSmall )]
         public string Name { get; set; } = string.Empty;
         /// <summary>
