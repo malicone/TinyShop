@@ -86,17 +86,21 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( [Bind( "TheProduct" )] ProductViewModel productVM, 
-            IFormFileCollection photos )
+        public async Task<IActionResult> Create( ProductViewModel productVM, IFormFileCollection photos )
         {
             if ( ModelState.IsValid )
             {
+                Product product = new Product();
                 if ( photos != null )
                 {
-                    await AddPhotos( photos, productVM.TheProduct );
+                    await AddPhotos( photos, product );
                 }
-                productVM.TheProduct.SetCreateStamp( User.Identity.Name );
-                _context.Add( productVM.TheProduct );
+                product.Name = productVM.ProductName;
+                product.Description = productVM.ProductDescription;
+                product.Price = productVM.ProductPrice;
+                product.ProductGroupId = productVM.ProductGroupId;
+                product.SetCreateStamp( User?.Identity?.Name );
+                _context.Add( product );
                 await _context.SaveChangesAsync();
                 return RedirectToAction( nameof( Index ) );
             }
@@ -140,9 +144,14 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
             ProductViewModel productVM = new ProductViewModel();
-            productVM.ProductGroups = _context.ProductGroups.ToList();
+            productVM.ProductId = product.Id;
+            productVM.ProductName = product.Name;
+            productVM.ProductDescription = product.Description;
+            productVM.ProductPrice = product.Price;
+            productVM.ProductGroupId = product.ProductGroupId;
             _context.Entry( product ).Collection( p => p.DescImages ).Load();
-            productVM.TheProduct = product;
+            productVM.DescImages = product.DescImages;
+            productVM.ProductGroups = _context.ProductGroups.ToList();                        
             return View( productVM );
         }
 
@@ -151,10 +160,9 @@ namespace TinyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( int id, [Bind( "TheProduct" )] ProductViewModel productVM, 
-            IFormFileCollection photos )
+        public async Task<IActionResult> Edit( int id, ProductViewModel productVM, IFormFileCollection photos )
         {
-            if ( id != productVM.TheProduct.Id )
+            if ( id != productVM.ProductId )
             {
                 return NotFound();
             }
@@ -163,20 +171,25 @@ namespace TinyShop.Controllers
             {
                 try
                 {
-                    productVM.TheProduct.SetUpdateStamp( User.Identity.Name );
-                    _context.Update( productVM.TheProduct );
+                    var product = await _context.Products.FindAsync( id );
+                    product.Name = productVM.ProductName;
+                    product.Description = productVM.ProductDescription;
+                    product.Price = productVM.ProductPrice;
+                    product.ProductGroupId = productVM.ProductGroupId;
+                    product.SetUpdateStamp( User?.Identity?.Name );
+                    _context.Update( product );
                     if ( photos != null )
                     {
                         if ( photos.Count > 0 )
                         {
-                            await AddPhotos( photos, productVM.TheProduct, true );
+                            await AddPhotos( photos, product, true );
                         }
                     }
                     await _context.SaveChangesAsync();
                 }
                 catch ( DbUpdateConcurrencyException )
                 {
-                    if ( !ProductExists( productVM.TheProduct.Id ) )
+                    if ( !ProductExists( productVM.ProductId ) )
                     {
                         return NotFound();
                     }
@@ -199,8 +212,7 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include( p => p.ProductGroup )
+            var product = await _context.Products.Include( p => p.ProductGroup )
                 .FirstOrDefaultAsync( m => m.Id == id );
             if ( product == null )
             {

@@ -1,0 +1,39 @@
+1. Customer add instead update bug fixed. Solution is simple - just assign found customer to order.
+2. Order completion implemented.
+3. Product bug fixed. Create view didn't work. There was same problem as Order view - nested models were validated.
+ProductViewModel was updated (not completed yet).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <button type="button" class="btn btn-primary" id="btnAddImage">Add image</button>
+
+    <script type="text/javascript">
+        $("#upload").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        $("#btnAddImage").click(function () {
+            $("input[name='photos']:last").after(
+                '<div class="form-group"><label class="control-label">Photo 4</label>'
+                + '<input type="file" class="form-control" name="photos" /></div>');
+
+        });
+    </script>

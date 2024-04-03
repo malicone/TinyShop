@@ -21,6 +21,7 @@ namespace TinyShop.Infrastructure
             }
         }
 
+        public static string PaymentCardNumberAndName { get { return "1234 5678 9012 3456 Петренко П. В."; } }
         public static string Payment1 { get { return "card number 1234 5678 1234 5678, John Smith"; } }
 
         public static string PaymentsAll

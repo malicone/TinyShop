@@ -10,6 +10,7 @@ namespace TinyShop.Models.ViewModels
         // will get validation errors.
         //public Order TheOrder { get; set; } = new Order();
         public int? OrderId { get; set; }
+        public decimal OrderTotalSum { get; set; }
         public Customer TheCustomer { get; set; } = new Customer();
         [Display(Name = "Доставка")]
         public int DeliveryTypeId { get; set; }

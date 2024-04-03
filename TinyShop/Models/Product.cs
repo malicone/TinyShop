@@ -33,7 +33,7 @@ namespace TinyShop.Models
         public virtual ICollection<FileTag> DescImages { get; set; }        
 
         [NotMapped]
-        public FileTag MainImage
+        public FileTag? MainImage
         {
             get
             {                

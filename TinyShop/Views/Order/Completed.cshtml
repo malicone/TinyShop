@@ -1,6 +1,21 @@
 ﻿@model TinyShop.Models.ViewModels.OrderViewModel
+@using TinyShop.Infrastructure
 
 <div class="text-center">    
-    <p>Дякуємо за замовлення @Model.OrderId</p>    
+    <p>Дякуємо за замовлення.</p>    
+    <p>Його номер @Model.OrderId.</p>
+    <p>Менеджер зв'яжеться з вами для уточнення деталей.</p>
+    @if ( Model.PaymentTypeId == PaymentType.CardId )
+    {
+        <p>Щоб оплатити замовлення перерахуйте @FormattingUtils.FormatPrice( Model.OrderTotalSum ) 
+            на картку @GlobalOptions.PaymentCardNumberAndName
+        </p>
+        <p>Повідомте менеджеру про оплату.</p>
+    }
+    else if ( Model.PaymentTypeId == PaymentType.PostpaidId )
+    {
+        <p>Оплата при отриманні.</p>
+        <p>Сума замовлення @FormattingUtils.FormatPrice(Model.OrderTotalSum).</p>
+    }                
     <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Повернутись у магазин</a>
 </div>

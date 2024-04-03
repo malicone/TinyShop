@@ -59,6 +59,7 @@ namespace TinyShop.Controllers
 
                 _cart.Clear();
                 orderVM.OrderId = order.Id;
+                orderVM.OrderTotalSum = order.ComputeTotalValue();
                 return View( "Completed", orderVM );
             }
             else
@@ -81,10 +82,19 @@ namespace TinyShop.Controllers
             target.ThePaymentType = await _context.PaymentTypes.FirstOrDefaultAsync(
                 p => p.Id == source.PaymentTypeId );
             target.Comments = source.Comments;
-            target.Lines = _cart.Lines;
+            foreach ( var cartLine in _cart.Lines )
+            {
+                OrderLine orderLine = new OrderLine
+                {
+                    TheProduct = cartLine.TheProduct,
+                    PriceSnapshot = cartLine.PriceSnapshot,
+                    Quantity = cartLine.Quantity
+                };
+                target.Lines.Add( orderLine );
+            }
             // we need to get the product from the db to avoid the error:
             // "SqlException: Cannot insert explicit value for identity column in table 'Products' when
-            // IDENTITY_INSERT is set to OFF."
+            // IDENTITY_INSERT is set to OFF."            
             foreach ( var line in target.Lines )
             {
                 line.TheProduct = await _context.Products.FirstOrDefaultAsync( p => p.Id == line.TheProduct.Id );
@@ -95,7 +105,7 @@ namespace TinyShop.Controllers
 
         private void PrepareCustomerForInsertUpdate( OrderViewModel source, Order target )
         {
-            // LINQ doesn't work here so use loop (return null)
+            // LINQ doesn't work here (return null) so use loop
             //var foundCustomer = _context.Customers.FirstOrDefault( c => c.Equals( source.TheCustomer ) );            
             Customer foundCustomer = null;
             foreach ( var customer in _context.Customers )
@@ -120,6 +130,7 @@ namespace TinyShop.Controllers
             else
             {
                 // customer already exists in the db so use it                
+                target.TheCustomer = foundCustomer;
                 bool emailIsNotEmpty = string.IsNullOrEmpty( source.TheCustomer.Email?.Trim() ) == false;
                 if ( emailIsNotEmpty )
                 {
@@ -127,9 +138,6 @@ namespace TinyShop.Controllers
                 }
                 foundCustomer.Phone = source.TheCustomer.Phone.Trim();// every time we update the phone to store actual data
                 foundCustomer.SetUpdateStamp( User?.Identity?.Name );
-                //EntityEntry<Customer> entry = _context.Entry( foundCustomer );
-                //entry.State = EntityState.Modified;
-                //_context.Entry( foundCustomer ).State = EntityState.Modified;
                 _context.Customers.Update( foundCustomer );                
             }
         }
@@ -140,7 +148,9 @@ namespace TinyShop.Controllers
                 return;
             }            
             var foundAddress = await _context.DeliveryAddresses.FirstOrDefaultAsync( 
-                a => a.TheRegion.Id.Equals( source.RegionId ) 
+                a => 
+                a.TheRegion != null && a.TheCity != null && a.TheWarehouse != null &&
+                a.TheRegion.Id.Equals( source.RegionId ) 
                 && a.TheCity.Id.Equals( source.CityId ) 
                 && a.TheWarehouse.Id.Equals( source.WarehouseId ) 
                 && a.SoftDeletedAt.HasValue == false );
