@@ -1,0 +1,38 @@
+1. Product bug fixed. New empty group was created. Need to assign found in db group.
+2. Ordering of products adjusted.
+3. Bug with empty group name on Details and DetailsReadOnly fixed. Streight load from db added.
+4. Bug with badges (product count) in groups fixed. ProductCount property added and init in Index method.
+Thus it's even better.
+
+
+
+
+
+
+
+
+https://stackoverflow.com/questions/68427171/how-to-extend-net-core-iformfilecollection
+https://learn.javascript.ru/formdata
+https://medium.com/@nandaras0103/new-formdata-object-in-javascript-674350f9bf72
+https://qna.habr.com/q/1302880
+https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest_API/Using_FormData_Objects
+
+
+
+
+
+
+
+<img src="" class="w-25 img-thumbnail img-fluid" id="imgPreview" width="150">
+
+
+
+
+
+
+
+
+
+
+
+<span class="badge badge-primary badge-pill">@item.Products.Count</span>

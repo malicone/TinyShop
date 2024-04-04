@@ -29,7 +29,7 @@ namespace TinyShop.Controllers
         public async Task<IActionResult> Index()
         {
             var products = _context.Products.Include( p => p.ProductGroup )
-                .Where( p => p.SoftDeletedAt.HasValue == false );
+                .Where( p => p.SoftDeletedAt.HasValue == false ).OrderByDescending( p => p.CreatedAt );
             return View( await products.ToListAsync() );
         }
 
@@ -41,9 +41,12 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include( p => p.ProductGroup )
-                .FirstOrDefaultAsync( m => m.Id == id );
+            var product = await _context.Products.FindAsync( id );
+            // Include does not work so use Find
+            //var product = await _context.Products
+            //    .Include( p => p.ProductGroup )
+            //    .FirstOrDefaultAsync( m => m.Id == id );
+            product.ProductGroup = _context.ProductGroups.Find( product.ProductGroupId );
             if ( product == null )
             {
                 return NotFound();
@@ -61,9 +64,12 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include( p => p.ProductGroup )
-                .FirstOrDefaultAsync( m => m.Id == id );
+            var product = await _context.Products.FindAsync( id );
+            // Include does not work so use Find
+            //var product = await _context.Products
+            //    .Include( p => p.ProductGroup )
+            //    .FirstOrDefaultAsync( m => m.Id == id );
+            product.ProductGroup = _context.ProductGroups.Find( product.ProductGroupId );
             if ( product == null )
             {
                 return NotFound();
@@ -99,6 +105,7 @@ namespace TinyShop.Controllers
                 product.Description = productVM.ProductDescription;
                 product.Price = productVM.ProductPrice;
                 product.ProductGroupId = productVM.ProductGroupId;
+                product.ProductGroup = _context.ProductGroups.Find( productVM.ProductGroupId );
                 product.SetCreateStamp( User?.Identity?.Name );
                 _context.Add( product );
                 await _context.SaveChangesAsync();
@@ -212,8 +219,8 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.Include( p => p.ProductGroup )
-                .FirstOrDefaultAsync( m => m.Id == id );
+            var product = await _context.Products.FindAsync( id );
+            product.ProductGroup = _context.ProductGroups.Find( product.ProductGroupId );
             if ( product == null )
             {
                 return NotFound();
@@ -228,7 +235,7 @@ namespace TinyShop.Controllers
         public async Task<IActionResult> DeleteConfirmed( int id )
         {
             var product = await _context.Products.FindAsync( id );
-            product.SoftDelete( User.Identity.Name );            
+            product.SoftDelete( User?.Identity?.Name );            
             await _context.SaveChangesAsync();
             return RedirectToAction( nameof( Index ) );
         }

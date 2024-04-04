@@ -34,6 +34,15 @@ namespace TinyShop.Controllers
                 .Include( g => g.Products ).OrderBy( g => g.Name );                
             IQueryable<Product> products;
             ProductGroup foundGroup = null;
+            foreach ( var group in groups )
+            {
+                // Include does not work; load of Products too (Products.Count == 0);
+                // so use Count; it's even better than Include, no need to load all products
+                //group.Products = group.Products.Where( p => ( p.SoftDeletedAt.HasValue == false )
+                //    && ( p.ProductGroupId == group.Id ) ).ToList();
+                group.ProductCount = _context.Products.Count( p => ( p.SoftDeletedAt.HasValue == false )
+                    && ( p.ProductGroupId == group.Id ) );
+            }
 
             if ( productGroupId == null )
             {
