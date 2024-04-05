@@ -1,0 +1,34 @@
+1. Product and ProductGroup views localized.
+
+
+
+
+
+
+
+
+
+
+
+            <div class="form-group">
+                <label for="uploadPhotos" class="btn btn-info">Додати фотографії</label>
+                <input type="file" id="uploadPhotos" class="form-control" name="uploadPhotos"
+                    style="display:none" multiple accept="image/*">
+            </div>
+
+
+    <script type="text/javascript">
+        $("#uploadPhotos").change(function () {
+            if (this.files) {
+                $.each(this.files, function (i, file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("input[name='photos']:last").after(
+                            "<img src='" + e.target.result + "' width='150' class='img-thumbnail img-fluid' />"
+                        );                        
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+    </script>

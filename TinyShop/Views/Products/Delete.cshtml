@@ -2,11 +2,11 @@
 @using TinyShop.Infrastructure;
 
 @{
-    ViewData[ "Title" ] = "Deletion of the product";
+    ViewData[ "Title" ] = "Видалення товару";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Are you sure you want to delete the product?</h4>
+<h4>Ви впевнені що хочете видалити даний товар?</h4>
 <div>
     <hr />
     <dl class="row">
@@ -32,7 +32,7 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to the list</a>
+        <input type="submit" value="Видалити" class="btn btn-danger" /> |
+        <a asp-action="Index">Назад до списку товарів</a>
     </form>
 </div>

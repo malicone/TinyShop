@@ -1,13 +1,13 @@
 ﻿@model TinyShop.Models.ProductGroup
 
 @{
-    ViewData[ "Title" ] = "Deletion of the group";
+    ViewData[ "Title" ] = "Видалення групи товарів";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Are you sure you want to delete the group?</h4>
+<h4>Ви впевнені що хочете видалити дану групу товарів?</h4>
 <div class="alert alert-danger" role="alert">
-    WARNING! All products of the group will be deleted!
+    УВАГА! Усі товари даної групи будуть видалені!
 </div> 
 
 <div>
@@ -24,6 +24,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Видалити" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to the list</a>
+        <a asp-action="Index">Назад до списку груп</a>
     </form>
 </div>

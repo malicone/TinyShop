@@ -9,7 +9,8 @@ Thus it's even better.
 
 
 
-
+https://www.w3schools.com/html/html5_draganddrop.asp
+https://codepen.io/joeydigital/pen/OwdbGV
 
 https://stackoverflow.com/questions/68427171/how-to-extend-net-core-iformfilecollection
 https://learn.javascript.ru/formdata

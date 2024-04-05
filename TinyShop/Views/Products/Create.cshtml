@@ -1,7 +1,7 @@
 ﻿@model TinyShop.Models.ViewModels.ProductViewModel;
 
 @{
-    ViewData["Title"] = "NewId product";
+    ViewData["Title"] = "Новий товар";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -34,22 +34,16 @@
             </div>
 
             <div class="form-group">
-                <label for="uploadPhotos" class="btn btn-info">Додати фотографії</label>
-                <input type="file" id="uploadPhotos" class="form-control" name="uploadPhotos"
-                    style="display:none" multiple accept="image/*">
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Photo 1</label>
-                <input type="file" class="form-control" name="photos" id="upload" multiple accept="image/*" />
+                <label class="control-label">Фото 1</label>
+                <input type="file" class="form-control" name="photos" accept="image/*" />
             </div>
             <div class="form-group">
-                <label class="control-label">Photo 2</label>
-                <input type="file" class="form-control" name="photos" />
+                <label class="control-label">Фото 2</label>
+                <input type="file" class="form-control" name="photos" accept="image/*" />
             </div>
             <div class="form-group">
-                <label class="control-label">Photo 3</label>
-                <input type="file" class="form-control" name="photos" />
+                <label class="control-label">Фото 3</label>
+                <input type="file" class="form-control" name="photos" accept="image/*" />
             </div>
 
             <div class="form-group">
@@ -67,20 +61,4 @@
     @{
         await Html.RenderPartialAsync( "_ValidationScriptsPartial" );
     }
-
-    <script type="text/javascript">
-        $("#uploadPhotos").change(function () {
-            if (this.files) {
-                $.each(this.files, function (i, file) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $("input[name='photos']:last").after(
-                            "<img src='" + e.target.result + "' width='150' class='img-thumbnail img-fluid' />"
-                        );                        
-                    }
-                    reader.readAsDataURL(file);
-                });
-            }
-        });
-    </script>
 }
