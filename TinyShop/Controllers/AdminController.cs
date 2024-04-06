@@ -31,6 +31,7 @@ namespace TinyShop.Controllers
         }
         public async Task<ViewResult> RefreshNPAddresses()
         {
+            _refreshNPStartedAt = DateTime.Now;
             RefreshNPAddressesResultViewModel resultVM = new RefreshNPAddressesResultViewModel();
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -59,7 +60,7 @@ namespace TinyShop.Controllers
         {
             var warehouseTypes = await _npClient.GetWarehouseTypesAsync();
             var deliveryFirmFromDb = await _context.DeliveryFirms.FirstOrDefaultAsync(
-                x => x.Id == DeliveryFirm.NovaPoshtaId );
+                x => x.Id == DeliveryFirm.NovaPoshtaId );            
             foreach (var currentType in warehouseTypes)
             {
                 var warehouseTypeFromDb = await _context.WarehouseTypes.FirstOrDefaultAsync(
@@ -77,6 +78,12 @@ namespace TinyShop.Controllers
                     _context.WarehouseTypes.Update( warehouseTypeFromDb );
                 }
             }
+            _context.SaveChanges();
+            // now remove all garbage records (those that were not created or updated during this refresh)
+            _context.WarehouseTypes.RemoveRange( _context.WarehouseTypes
+                .Where( t => ( t.UpdatedAt.HasValue == false ) && ( t.CreatedAt < _refreshNPStartedAt ) ) );
+            _context.WarehouseTypes.RemoveRange( _context.WarehouseTypes
+                .Where( t => ( t.UpdatedAt.HasValue ) && ( t.UpdatedAt < _refreshNPStartedAt ) ) );
             _context.SaveChanges();
         }
 
@@ -102,6 +109,11 @@ namespace TinyShop.Controllers
                     _context.Regions.Update( regionFromDb );
                 }
             }
+            _context.SaveChanges();
+            _context.Regions.RemoveRange( _context.Regions
+                .Where( r => ( r.UpdatedAt.HasValue == false ) && ( r.CreatedAt < _refreshNPStartedAt ) ) );
+            _context.Regions.RemoveRange( _context.Regions
+                .Where( r => ( r.UpdatedAt.HasValue ) && ( r.UpdatedAt < _refreshNPStartedAt ) ) );
             _context.SaveChanges();
         }
 
@@ -130,6 +142,11 @@ namespace TinyShop.Controllers
                     _context.Cities.Update( cityFromDb );
                 }
             }
+            _context.SaveChanges();
+            _context.Cities.RemoveRange( _context.Cities
+                .Where( c => ( c.UpdatedAt.HasValue == false ) && ( c.CreatedAt < _refreshNPStartedAt ) ) );
+            _context.Cities.RemoveRange( _context.Cities
+                .Where( c => ( c.UpdatedAt.HasValue ) && ( c.UpdatedAt < _refreshNPStartedAt ) ) );
             _context.SaveChanges();
         }
 
@@ -161,9 +178,15 @@ namespace TinyShop.Controllers
                 }
             }
             _context.SaveChanges();
+            _context.Warehouses.RemoveRange( _context.Warehouses
+                .Where( w => ( w.UpdatedAt.HasValue == false ) && ( w.CreatedAt < _refreshNPStartedAt ) ) );
+            _context.Warehouses.RemoveRange( _context.Warehouses
+                .Where( w => ( w.UpdatedAt.HasValue ) && ( w.UpdatedAt < _refreshNPStartedAt ) ) );
+            _context.SaveChanges();
         }
 
         private readonly ShopContext _context;
         private readonly NovaPoshtaClient _npClient;
+        private DateTime _refreshNPStartedAt;
     }
 }

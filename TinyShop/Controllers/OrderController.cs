@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using TinyShop.Data;
 using TinyShop.Infrastructure;
 using TinyShop.Models;
 using TinyShop.Models.ViewModels;
-using TinyShop.RestUtils.NovaPoshta;
 
 namespace TinyShop.Controllers
 {
@@ -26,8 +24,10 @@ namespace TinyShop.Controllers
         
         public async Task<ViewResult> Index()
         {
-            return View( await _context.Orders.Where( o => o.SoftDeletedAt.HasValue == false )
-                .OrderByDescending( o => o.OrderDateTime ).ToListAsync() );
+            var orders = await _context.Orders.Where( o => o.SoftDeletedAt.HasValue == false )
+                .Include( o => o.TheCustomer ).OrderByDescending( o => o.OrderDateTime )
+                .AsNoTracking().ToListAsync();
+            return View( orders );
         }
 
         [AllowAnonymous]
@@ -35,11 +35,14 @@ namespace TinyShop.Controllers
         {
             var orderVM = new OrderViewModel();            
             orderVM.DeliveryTypes = await _context.DeliveryTypes
-                .Where( d => d.SoftDeletedAt.HasValue == false ).OrderBy( d => d.SortingColumn ).ToListAsync();
+                .Where( d => d.SoftDeletedAt.HasValue == false ).OrderBy( d => d.SortingColumn )
+                .AsNoTracking().ToListAsync();
             orderVM.PaymentTypes = await _context.PaymentTypes
-                .Where( p => p.SoftDeletedAt.HasValue == false ).OrderBy( p => p.SortingColumn ).ToListAsync();            
+                .Where( p => p.SoftDeletedAt.HasValue == false ).OrderBy( p => p.SortingColumn )
+                .AsNoTracking().ToListAsync();            
             return View( orderVM );
         }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Checkout(OrderViewModel orderVM)

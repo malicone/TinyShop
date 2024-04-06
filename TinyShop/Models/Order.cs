@@ -33,9 +33,15 @@ namespace TinyShop.Models
         public static int NovaPoshtaDefaultRegionId { get { return NovaPoshtaVolynRegionId; } }
         [Display( Name = "Дата замовлення" )]
         public DateTime OrderDateTime { get; set; }
-        public virtual Customer TheCustomer { get; set; } = new();
+        
+        [Required]
+        public virtual Customer TheCustomer { get; set; }
         public virtual OrderStatus? TheOrderStatus { get; set; } = new();
+
+        [Required]
         public virtual DeliveryType TheDeliveryType { get; set; } = new();
+
+        [Required]
         public virtual PaymentType ThePaymentType { get; set; } = new();
         public virtual DeliveryAddress? TheDeliveryAddress { get; set; }
 
