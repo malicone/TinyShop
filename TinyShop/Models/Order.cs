@@ -36,13 +36,13 @@ namespace TinyShop.Models
         
         [Required]
         public virtual Customer TheCustomer { get; set; }
-        public virtual OrderStatus? TheOrderStatus { get; set; } = new();
+        public virtual OrderStatus? TheOrderStatus { get; set; }
 
         [Required]
-        public virtual DeliveryType TheDeliveryType { get; set; } = new();
+        public virtual DeliveryType TheDeliveryType { get; set; }
 
         [Required]
-        public virtual PaymentType ThePaymentType { get; set; } = new();
+        public virtual PaymentType ThePaymentType { get; set; }
         public virtual DeliveryAddress? TheDeliveryAddress { get; set; }
 
         [Display( Name = "Коментар до замовлення" )]

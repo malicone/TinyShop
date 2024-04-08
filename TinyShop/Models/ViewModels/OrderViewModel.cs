@@ -26,5 +26,8 @@ namespace TinyShop.Models.ViewModels
         public string? Comments { get; set; } = string.Empty;
         public List<PaymentType> PaymentTypes { get; set; } = new List<PaymentType>();
         public List<DeliveryType> DeliveryTypes { get; set; } = new List<DeliveryType>();
+        public List<Region> Regions { get; set; } = new List<Region>();
+        public List<City> Cities { get; set; } = new List<City>();
+        public List<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
     }
 }

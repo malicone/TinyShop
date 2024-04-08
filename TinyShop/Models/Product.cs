@@ -28,7 +28,7 @@ namespace TinyShop.Models
         public int ProductGroupId { get; set; }
 
         [Required, Display( Name = "Група" )]
-        public virtual ProductGroup ProductGroup { get; set; } = new();
+        public virtual ProductGroup ProductGroup { get; set; }
 
         public virtual ICollection<FileTag> DescImages { get; set; }        
 

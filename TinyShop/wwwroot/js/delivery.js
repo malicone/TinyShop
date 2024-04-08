@@ -1,7 +1,8 @@
 ﻿$(document).ready(function () {
+    const NovaPoshtaWarehouseId = 2;
     $("#deliveryType").change(function () {
         var deliveryTypeId = $("#deliveryType").val();
-        if (deliveryTypeId == 2) {
+        if (deliveryTypeId == NovaPoshtaWarehouseId) {
             showDeliveryControls();
             getRegions(setDefaultRegion);
         }

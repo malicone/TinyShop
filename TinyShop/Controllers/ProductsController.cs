@@ -40,13 +40,7 @@ namespace TinyShop.Controllers
             {
                 return NotFound();
             }
-
-            var product = await _context.Products.FindAsync( id );
-            // Include does not work so use Find
-            //var product = await _context.Products
-            //    .Include( p => p.ProductGroup )
-            //    .FirstOrDefaultAsync( m => m.Id == id );
-            product.ProductGroup = _context.ProductGroups.Find( product.ProductGroupId );
+            var product = await _context.Products.Include( p => p.ProductGroup ).FirstOrDefaultAsync( m => m.Id == id );
             if ( product == null )
             {
                 return NotFound();

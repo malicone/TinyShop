@@ -95,7 +95,7 @@ namespace TinyShop.Controllers
                 };
                 target.Lines.Add( orderLine );
             }
-            // we need to get the product from the db to avoid the error:
+            // we need to get the order from the db to avoid the error:
             // "SqlException: Cannot insert explicit value for identity column in table 'Products' when
             // IDENTITY_INSERT is set to OFF."            
             foreach ( var line in target.Lines )
@@ -218,7 +218,47 @@ namespace TinyShop.Controllers
             }
             return 0;
         }
-        
+
+        // GET: Order/Edit/5
+        public async Task<IActionResult> Edit( int? id )
+        {
+            if ( id == null )
+            {
+                return NotFound();
+            }
+            var order = await _context.Orders
+                .Include( o => o.TheCustomer )
+                .Include( o => o.TheDeliveryType )
+                .Include( o => o.ThePaymentType )
+                .Include( o => o.TheDeliveryAddress )
+                .Include( o => o.Lines)
+                .FirstOrDefaultAsync( o => o.Id == id );
+            if ( order == null )
+            {
+                return NotFound();
+            }
+            OrderViewModel orderVM = new OrderViewModel();
+            orderVM.OrderId = order.Id;
+            orderVM.TheCustomer = order.TheCustomer;
+            orderVM.DeliveryTypeId = order.TheDeliveryType.Id;
+            orderVM.PaymentTypeId = order.ThePaymentType.Id;
+            orderVM.Comments = order.Comments;
+            orderVM.DeliveryTypes = await _context.DeliveryTypes
+                .Where( d => d.SoftDeletedAt.HasValue == false ).OrderBy( d => d.SortingColumn )
+                .AsNoTracking().ToListAsync();
+            orderVM.PaymentTypes = await _context.PaymentTypes.Where( p => p.SoftDeletedAt.HasValue == false )
+                .OrderBy( p => p.SortingColumn ).AsNoTracking().ToListAsync();
+            orderVM.RegionId = order.TheDeliveryAddress?.TheRegion?.Id;
+            orderVM.CityId = order.TheDeliveryAddress?.TheCity?.Id;
+            orderVM.WarehouseId = order.TheDeliveryAddress?.TheWarehouse?.Id;
+            orderVM.Regions = await _deliveryAddressProvider.GetRegionsAsync( orderVM.DeliveryTypeId );
+            orderVM.Cities = await _deliveryAddressProvider.GetCitiesByRegionAsync( 
+                orderVM.DeliveryTypeId, orderVM.RegionId ?? 0 );
+            orderVM.Warehouses = await _deliveryAddressProvider.GetWarehousesByCityAsync( 
+                orderVM.DeliveryTypeId, orderVM.CityId.Value );
+            return View( orderVM );
+        }
+
         private readonly ShopContext _context;
         private readonly IDeliveryAddressProvider _deliveryAddressProvider;
         private readonly Cart _cart;

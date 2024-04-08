@@ -1,0 +1,78 @@
+﻿@using TinyShop.Models.ViewModels;
+@model OrderViewModel
+
+<h2>Редагування замовлення</h2>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="TheCustomer.LastName" class="control-label"></label>
+        <input asp-for="TheCustomer.LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TheCustomer.FirstName" class="control-label"></label>
+        <input asp-for="TheCustomer.FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TheCustomer.MiddleName" class="control-label"></label>
+        <input asp-for="TheCustomer.MiddleName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TheCustomer.Phone" class="control-label"></label>
+        <input asp-for="TheCustomer.Phone" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TheCustomer.Email" class="control-label"></label>
+        <input asp-for="TheCustomer.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DeliveryTypeId" class="control-label"></label>
+        <select id="deliveryType" asp-for="DeliveryTypeId" class="form-control"
+                asp-items='@new SelectList(Model.DeliveryTypes, "Id" , "Name")'></select>
+    </div>
+    @if (Model.DeliveryTypeId == DeliveryType.NovaPoshtaWarehouseId)
+    {
+        <div id="regionContainer" class="form-group">
+            <label asp-for="RegionId" class="control-label"></label>
+            <select id="region" asp-for="RegionId" class="form-control"></select>
+        </div>
+        <div id="cityContainer" class="form-group">
+            <label asp-for="CityId" class="control-label"></label>
+            <select id="city" asp-for="CityId" class="form-control"></select>
+        </div>
+        <div id="warehouseContainer" class="form-group">
+            <label asp-for="WarehouseId" class="control-label"></label>
+            <select id="warehouse" asp-for="WarehouseId" class="form-control"></select>
+        </div>
+    }
+    else
+    {
+        <div id="regionContainer" class="form-group" hidden>
+            <label asp-for="RegionId" class="control-label"></label>
+            <select id="region" asp-for="RegionId" class="form-control"></select>
+        </div>
+        <div id="cityContainer" class="form-group" hidden>
+            <label asp-for="CityId" class="control-label"></label>
+            <select id="city" asp-for="CityId" class="form-control"></select>
+        </div>
+        <div id="warehouseContainer" class="form-group" hidden>
+            <label asp-for="WarehouseId" class="control-label"></label>
+            <select id="warehouse" asp-for="WarehouseId" class="form-control"></select>
+        </div>
+    }
+    <div class="form-group">
+        <label asp-for="PaymentTypeId" class="control-label"></label>
+        <select id="paymentType" asp-for="PaymentTypeId" class="form-control"
+                asp-items='@new SelectList(Model.PaymentTypes, "Id" , "Name")'></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Comments" class="control-label"></label>
+        <textarea rows="5" asp-for="Comments" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Зберегти" />
+    </div>
+</form>
+
+@section Scripts {
+    <script src="~/js/delivery.js"></script>
+}
