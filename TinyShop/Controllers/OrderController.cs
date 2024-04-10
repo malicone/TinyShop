@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -95,7 +96,7 @@ namespace TinyShop.Controllers
                 };
                 target.Lines.Add( orderLine );
             }
-            // we need to get the order from the db to avoid the error:
+            // we need to get the product from the db to avoid the error:
             // "SqlException: Cannot insert explicit value for identity column in table 'Products' when
             // IDENTITY_INSERT is set to OFF."            
             foreach ( var line in target.Lines )
@@ -122,6 +123,7 @@ namespace TinyShop.Controllers
             if ( foundCustomer == null )
             {
                 // it's a new customer so we need to add it to the db
+                target.TheCustomer = new Customer();
                 target.TheCustomer.FirstName = source.TheCustomer.FirstName.Trim();
                 target.TheCustomer.MiddleName = source.TheCustomer.MiddleName?.Trim();
                 target.TheCustomer.LastName = source.TheCustomer.LastName.Trim();
@@ -146,9 +148,9 @@ namespace TinyShop.Controllers
         }
         private async Task PrepareDeliveryAddressForInsertUpdate( OrderViewModel source, Order target )
         {
-            if ( source.RegionId == null )// region not selected - no address (for example, pickup)
+            if ( source.DeliveryTypeId != DeliveryType.NovaPoshtaWarehouseId )
             {
-                return;
+                return;// nothing to do for pickup
             }            
             var foundAddress = await _context.DeliveryAddresses.FirstOrDefaultAsync( 
                 a => 
@@ -226,13 +228,7 @@ namespace TinyShop.Controllers
             {
                 return NotFound();
             }
-            var order = await _context.Orders
-                .Include( o => o.TheCustomer )
-                .Include( o => o.TheDeliveryType )
-                .Include( o => o.ThePaymentType )
-                .Include( o => o.TheDeliveryAddress )
-                .Include( o => o.Lines)
-                .FirstOrDefaultAsync( o => o.Id == id );
+            var order = await GetOrderFromDbWithIncludes( id.Value );
             if ( order == null )
             {
                 return NotFound();
@@ -243,20 +239,105 @@ namespace TinyShop.Controllers
             orderVM.DeliveryTypeId = order.TheDeliveryType.Id;
             orderVM.PaymentTypeId = order.ThePaymentType.Id;
             orderVM.Comments = order.Comments;
+            await PrepareOrderVMDeliveryAndPayment( order, orderVM );
+            return View( orderVM );
+        }
+
+        private async Task PrepareOrderVMDeliveryAndPayment( Order order, OrderViewModel orderVM )
+        {
             orderVM.DeliveryTypes = await _context.DeliveryTypes
                 .Where( d => d.SoftDeletedAt.HasValue == false ).OrderBy( d => d.SortingColumn )
                 .AsNoTracking().ToListAsync();
             orderVM.PaymentTypes = await _context.PaymentTypes.Where( p => p.SoftDeletedAt.HasValue == false )
                 .OrderBy( p => p.SortingColumn ).AsNoTracking().ToListAsync();
-            orderVM.RegionId = order.TheDeliveryAddress?.TheRegion?.Id;
-            orderVM.CityId = order.TheDeliveryAddress?.TheCity?.Id;
-            orderVM.WarehouseId = order.TheDeliveryAddress?.TheWarehouse?.Id;
-            orderVM.Regions = await _deliveryAddressProvider.GetRegionsAsync( orderVM.DeliveryTypeId );
-            orderVM.Cities = await _deliveryAddressProvider.GetCitiesByRegionAsync( 
-                orderVM.DeliveryTypeId, orderVM.RegionId ?? 0 );
-            orderVM.Warehouses = await _deliveryAddressProvider.GetWarehousesByCityAsync( 
-                orderVM.DeliveryTypeId, orderVM.CityId.Value );
-            return View( orderVM );
+            if ( orderVM.DeliveryTypeId == DeliveryType.NovaPoshtaWarehouseId )
+            {
+                orderVM.RegionId = order.TheDeliveryAddress?.TheRegion?.Id;
+                orderVM.CityId = order.TheDeliveryAddress?.TheCity?.Id;
+                orderVM.WarehouseId = order.TheDeliveryAddress?.TheWarehouse?.Id;
+                orderVM.Regions = await _deliveryAddressProvider.GetRegionsAsync( orderVM.DeliveryTypeId );
+                orderVM.Cities = await _deliveryAddressProvider.GetCitiesByRegionAsync(
+                    orderVM.DeliveryTypeId, orderVM.RegionId ?? 0 );
+                orderVM.Warehouses = await _deliveryAddressProvider.GetWarehousesByCityAsync(
+                    orderVM.DeliveryTypeId, orderVM.CityId.Value );
+            }
+        }
+
+        public async Task<Order> GetOrderFromDbWithIncludes( int id )
+        {
+            return await _context.Orders
+                        .Include( o => o.TheCustomer )
+                        .Include( o => o.TheDeliveryType )
+                        .Include( o => o.ThePaymentType )
+                        .Include( o => o.TheDeliveryAddress )
+                        .Include( a => a.TheDeliveryAddress.TheRegion )
+                        .Include( a => a.TheDeliveryAddress.TheCity )
+                        .Include( a => a.TheDeliveryAddress.TheWarehouse )
+                        .Include( o => o.Lines )
+                        .FirstOrDefaultAsync( o => o.Id == id );
+        }
+
+        // POST: Oder/Edit/
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit( OrderViewModel orderVM )
+        {
+            if ( orderVM.OrderId == null )
+            {
+                return NotFound();
+            }
+            var order = await GetOrderFromDbWithIncludes( orderVM.OrderId.Value );
+            if ( order == null )
+            {
+                return NotFound();
+            }
+            if ( ModelState.IsValid )
+            {
+                PrepareCustomerForInsertUpdate( orderVM, order );
+                order.TheDeliveryType = await _context.DeliveryTypes.FirstOrDefaultAsync(
+                    d => d.Id == orderVM.DeliveryTypeId );
+                order.ThePaymentType = await _context.PaymentTypes.FirstOrDefaultAsync(
+                    p => p.Id == orderVM.PaymentTypeId );
+                if ( order.TheDeliveryType.Id == DeliveryType.NovaPoshtaWarehouseId )
+                {
+                    await PrepareDeliveryAddressForInsertUpdate( orderVM, order );
+                }
+                else// pickup
+                {
+                    if ( order.TheDeliveryAddress != null )
+                    {
+                        RemoveDeliveryAddress( order.TheDeliveryAddress.Id );
+                    }
+                    order.TheDeliveryAddress = null;
+                }
+                order.Comments = orderVM.Comments;
+                order.SetUpdateStamp( User?.Identity?.Name );
+                _context.Orders.Update( order );
+                await _context.SaveChangesAsync();
+                return RedirectToAction( nameof( Index ) );
+            }
+            else
+            {
+                await PrepareOrderVMDeliveryAndPayment( order, orderVM );
+                return View( orderVM );
+            }
+        }
+
+        private void RemoveDeliveryAddress( int id )
+        {
+            var deliveryAddress = _context.DeliveryAddresses.Find( id );
+            if ( deliveryAddress != null )
+            {
+                var count = _context.Orders.Count( o => o.TheDeliveryAddress.Id == id );
+                if ( count > 1 )
+                {
+                    return;
+                }                
+                deliveryAddress.SoftDelete( User?.Identity?.Name );
+                _context.DeliveryAddresses.Update( deliveryAddress );                
+            }
         }
 
         private readonly ShopContext _context;

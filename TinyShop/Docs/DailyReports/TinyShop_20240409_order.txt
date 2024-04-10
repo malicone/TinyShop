@@ -1,0 +1,50 @@
+1. Order edit implementation (not completed yet).
+
+
+
+
+
+
+
+
+
+
+
+
+                order.TheCustomer.Id = orderVM.TheCustomer.Id;
+                order.TheCustomer.FirstName = orderVM.TheCustomer.FirstName.Trim();
+                order.TheCustomer.MiddleName = orderVM.TheCustomer.MiddleName?.Trim();
+                order.TheCustomer.LastName = orderVM.TheCustomer.LastName.Trim();
+                order.TheCustomer.Email = orderVM.TheCustomer.Email?.Trim();
+                order.TheCustomer.Phone = orderVM.TheCustomer.Phone.Trim();
+                order.TheCustomer.SetUpdateStamp( User?.Identity?.Name );
+                _context.Customers.Update( order.TheCustomer );
+
+                    if ( order.TheDeliveryAddress == null )
+                    {
+                        order.TheDeliveryAddress = new DeliveryAddress();
+                    }
+                    else
+                    {
+                        order.TheDeliveryAddress.TheRegion = await _context.Regions.FirstOrDefaultAsync(
+                            r => r.Id == orderVM.RegionId );
+                        order.TheDeliveryAddress.TheCity = await _context.Cities.FirstOrDefaultAsync(
+                            c => c.Id == orderVM.CityId );
+                        order.TheDeliveryAddress.TheWarehouse = await _context.Warehouses.FirstOrDefaultAsync(
+                            w => w.Id == orderVM.WarehouseId );
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

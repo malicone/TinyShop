@@ -110,6 +110,7 @@ namespace TinyShop.Controllers
                 }
             }
             _context.SaveChanges();
+            // now let's remove all garbage records (those that were not created or updated during this refresh)
             _context.Regions.RemoveRange( _context.Regions
                 .Where( r => ( r.UpdatedAt.HasValue == false ) && ( r.CreatedAt < _refreshNPStartedAt ) ) );
             _context.Regions.RemoveRange( _context.Regions

@@ -5,6 +5,8 @@
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Edit" method="post">
     <div class="form-group">
+        <input type="hidden" asp-for="OrderId" />
+        <input type="hidden" asp-for="TheCustomer.Id" />
         <label asp-for="TheCustomer.LastName" class="control-label"></label>
         <input asp-for="TheCustomer.LastName" class="form-control" />
     </div>
@@ -33,15 +35,18 @@
     {
         <div id="regionContainer" class="form-group">
             <label asp-for="RegionId" class="control-label"></label>
-            <select id="region" asp-for="RegionId" class="form-control"></select>
+            <select id="region" asp-for="RegionId" class="form-control"
+                asp-items='@new SelectList(Model.Regions, "Id" , "Name")'></select>
         </div>
         <div id="cityContainer" class="form-group">
             <label asp-for="CityId" class="control-label"></label>
-            <select id="city" asp-for="CityId" class="form-control"></select>
+            <select id="city" asp-for="CityId" class="form-control"
+                asp-items='@new SelectList(Model.Cities, "Id" , "Name")'></select>
         </div>
         <div id="warehouseContainer" class="form-group">
             <label asp-for="WarehouseId" class="control-label"></label>
-            <select id="warehouse" asp-for="WarehouseId" class="form-control"></select>
+            <select id="warehouse" asp-for="WarehouseId" class="form-control"
+                asp-items='@new SelectList(Model.Warehouses, "Id" , "Name")'></select>
         </div>
     }
     else
