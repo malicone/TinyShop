@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualBasic;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models.ViewModels
@@ -11,6 +13,7 @@ namespace TinyShop.Models.ViewModels
         //public Order TheOrder { get; set; } = new Order();
         public int? OrderId { get; set; }
         public decimal OrderTotalSum { get; set; }
+        public int OrderTotalQuantity { get; set; }
         public Customer TheCustomer { get; set; } = new Customer();
         [Display(Name = "Доставка")]
         public int DeliveryTypeId { get; set; }
@@ -29,5 +32,6 @@ namespace TinyShop.Models.ViewModels
         public List<Region> Regions { get; set; } = new List<Region>();
         public List<City> Cities { get; set; } = new List<City>();
         public List<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
+        public virtual ICollection<OrderLine> OrderLines { get; set; } = new Collection<OrderLine>();
     }
 }

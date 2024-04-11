@@ -20,9 +20,13 @@ namespace TinyShop.Infrastructure
 
         public static string GetGoodSingleOrPlural(int count)
         {
-            if (count == 1)
+            if ( ( count >= 11 ) && ( count <= 19 ) )
+                return "товарів";
+
+            var lastDigit = count % 10;
+            if ( lastDigit == 1 )
                 return "товар";
-            if (count > 1 && count < 5)
+            if ( lastDigit > 1 && lastDigit < 5 )
                 return "товара";
             return "товарів";
         }

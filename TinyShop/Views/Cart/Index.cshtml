@@ -18,10 +18,10 @@ else
     <h2>Кошик</h2>
     <table class="table table-bordered table-striped">
         <thead>
-            <tr>
-                <th>Кількість</th>
+            <tr>                
                 <th>Товар</th>
                 <th class="text-right">Ціна</th>
+                <th>Кількість</th>
                 <th class="text-right">Сума</th>
                 <th></th>
             </tr>
@@ -29,11 +29,11 @@ else
         <tbody>
             @foreach (var line in Model?.Cart?.Lines ?? Enumerable.Empty<OrderLine>())
             {
-                <tr>
-                    <td class="text-center">@line.Quantity</td>
+                <tr>                    
                     <td class="text-left">@line.TheProduct.Name</td>
-                    <td class="text-right">@FormattingUtils.FormatPrice( line.TheProduct.Price.Value )</td>
-                    <td class="text-right">@FormattingUtils.FormatPrice( (line.Quantity * line.TheProduct.Price).Value )</td>
+                    <td class="text-right">@FormattingUtils.FormatPrice( line.PriceSnapshot )</td>
+                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PriceSnapshot )</td>
                     <td class="text-center">
                         <form asp-action="Remove" method="post">
                             <input type="hidden" name="productId" value="@line.TheProduct.Id" />
@@ -48,7 +48,10 @@ else
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3" class="text-right">Всього:</td>
+                <td colspan="2" class="text-right">Всього:</td>
+                <td class="text-center">
+                    @Model?.Cart?.ComputeTotalQuantity() @FormattingUtils.GetGoodSingleOrPlural( Model.Cart.ComputeTotalQuantity() )
+                </td>
                 <td class="text-right">
                     @FormattingUtils.FormatPrice( (Model?.Cart?.ComputeTotalValue()).Value )
                 </td>

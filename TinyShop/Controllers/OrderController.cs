@@ -239,6 +239,14 @@ namespace TinyShop.Controllers
             orderVM.DeliveryTypeId = order.TheDeliveryType.Id;
             orderVM.PaymentTypeId = order.ThePaymentType.Id;
             orderVM.Comments = order.Comments;
+            // It should be done so but it doesn't work (Include and Load don't work, see GetOrderFromDbWithIncludes)
+            //orderVM.OrderLines = order.Lines;
+            //orderVM.OrderTotalSum = order.ComputeTotalValue();
+            //orderVM.OrderTotalQuantity = order.ComputeTotalQuantity();
+            orderVM.OrderLines = await _context.OrderLines.Where( l => l.TheOrder.Id == orderVM.OrderId )
+                .Include( l => l.TheProduct ).AsNoTracking().ToListAsync();               
+            orderVM.OrderTotalSum = orderVM.OrderLines.Sum( l => l.PriceSnapshot * l.Quantity );
+            orderVM.OrderTotalQuantity = orderVM.OrderLines.Sum( l => l.Quantity );
             await PrepareOrderVMDeliveryAndPayment( order, orderVM );
             return View( orderVM );
         }
@@ -265,7 +273,7 @@ namespace TinyShop.Controllers
 
         public async Task<Order> GetOrderFromDbWithIncludes( int id )
         {
-            return await _context.Orders
+            var orders = await _context.Orders
                         .Include( o => o.TheCustomer )
                         .Include( o => o.TheDeliveryType )
                         .Include( o => o.ThePaymentType )
@@ -275,6 +283,9 @@ namespace TinyShop.Controllers
                         .Include( a => a.TheDeliveryAddress.TheWarehouse )
                         .Include( o => o.Lines )
                         .FirstOrDefaultAsync( o => o.Id == id );
+//            _context.Entry( orders ).Collection( o => o.Lines ).Load();
+// Include and Load don't work so we just select order lines from the db (see Edit method)
+            return orders;
         }
 
         // POST: Oder/Edit/
@@ -311,7 +322,7 @@ namespace TinyShop.Controllers
                         RemoveDeliveryAddress( order.TheDeliveryAddress.Id );
                     }
                     order.TheDeliveryAddress = null;
-                }
+                }                
                 order.Comments = orderVM.Comments;
                 order.SetUpdateStamp( User?.Identity?.Name );
                 _context.Orders.Update( order );

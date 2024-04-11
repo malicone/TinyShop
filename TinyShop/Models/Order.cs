@@ -48,8 +48,8 @@ namespace TinyShop.Models
         [Display( Name = "Коментар до замовлення" )]
         public string? Comments { get; set; }
 
-        [BindNever]
-        public virtual ICollection<OrderLine> Lines { get; set; } = new List<OrderLine>();
+        //[BindNever]
+        public virtual ICollection<OrderLine> Lines { get; set; }
 
         public decimal ComputeTotalValue() => Lines.Sum( e => e.PriceSnapshot * e.Quantity );
         public int ComputeTotalQuantity() => Lines.Sum( e => e.Quantity );
