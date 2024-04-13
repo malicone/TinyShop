@@ -1,0 +1,58 @@
+1. Modal form added on product add to bucket.
+
+                $ajax( {
+                    type: "POST",
+                    url: "/Cart/Index",
+                    data: $( "#cartForm" ).serialize(),
+                    success: function ( result ) {
+                        $( "#cartModal" ).modal( "show" );
+                    }
+                } );
+
+
+
+
+
+
+                    success: function () {
+                        $( "#cartModal" ).modal( "show" );
+                    }
+
+
+
+
+
+
+
+        $( document ).ready( function () {
+            $( "#btnAddToCart" ).click( function () {
+                var productId = $( this ).data( "product-id" );
+                $.ajax( {
+                    type: "GET",
+                    url: "/Cart/AddToCart/" + productId,
+                    data: null
+                } );
+            } );
+        } );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

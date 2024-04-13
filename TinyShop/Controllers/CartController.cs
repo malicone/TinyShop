@@ -11,6 +11,7 @@ using TinyShop.Models.ViewModels;
 namespace TinyShop.Controllers
 {
     [Authorize]
+    [Route( "[controller]/[action]" )]
     public class CartController : Controller
     {
         public CartController(ILogger<HomeController> logger, ShopContext context, 
@@ -44,11 +45,30 @@ namespace TinyShop.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
+        [Route("{productId}")]
+        public void AddToCart(int productId)
+        {
+            Product? product = _context.Products.FirstOrDefault( p => p.Id == productId );
+            if (product != null)
+            {
+                _cartVM.Cart.AddItem( product, 1 );
+            }                    
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Remove(int productId, string returnUrl)
         {
             _cartVM.Cart.RemoveLine( _cartVM.Cart.Lines.First( cl => cl.TheProduct.Id == productId ).TheProduct );            
             return Redirect( returnUrl );
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GetCartComponent()
+        {
+            return ViewComponent( "CartSummary" );
         }
 
         private ILogger<HomeController> _logger;

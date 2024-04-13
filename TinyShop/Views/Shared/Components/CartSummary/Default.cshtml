@@ -1,6 +1,6 @@
 ﻿@using TinyShop.Infrastructure;
 
-<div class="">
+<div class="" id="cart">
     <a asp-controller="Cart" asp-action="Index" asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
 
         @if (Model?.Lines.Count > 0)
