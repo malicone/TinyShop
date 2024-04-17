@@ -38,19 +38,12 @@
                             <h6 class="card-subtitle mb-2 text-muted">@FormattingUtils.FormatPrice( product.Price.Value )</h6>
                         </div>
                     </a>
-                        <form id="@product.Id" asp-controller="Cart" asp-action="Index" method="post">
-                            <input type="hidden" name="productId" value="@product.Id" />
-                            <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />                                
-                            <button type="submit" class="btn btn-success btn-sm mb-2">
-                                Додати в кошик
-                            </button>                            
-                        </form>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" 
-                                data-target="#cartModal" data-product-id="@product.Id"
-                                onclick="addToCartRequest(this)">
-                            Додати в кошик
-                        </button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" 
+                            data-target="#cartModal" data-product-id="@product.Id"
+                            onclick="addToCartRequest(this)">
+                        Додати в кошик
+                    </button>
                  </div>
                 }
             </div>
@@ -58,54 +51,8 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" 
-        aria-labelledby="cartModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cartModalTitle">Кошик</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Товар доданий в кошик
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Продовжити покупки</button>
-                <button type="button" class="btn btn-primary" onclick="goToOrder()">Оформити замовлення</button>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_CartPartial" />
 
 @section Scripts {
-    <script type="text/javascript">
-        function addToCartRequest( element ) {
-            var productId = $( element ).data( "product-id" );
-            $.ajax( {
-                type: "GET",
-                url: "/Cart/AddToCart/" + productId,
-                data: null,
-                success: getCartComponent(),
-            } );
-        }
-
-        function getCartComponent() {
-            var _url = '@Url.Action( "GetCartComponent", "Cart" )';
-            $.ajax({
-                type: "GET",
-                url: _url,
-                data: null,
-                success: function (result) {
-                    $("#cart").html(result);
-                },
-            });
-        }
-
-        function goToOrder() {
-            window.location.href = "/Cart/Index?returnurl=" + "@ViewContext.HttpContext.Request.PathAndQuery()";
-        }
-    </script>
+    <script src="~/js/cart.js"></script>
 }

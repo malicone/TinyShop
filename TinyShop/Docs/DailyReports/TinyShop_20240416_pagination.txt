@@ -1,0 +1,87 @@
+1. Bug with cart wrong text fixed. The cart text was not updated when product added to cart first time.
+Sometimes it wasn't updated in next addings too. Cannot figure out what the problem was. Just remade request
+to add product - now it returns cart component.
+2. Cart modal dialog arranged.
+3. Plus and minus buttons added in cart view (not completed yet).
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" 
+        aria-labelledby="cartModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalTitle">Кошик</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Товар доданий в кошик
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Продовжити покупки</button>
+                <button type="button" class="btn btn-primary" onclick="goToOrder()">Оформити замовлення</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+        function getCartComponent() {
+            var _url = "Cart/GetCartComponent";
+            $.ajax({
+                type: "GET",
+                url: _url,
+                data: null,
+                success: function (result) {                    
+                    $("#cart").replaceWith(result);
+                },
+                error: function (xhr, status, error) {
+                    console.log(status + " : operation failed, " + error)
+                }
+            });
+        }
+
+
+
+
+
+
+                        <form id="@product.Id" asp-controller="Cart" asp-action="Index" method="post">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />                                
+                            <button type="submit" class="btn btn-success btn-sm mb-2">
+                                Додати в кошик
+                            </button>                            
+                        </form>
+
+
+
+
+
+
+
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GetCartComponent()
+        {
+            return ViewComponent( "CartSummary" );
+        }
+

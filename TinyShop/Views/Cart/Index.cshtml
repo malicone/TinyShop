@@ -32,7 +32,13 @@ else
                 <tr>                    
                     <td class="text-left">@line.TheProduct.Name</td>
                     <td class="text-right">@FormattingUtils.FormatPrice( line.PriceSnapshot )</td>
-                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-light" 
+                            data-product-id="@line.TheProduct.Id" onclick="productMinus(this)">-</button>
+                        <span id="productId-@line.TheProduct.Id">@line.Quantity</span>
+                        <button type="button" class="btn btn-light" 
+                            data-product-id="@line.TheProduct.Id" onclick="productPlus(this)">+</button>                    
+                    </td>
                     <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PriceSnapshot )</td>
                     <td class="text-center">
                         <form asp-action="Remove" method="post">
@@ -63,3 +69,24 @@ else
     <a class="btn btn-primary" href="@Model?.ReturnUrl">Продовжити покупки</a>
     <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">Оформити замовлення</a>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function productPlus(element) {
+            var productId = $(element).data("product-id");
+            var quantityElement = $("#productId-" + productId);
+            var quantity = parseInt(quantityElement.text());
+            quantity++;
+            quantityElement.text(quantity);
+        }
+        function productMinus(element) {
+            var productId = $(element).data("product-id");
+            var quantityElement = $("#productId-" + productId);
+            var quantity = parseInt(quantityElement.text());
+            if (quantity > 1) {
+                quantity--;
+                quantityElement.text(quantity);
+            }
+        }
+    </script>
+}

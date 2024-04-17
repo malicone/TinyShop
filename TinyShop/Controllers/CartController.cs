@@ -44,16 +44,22 @@ namespace TinyShop.Controllers
             return View( _cartVM );
         }
 
+        /// <summary>
+        /// Adds a product to the cart.
+        /// </summary>
+        /// <param name="productId">Id of the product to add.</param>
+        /// <returns>CartSummaryComponent which can be used to refresh cart view.</returns>
         [AllowAnonymous]
         [HttpGet]
         [Route("{productId}")]
-        public void AddToCart(int productId)
+        public IActionResult AddToCart(int productId)
         {
             Product? product = _context.Products.FirstOrDefault( p => p.Id == productId );
             if (product != null)
             {
                 _cartVM.Cart.AddItem( product, 1 );
-            }                    
+            }
+            return ViewComponent( "CartSummary" );
         }
 
         [AllowAnonymous]
@@ -61,14 +67,7 @@ namespace TinyShop.Controllers
         public IActionResult Remove(int productId, string returnUrl)
         {
             _cartVM.Cart.RemoveLine( _cartVM.Cart.Lines.First( cl => cl.TheProduct.Id == productId ).TheProduct );            
-            return Redirect( returnUrl );
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult GetCartComponent()
-        {
-            return ViewComponent( "CartSummary" );
+            return View( "Index", _cartVM );
         }
 
         private ILogger<HomeController> _logger;
