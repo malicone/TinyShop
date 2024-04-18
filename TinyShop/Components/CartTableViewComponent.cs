@@ -3,9 +3,9 @@ using TinyShop.Models;
 
 namespace TinyShop.Components
 {
-    public class CartSummaryViewComponent : ViewComponent
-    {        
-        public CartSummaryViewComponent(Cart cart)
+    public class CartTableViewComponent : ViewComponent
+    {
+        public CartTableViewComponent( Cart cart )
         {
             _cart = cart;
         }

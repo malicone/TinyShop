@@ -18,7 +18,7 @@ namespace TinyShop.Infrastructure
             return formatted;
         }
 
-        public static string GetGoodSingleOrPlural(int count)
+        public static string GetProductSingleOrPlural(int count)
         {
             if ( ( count >= 11 ) && ( count <= 19 ) )
                 return "товарів";

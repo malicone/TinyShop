@@ -1,0 +1,74 @@
+1. CartTable component created.
+2. CartTable refresh code added.
+3. Bug with delivery data on Checkout fixed. If user choosed region, city, warehouse and clicked
+Complete and validation failed then delivery controls were empty. Init in controller code added 
+and if/else in view.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>                
+                <th>Товар</th>
+                <th class="text-right">Ціна</th>
+                <th>Кількість</th>
+                <th class="text-right">Сума</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model?.Cart?.Lines ?? Enumerable.Empty<OrderLine>())
+            {
+                <tr>                    
+                    <td class="text-left">@line.TheProduct.Name</td>
+                    <td class="text-right">@FormattingUtils.FormatPrice( line.PriceSnapshot )</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-light" 
+                            data-product-id="@line.TheProduct.Id" onclick="productMinus(this)">-</button>
+                        <span id="productId-@line.TheProduct.Id">@line.Quantity</span>
+                        <button type="button" class="btn btn-light" 
+                            data-product-id="@line.TheProduct.Id" onclick="productPlus(this)">+</button>                    
+                    </td>
+                    <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PriceSnapshot )</td>
+                    <td class="text-center">
+                        <form asp-action="RemoveAllFromCart" method="post">
+                            <input type="hidden" name="productId" value="@line.TheProduct.Id" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Видалити
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2" class="text-right">Всього:</td>
+                <td class="text-center">
+                    @Model?.Cart?.ComputeTotalQuantity() @FormattingUtils.GetProductSingleOrPlural( Model.Cart.ComputeTotalQuantity() )
+                </td>
+                <td class="text-right">
+                    @FormattingUtils.FormatPrice( (Model?.Cart?.ComputeTotalValue()).Value )
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+

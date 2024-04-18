@@ -31,19 +31,6 @@ namespace TinyShop.Controllers
             return View( _cartVM );
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Index(int productId, string returnUrl)
-        {            
-            Product? product = _context.Products.FirstOrDefault( p => p.Id == productId );
-            if (product != null)
-            {                
-                _cartVM.Cart.AddItem( product, 1 );
-            }                    
-            _cartVM.ReturnUrl = returnUrl;
-            return View( _cartVM );
-        }
-
         /// <summary>
         /// Adds a product to the cart.
         /// </summary>
@@ -57,17 +44,33 @@ namespace TinyShop.Controllers
             Product? product = _context.Products.FirstOrDefault( p => p.Id == productId );
             if (product != null)
             {
-                _cartVM.Cart.AddItem( product, 1 );
+                _cartVM.Cart.AddItem( product );
             }
+            return ViewComponent( "CartSummary" );
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route( "{productId}" )]
+        public IActionResult RemoveOneFromCart( int productId )
+        {
+            _cartVM.Cart.RemoveItem( productId );
             return ViewComponent( "CartSummary" );
         }
 
         [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Remove(int productId, string returnUrl)
+        [HttpGet]
+        [Route( "{productId}" )]
+        public IActionResult RemoveEntireLine( int productId )
         {
-            _cartVM.Cart.RemoveLine( _cartVM.Cart.Lines.First( cl => cl.TheProduct.Id == productId ).TheProduct );            
-            return View( "Index", _cartVM );
+            _cartVM.Cart.RemoveLine( productId );
+            return ViewComponent( "CartSummary" );
+        }
+
+        [AllowAnonymous]
+        [HttpGet]        
+        public IActionResult GetCartTableComponent()
+        {
+            return ViewComponent( "CartTable" );
         }
 
         private ILogger<HomeController> _logger;

@@ -69,9 +69,19 @@ namespace TinyShop.Controllers
             else
             {
                 orderVM.DeliveryTypes = await _context.DeliveryTypes
-                    .Where( d => d.SoftDeletedAt.HasValue == false ).OrderBy( d => d.SortingColumn ).ToListAsync();
+                    .Where( d => d.SoftDeletedAt.HasValue == false ).OrderBy( d => d.SortingColumn )
+                    .AsNoTracking().ToListAsync();
                 orderVM.PaymentTypes = await _context.PaymentTypes
-                    .Where( p => p.SoftDeletedAt.HasValue == false ).OrderBy( p => p.SortingColumn ).ToListAsync();
+                    .Where( p => p.SoftDeletedAt.HasValue == false ).OrderBy( p => p.SortingColumn )
+                    .AsNoTracking().ToListAsync();
+                if (orderVM.DeliveryTypeId == DeliveryType.NovaPoshtaWarehouseId)
+                {
+                    orderVM.Regions = await _deliveryAddressProvider.GetRegionsAsync( orderVM.DeliveryTypeId );
+                    orderVM.Cities = await _deliveryAddressProvider.GetCitiesByRegionAsync(
+                        orderVM.DeliveryTypeId, orderVM.RegionId ?? 0 );
+                    orderVM.Warehouses = await _deliveryAddressProvider.GetWarehousesByCityAsync(
+                        orderVM.DeliveryTypeId, orderVM.CityId.Value );
+                }
                 return View(orderVM);
             }
         }

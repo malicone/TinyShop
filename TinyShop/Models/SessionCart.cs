@@ -18,14 +18,19 @@ namespace TinyShop.Models
 
         [JsonIgnore]
         public ISession? Session { get; set; }
-        public override void AddItem(Product product, int quantity)
+        public override void AddItem(Product product, int quantity = 1)
         {
             base.AddItem( product, quantity );
             Session?.SetJson( _SessionId, this );
         }
-        public override void RemoveLine(Product product)
+        public override void RemoveItem(int productId, int quantity = 1)
         {
-            base.RemoveLine( product );
+            base.RemoveItem( productId, quantity );
+            Session?.SetJson( _SessionId, this );
+        }
+        public override void RemoveLine(int productId)
+        {
+            base.RemoveLine( productId );
             Session?.SetJson( _SessionId, this );
         }
         public override void Clear()

@@ -1,0 +1,66 @@
+﻿@using TinyShop.Infrastructure;
+@using TinyShop.Models.ViewModels;
+
+@model Cart;
+
+@if ( Model?.Lines.Count == 0 )
+{
+    <div class="alert alert-info">
+        Кошик пустий
+    </div>
+}
+else
+{
+    <div id="cartTable">
+        <h2>Кошик</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th class="text-right">Ціна</th>
+                    <th>Кількість</th>
+                    <th class="text-right">Сума</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( var line in Model?.Lines ?? Enumerable.Empty<OrderLine>() )
+                {
+                    <tr>
+                        <td class="text-left">@line.TheProduct.Name</td>
+                        <td class="text-right">@FormattingUtils.FormatPrice( line.PriceSnapshot )</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-light"
+                                    data-product-id="@line.TheProduct.Id" onclick="productMinus(this)">
+                                -
+                            </button>
+                            <span id="productId-@line.TheProduct.Id">@line.Quantity</span>
+                            <button type="button" class="btn btn-light"
+                                    data-product-id="@line.TheProduct.Id" onclick="productPlus(this)">
+                                +
+                            </button>
+                        </td>
+                        <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PriceSnapshot )</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-danger" 
+                                data-product-id="@line.TheProduct.Id" onclick="removeEntireLineRequest(this)">
+                                Видалити
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-right">Всього:</td>
+                    <td class="text-center">
+                        @Model?.ComputeTotalQuantity() @FormattingUtils.GetProductSingleOrPlural( Model.ComputeTotalQuantity() )
+                    </td>
+                    <td class="text-right">
+                        @FormattingUtils.FormatPrice( ( Model?.ComputeTotalValue() ).Value )
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+}

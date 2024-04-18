@@ -100,7 +100,7 @@
                 <tr>
                     <td colspan="2" class="text-right">Всього:</td>
                     <td class="text-center">
-                        @Model?.OrderTotalQuantity @FormattingUtils.GetGoodSingleOrPlural( Model.OrderTotalQuantity )
+                        @Model?.OrderTotalQuantity @FormattingUtils.GetProductSingleOrPlural( Model.OrderTotalQuantity )
                     </td>
                     <td class="text-right">
                         @FormattingUtils.FormatPrice( ( Model?.OrderTotalSum ).Value )
