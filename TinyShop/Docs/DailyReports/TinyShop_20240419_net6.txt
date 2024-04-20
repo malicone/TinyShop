@@ -1,0 +1,5 @@
+1. Updated from .NET 5 to .NET 6. First changed 5 to 6. Build successful. Run failed.
+Error - multi result where need single. Updated EF packages in NuGet manager from 5.0.2 to 6.0.29.
+Build and run successful. EF package 8.0.4 cannot be installed on .NET 6 (only on .NET 8).
+7.0.18 only on .NET 7. So stay 6.0.29 for now. .NET 6 is LST and .NET 7 not. Also on mochahost 
+2. All NuGet packages that required updated.

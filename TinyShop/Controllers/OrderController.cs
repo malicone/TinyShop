@@ -226,7 +226,7 @@ namespace TinyShop.Controllers
         {
             if ( deliveryTypeId == DeliveryType.NovaPoshtaWarehouseId )
             {
-                return Order.NovaPoshtaDefaultRegionId;
+                return Region.NovaPoshtaDefaultRegionId;
             }
             return 0;
         }

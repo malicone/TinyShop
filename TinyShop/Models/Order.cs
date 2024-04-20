@@ -24,13 +24,6 @@ namespace TinyShop.Models
 
     public class Order : SoftDeletableEntity
     {
-        /// <summary>
-        /// Important! Values from the db
-        /// </summary>
-        [NotMapped]
-        public static int NovaPoshtaVolynRegionId { get { return 22; } }
-        [NotMapped]
-        public static int NovaPoshtaDefaultRegionId { get { return NovaPoshtaVolynRegionId; } }
         [Display( Name = "Дата замовлення" )]
         public DateTime OrderDateTime { get; set; }
         
