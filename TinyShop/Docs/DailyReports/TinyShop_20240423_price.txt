@@ -1,0 +1,4 @@
+1. Bug with order creation exception fixed. Problem was that order lines collection wasn't initialized.
+Init code added before lines copy.
+2. In Control Panel in product groups bug with 0 product count near group name fixed.
+In view correct property called.

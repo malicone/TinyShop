@@ -18,7 +18,7 @@ namespace TinyShop.Models
         [Required, DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" )]
         public decimal PriceSnapshot { get; set; }
 
-        [Required]
+        [Required]                                             
         public int Quantity { get; set; }
     }
 
@@ -41,7 +41,7 @@ namespace TinyShop.Models
         [Display( Name = "Коментар до замовлення" )]
         public string? Comments { get; set; }
 
-        //[BindNever]
+        [BindNever]
         public virtual ICollection<OrderLine> Lines { get; set; }
 
         public decimal ComputeTotalValue() => Lines.Sum( e => e.PriceSnapshot * e.Quantity );

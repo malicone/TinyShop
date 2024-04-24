@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Data;
@@ -96,6 +97,7 @@ namespace TinyShop.Controllers
             target.ThePaymentType = await _context.PaymentTypes.FirstOrDefaultAsync(
                 p => p.Id == source.PaymentTypeId );
             target.Comments = source.Comments;
+            target.Lines = new List<OrderLine>();
             foreach ( var cartLine in _cart.Lines )
             {
                 OrderLine orderLine = new OrderLine

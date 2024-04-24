@@ -30,7 +30,6 @@ namespace TinyShop.Controllers
                 .ToListAsync();
             foreach ( var group in groups )
             {
-                //_context.Entry( group ).Collection( g => g.Products ).Load();
                 group.ProductCount = _context.Products.Count( p => ( p.SoftDeletedAt.HasValue == false )
                     && ( p.ProductGroupId == group.Id ) );
             }
