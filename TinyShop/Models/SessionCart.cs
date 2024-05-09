@@ -18,7 +18,7 @@ namespace TinyShop.Models
 
         [JsonIgnore]
         public ISession? Session { get; set; }
-        public override void AddItem(Product product, int quantity = 1)
+        public override void AddItem(Product product, int quantity = 1 )
         {
             base.AddItem( product, quantity );
             Session?.SetJson( _SessionId, this );

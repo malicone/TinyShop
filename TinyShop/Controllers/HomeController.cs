@@ -44,7 +44,7 @@ namespace TinyShop.Controllers
                     && ( p.ProductGroupId == group.Id ) );
             }
 
-            if ( productGroupId == null )
+            if ( ( productGroupId == null ) || ( productGroupId.Value == 0 ) )
             {
                 // Select all products
                 products = _context.Products.Where( p => p.SoftDeletedAt.HasValue == false )

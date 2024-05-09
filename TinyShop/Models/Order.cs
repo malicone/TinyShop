@@ -11,9 +11,9 @@ namespace TinyShop.Models
     public class OrderLine : SoftDeletableEntity
     {
         [Required]
-        public virtual Order TheOrder { get; set; } = new();
+        public virtual Order TheOrder { get; set; }
         [Required]
-        public virtual Product TheProduct { get; set; } = new();
+        public virtual Product TheProduct { get; set; }
 
         [Required, DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" )]
         public decimal PriceSnapshot { get; set; }

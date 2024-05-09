@@ -36,7 +36,7 @@ namespace TinyShop.Models
             }
         }
         public virtual void RemoveLine( int productId ) => Lines.RemoveAll( l => l.TheProduct.Id == productId );
-        public decimal ComputeTotalValue() => (decimal)Lines.Sum( e => e.PriceSnapshot * e.Quantity );
+        public decimal ComputeTotalValue() => Lines.Sum( e => e.PriceSnapshot * e.Quantity );
         public int ComputeTotalQuantity() => Lines.Sum( e => e.Quantity );
 
         public virtual void Clear() => Lines.Clear();

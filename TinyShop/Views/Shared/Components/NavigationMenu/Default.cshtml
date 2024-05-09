@@ -1,0 +1,17 @@
+﻿@using TinyShop.Models.ViewModels;
+
+@model ProductGroupViewModel;
+
+<div class="d-grid gap-2">
+    @foreach ( var group in Model.ProductGroups ?? Enumerable.Empty<ProductGroup>() )
+    {
+        <a class="btn m-1 w-100
+             @( group.Id == Model.SelectedGroupId ? "btn-primary" : "btn-outline-secondary")"
+             asp-action="Index" asp-controller="Home"
+             asp-route-productGroupId="@group.Id"
+             asp-route-productPage="1">
+             @group.Name (@group.ProductCount)
+        </a>
+        <br />
+    }
+</div>

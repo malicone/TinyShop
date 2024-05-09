@@ -1,0 +1,26 @@
+1. Navigation menu component added.
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a class="btn btn-outline-secondary" asp-action="Index" asp-controller="Home" asp-route-category="">
+        Усі товари
+    </a>
+
+
+
+
+
+
+
+
+
