@@ -1,0 +1,59 @@
+1. Old navigation menu removed.
+2. Pagination added.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <ul class="list-group mb-2">
+                @foreach ( var item in Model.ProductGroups )
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.ActionLink( item.Name, "Index", new { productGroupId = item.Id } )
+                        <span class="badge badge-primary badge-pill">@item.ProductCount</span>
+                    </li>
+                }
+            </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

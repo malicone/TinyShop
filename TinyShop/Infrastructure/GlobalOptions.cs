@@ -42,5 +42,6 @@ namespace TinyShop.Infrastructure
                 return $"{Delivery1}, {Delivery2}";
             }
         }
+        public static int DefaultItemsPerPage { get { return 5; } }
     }
 }

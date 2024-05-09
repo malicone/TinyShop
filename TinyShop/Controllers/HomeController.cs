@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TinyShop.Data;
+using TinyShop.Infrastructure;
 using TinyShop.Models;
 using TinyShop.Models.ViewModels;
 
@@ -26,43 +27,43 @@ namespace TinyShop.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index( int? productGroupId )
+        public async Task<IActionResult> Index( int? productGroupId, int productPage = 1 )
         {
             _logger.LogInformation( "HomeController.Index started" );
         
-            var groups = _context.ProductGroups.Where( g => g.SoftDeletedAt.HasValue == false )
-                .Include( g => g.Products ).OrderBy( g => g.Name );                
+            int itemsPerPage = GlobalOptions.DefaultItemsPerPage;
             IQueryable<Product> products;
-            ProductGroup foundGroup = null;
-            foreach ( var group in groups )
-            {
-                // Include does not work; load of Products too (Products.Count == 0);
-                // so use Count; it's even better than Include, no need to load all products
-                //group.Products = group.Products.Where( p => ( p.SoftDeletedAt.HasValue == false )
-                //    && ( p.ProductGroupId == group.Id ) ).ToList();
-                group.ProductCount = _context.Products.Count( p => ( p.SoftDeletedAt.HasValue == false )
-                    && ( p.ProductGroupId == group.Id ) );
-            }
-
+            int totalItems = 0;
             if ( ( productGroupId == null ) || ( productGroupId.Value == 0 ) )
             {
                 // Select all products
                 products = _context.Products.Where( p => p.SoftDeletedAt.HasValue == false )
-                    .OrderByDescending( p => p.Id );
+                    .AsNoTracking().OrderByDescending( p => p.Id )
+                    .Skip( ( productPage - 1 ) * itemsPerPage )
+                    .Take( itemsPerPage );                
+                totalItems = _context.Products.Where( p => p.SoftDeletedAt.HasValue == false ).Count();
             }
             else
             {
                 // Select products of specified group
                 products = _context.Products.Where( 
                     p => ( p.SoftDeletedAt.HasValue == false ) && ( p.ProductGroupId == productGroupId ) )
-                    .OrderByDescending( p => p.Id );
-                foundGroup = _context.ProductGroups.FirstOrDefault( g => g.Id == productGroupId );
+                    .AsNoTracking().OrderByDescending( p => p.Id )
+                    .Skip( ( productPage - 1 ) * itemsPerPage )
+                    .Take( itemsPerPage );
+                totalItems = _context.Products.Where( 
+                    p => ( p.SoftDeletedAt.HasValue == false ) && ( p.ProductGroupId == productGroupId ) ).Count();
             }
             var homeViewModel = new HomeViewModel
             {
-                ProductGroups = await groups.ToListAsync(),
                 Products = await products.ToListAsync(),
-                CurrentGroup = foundGroup
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = productPage,
+                    ItemsPerPage = itemsPerPage,
+                    TotalItems = totalItems
+                },
+                CurrentProductGroupId = productGroupId ?? 0
             };
             return View( homeViewModel );
         }

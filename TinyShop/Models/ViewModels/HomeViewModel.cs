@@ -8,16 +8,7 @@ namespace TinyShop.Models.ViewModels
     public class HomeViewModel
     {
         public List<Product> Products { get; set; }
-        public List<ProductGroup> ProductGroups { get; set; }
-
-        public ProductGroup CurrentGroup { get; set; }
-        public string CatalogHeader
-        {
-            get
-            {
-                string name = CurrentGroup == null ? "Усі товари" : CurrentGroup.Name;
-                return $"Каталог - {name}";
-            }
-        }
+        public int CurrentProductGroupId { get; set; }
+        public PagingInfo PagingInfo { get; set; } = new();
     }
 }

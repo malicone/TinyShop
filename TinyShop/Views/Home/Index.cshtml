@@ -7,20 +7,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>@Model.CatalogHeader</h4>
-
 <div class="container-table" id="contable">
     <div class="row vertical-middle">
         <div class="col-sm-3 col-md-3 col-lg-3">
-            <ul class="list-group mb-2">
-                @foreach ( var item in Model.ProductGroups )
-                {
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        @Html.ActionLink( item.Name, "Index", new { productGroupId = item.Id } )
-                        <span class="badge badge-primary badge-pill">@item.ProductCount</span>
-                    </li>
-                }
-            </ul>
             <vc:navigation-menu />
         </div>
         <div class="col-sm-9 col-md-9 col-lg-9 text-center">
@@ -43,6 +32,13 @@
                     </button>
                  </div>
                 }
+            </div>
+            <div page-model="@Model.PagingInfo" page-action="Index"
+                 page-classes-enabled="true" page-class="btn"
+                 page-class-normal="btn-outline-dark"
+                 page-class-selected="btn-primary" 
+                 page-url-productGroupId="@Model.CurrentProductGroupId!"
+                 class="btn-group pull-right m-1">
             </div>
         </div>
     </div>

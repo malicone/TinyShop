@@ -30,12 +30,12 @@ else
                         <td class="text-left">@line.TheProduct.Name</td>
                         <td class="text-right">@FormattingUtils.FormatPrice( line.PriceSnapshot )</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-light"
+                            <button type="button" class="btn btn-outline-dark"
                                     data-product-id="@line.TheProduct.Id" onclick="productMinus(this)">
                                 -
                             </button>
                             <span id="productId-@line.TheProduct.Id">@line.Quantity</span>
-                            <button type="button" class="btn btn-light"
+                            <button type="button" class="btn btn-outline-dark"
                                     data-product-id="@line.TheProduct.Id" onclick="productPlus(this)">
                                 +
                             </button>
@@ -54,7 +54,7 @@ else
                 <tr>
                     <td colspan="2" class="text-right">Всього:</td>
                     <td class="text-center">
-                        Model.ComputeTotalQuantity() @FormattingUtils.GetProductSingleOrPlural( Model.ComputeTotalQuantity() )
+                        @Model.ComputeTotalQuantity() @FormattingUtils.GetProductSingleOrPlural( Model.ComputeTotalQuantity() )
                     </td>
                     <td class="text-right">
                         @FormattingUtils.FormatPrice( ( Model?.ComputeTotalValue() ).Value )
