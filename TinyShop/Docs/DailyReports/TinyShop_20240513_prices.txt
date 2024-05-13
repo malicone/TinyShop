@@ -1,0 +1,1 @@
+1. When refresh NP addresses records not removed from the db but soft deleted.

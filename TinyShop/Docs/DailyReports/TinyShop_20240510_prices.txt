@@ -1,0 +1,23 @@
+1. Bug fixed:
+
+The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'.
+
+The problem was that cities were removed before warehouses. RemoveGarbage.. methods extracted and called in reverse order.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+An error occurred while saving the entity changes. See the inner exception for details. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The DELETE statement conflicted with the REFERENCE constraint "FK_Warehouses_Cities_TheCityId". The conflict occurred in database "TinyShop", table "dbo.Warehouses", column 'TheCityId'. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated. The statement has been terminated.
+
+An error occurred while saving the entity changes. See the inner exception for details. The DELETE statement conflicted with the REFERENCE constraint "FK_DeliveryAddresses_Warehouses_TheWarehouseId". The conflict occurred in database "TinyShop", table "dbo.DeliveryAddresses", column 'TheWarehouseId'.
