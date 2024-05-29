@@ -1,6 +1,5 @@
 ﻿@model HomeViewModel
 @using TinyShop.Infrastructure;
-@using TinyShop.Models.ViewModels;
 
 @{
     ViewData[ "Title" ] = GlobalOptions.CatalogTitle;
@@ -16,21 +15,31 @@
             <div class="card-columns">
                 @foreach ( var product in Model.Products )
                 {
-                 <div class="card" style="width: 16rem;">
-                    <a href="@Url.Action( "DetailsReadOnly", "Products", new { id = product.Id } )">
-                        <img class="card-img-top product-cover" src="@Url.Action( "GetProductMainImage", "Files", new { productId = product.Id } )">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@FormattingUtils.FormatPrice( product.Price.Value )</h6>
-                        </div>
-                    </a>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" 
-                            data-target="#cartModal" data-product-id="@product.Id"
-                            onclick="addToCartRequest(this)">
-                        Додати в кошик
-                    </button>
-                 </div>
+                    <div class="card" style="width: 16rem;">
+                         <div class="position-absolute top-0 text-light w-80" style="background-color: rgba(0, 0, 0, 0.3)">
+                            <p class="p-1 m-0">Ціна за пару @FormattingUtils.FormatPrice( product.Price.Value )</p>
+                         </div>
+                         <a href="@Url.Action( "DetailsReadOnly", "Products", new { id = product.Id } )">
+                            <img class="card-img-top product-cover mt-2" src="@Url.Action( "GetProductMainImage", "Files", new { productId = product.Id } )">
+                            <div class="card-body mb-0">
+                                <h5 class="card-title">@product.Name</h5>
+                            </div>
+                         </a>
+                        <p class="m-0">
+                            <strong>
+                                @FormattingUtils.FormatPrice(product.Price.Value * 12) упаковка (12 шт.)
+                            </strong>
+                        </p>
+                        <p class="card-text small mt-0">
+                            Доступна оптова ціна
+                        </p>
+                         <!-- Button trigger modal -->
+                         <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" 
+                                data-target="#cartModal" data-product-id="@product.Id"
+                                onclick="addToCartRequest(this)">
+                            Додати в кошик
+                         </button>
+                    </div>
                 }
             </div>
             <div page-model="@Model.PagingInfo" page-action="Index"

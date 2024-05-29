@@ -20,6 +20,8 @@ namespace TinyShop.Models
 
         [Required]                                             
         public int Quantity { get; set; }
+
+        public virtual ICollection<ProductPropertyItem> PropertyItems { get; set; }
     }
 
     public class Order : SoftDeletableEntity

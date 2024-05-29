@@ -25,7 +25,7 @@ namespace TinyShop.Models
         }
         public virtual void RemoveItem( int productId, int quantity = 1 )
         {
-            OrderLine? line = Lines.Where( p => p.TheProduct.Id == productId ).FirstOrDefault();
+            OrderLine? line = Lines.FirstOrDefault(p => p.TheProduct.Id == productId);
             if ( line != null )
             {
                 line.Quantity = line.Quantity - quantity;

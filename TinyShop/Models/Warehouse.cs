@@ -15,7 +15,7 @@ namespace TinyShop.Models
             Name = string.Empty;
         }
 
-        [Required, StringLength( LengthLarge ), Display( Name = "Відділення" )]
+        [Required, StringLength( StrLengthLarge ), Display( Name = "Відділення" )]
         public string Name { get; set; } = string.Empty;
 
         [StringLength( LengthIdExturnal )]

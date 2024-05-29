@@ -1,0 +1,86 @@
+ProductProperties
+Id
+Name
+Колір
+Розмір одягу (S, M, L)
+Розмір взуття (37, 38, 39)
+
+ProductPropertyItems
+Id
+Name
+TheFileTag
+S
+M
+L
+
+-ProductUnitTypes
+Штука
+Пара
+
+-Products
+PriceCount
+TheProductUnitTypes
+
+-ProductPrices
+PricePerItem
+ItemsPerPack
+PricePerPack -> calculated -> ItemsPerPack * PricePerItem
+MinPackSaleQuantity
+TotalPrice -> calculated -> MinPackSaleQuantity * PricePerPack
+
+16 грн. пара, 192 грн. упаковка (12 пар), мінімальна кількість 1 упаковка (192 грн.)
+15 грн. пара, 180 грн. упаковка (12 пар), мінімальна кількість 25 упаковок (4500 грн.)
+14 грн. пара, 168 грн. упаковка (12 пар), мінімальна кількість 50 упаковок (8400 грн.)
+13 грн. пара, 156 грн. упаковка (12 пар), мінімальна кількість 75 упаковок (11700 грн.)
+
+Шкарпетки чоловічі та жіночі 
+ " КОРОТИШІ".
+Гарна якість. 
+В упаковці 12 пар є в упаковці мікс кольорів як на фото та є в упаковці 12 пар всі білі.
+Розмір: 36-40 та 40-45. 
+Ціна: 10 грн. пара(money)(money)(money)
+
+Property - мікс, білі
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

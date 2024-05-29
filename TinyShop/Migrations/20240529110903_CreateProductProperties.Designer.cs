@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TinyShop.Data;
 
@@ -11,9 +12,10 @@ using TinyShop.Data;
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240529110903_CreateProductProperties")]
+    partial class CreateProductProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -823,9 +825,6 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int?>("UnitTypeId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -836,8 +835,6 @@ namespace TinyShop.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductGroupId");
-
-                    b.HasIndex("UnitTypeId");
 
                     b.ToTable("Products");
                 });
@@ -1430,13 +1427,7 @@ namespace TinyShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TinyShop.Models.ProductUnitType", "UnitType")
-                        .WithMany()
-                        .HasForeignKey("UnitTypeId");
-
                     b.Navigation("ProductGroup");
-
-                    b.Navigation("UnitType");
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductPropertyItem", b =>

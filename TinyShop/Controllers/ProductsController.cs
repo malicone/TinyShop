@@ -63,13 +63,12 @@ namespace TinyShop.Controllers
             //var product = await _context.Products
             //    .Include( p => p.ProductGroup )
             //    .FirstOrDefaultAsync( m => m.Id == id );
-            product.ProductGroup = _context.ProductGroups.Find( product.ProductGroupId );
             if ( product == null )
             {
                 return NotFound();
             }
-
-            _context.Entry( product ).Collection( p => p.DescImages ).Load();
+            product.ProductGroup = await _context.ProductGroups.FindAsync( product.ProductGroupId );
+            await _context.Entry( product ).Collection( p => p.DescImages ).LoadAsync();
             return View( product );
         }
 

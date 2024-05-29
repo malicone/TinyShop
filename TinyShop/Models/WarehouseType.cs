@@ -6,7 +6,7 @@ namespace TinyShop.Models
 #nullable enable
     public class WarehouseType : JsonSupportable
     {
-        [Required, StringLength( LengthMedium )]
+        [Required, StringLength( StrLengthMedium )]
         public string Name { get; set; } = string.Empty;
 
         public DeliveryFirm? TheDeliveryFirm { get; set; }

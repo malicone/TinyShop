@@ -1,0 +1,355 @@
+1. Product properties models/tables added.
+
+ProductProperties
+Id
+Name
+Колір
+Розмір одягу (S, M, L)
+Розмір взуття (37, 38, 39)
+
+ProductPropertyItems
+Id
+Name
+TheFileTag
+S
+M
+L
+
+-ProductUnitTypes
+Штука
+Пара
+
+-Products
+PriceCount
+TheProductUnitTypes
+
+-ProductPrices
+PricePerItem
+ItemsPerPack
+PricePerPack -> calculated -> ItemsPerPack * PricePerItem
+MinPackSaleQuantity
+TotalPrice -> calculated -> MinPackSaleQuantity * PricePerPack
+
+16 грн. пара, 192 грн. упаковка (12 пар), мінімальна кількість 1 упаковка (192 грн.)
+15 грн. пара, 180 грн. упаковка (12 пар), мінімальна кількість 25 упаковок (4500 грн.)
+14 грн. пара, 168 грн. упаковка (12 пар), мінімальна кількість 50 упаковок (8400 грн.)
+13 грн. пара, 156 грн. упаковка (12 пар), мінімальна кількість 75 упаковок (11700 грн.)
+
+Шкарпетки чоловічі та жіночі 
+ " КОРОТИШІ".
+Гарна якість. 
+В упаковці 12 пар є в упаковці мікс кольорів як на фото та є в упаковці 12 пар всі білі.
+Розмір: 36-40 та 40-45. 
+Ціна: 10 грн. пара(money)(money)(money)
+
+Property - мікс, білі
+
+Шкарпетки жіночі та чоловічі короткі монтекс лайф.
+В упаковці 12 пар в білому кольорі та мікс кольорів. 
+В уп.один розмір. 
+Розмір: 36 - 40.
+
+Property - мікс, білі
+Дві різних фотографії
+
+23-25
+25-27
+27-29
+29-31
+35-39
+35-41
+36-38
+36-39
+36-40
+36-41
+37-41
+37-42
+40-45
+41-44
+41-45
+41-46
+41-47
+42-44
+
+
+
+
+                context.ProductPropertyItems.AddRange
+                (
+                    new ProductPropertyItem
+                    {
+                        Name = "XS",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 100
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "S",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 200
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "S/M",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 250
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "M",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 300
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "L",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 400
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "L/XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 450
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 500
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "XXL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 600
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "XXXL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 700
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "4XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 800
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "5XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 900
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "6XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 1000
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "7XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 1100
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "8XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 1200
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "9XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 1300
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "10XL",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 2 )!,
+                        SortingColumn = 1400
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "40",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 100
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "42",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 200
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "44",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 300
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "46",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 400
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "48",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 500
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "50",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 600
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "52",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 700
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "54",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 800
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "56",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 900
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "58",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 3 )!,
+                        SortingColumn = 1000
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "35",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 100
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "36",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 200
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "37",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 300
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "38",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 400
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "39",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 500
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "40",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 600
+                    },
+                    new ProductPropertyItem() {
+                        Name = "40-41",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 650
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "41",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 700
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "42",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 800
+                    },
+                    new ProductPropertyItem() {
+                        Name = "42-43",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 850
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "43",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 900
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "44",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 1000
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "45",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 1100
+                    },
+                    new ProductPropertyItem()
+                    {
+                        Name = "46",
+                        TheProductProperty = context.ProductProperties.FirstOrDefault( p => p.Id == 4 )!,
+                        SortingColumn = 1200
+                    }
+                );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

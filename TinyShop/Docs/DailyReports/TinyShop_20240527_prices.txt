@@ -1,0 +1,72 @@
+
+
+
+
+
+
+
+
+ProductProperties
+Id
+Name
+Розмір одягу (S, M, L)
+Розмір взуття (37, 38, 39)
+
+ProductPropertyItems
+Id
+Name
+S
+M
+L
+
+-ProductPartTags
+Штука
+Пара
+
+-Products
+PriceCount
+TheProductPartTag
+
+-ProductPrices
+PricePerItem
+ItemsPerPack
+PricePerPack -> calculated -> ItemsPerPack * PricePerItem
+MinPackSaleQuantity
+TotalPrice -> calculated -> MinPackSaleQuantity * PricePerPack
+
+16 грн. пара, 192 грн. упаковка (12 пар), мінімальна кількість 1 упаковка (192 грн.)
+15 грн. пара, 180 грн. упаковка (12 пар), мінімальна кількість 25 упаковок (4500 грн.)
+14 грн. пара, 168 грн. упаковка (12 пар), мінімальна кількість 50 упаковок (8400 грн.)
+13 грн. пара, 156 грн. упаковка (12 пар), мінімальна кількість 75 упаковок (11700 грн.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

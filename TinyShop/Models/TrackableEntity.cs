@@ -6,7 +6,7 @@ namespace TinyShop.Models
 #nullable enable
     public abstract class TrackableEntity : BaseEntity
     {
-        [StringLength( LengthLarge )]
+        [StringLength( StrLengthLarge )]
         public string? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public void SetCreateStamp( string? createdBy = null )
@@ -15,7 +15,7 @@ namespace TinyShop.Models
             CreatedAt = DateTime.Now;
         }
 
-        [StringLength( LengthLarge )]
+        [StringLength( StrLengthLarge )]
         public string? UpdatedBy { get; set; }                
         public DateTime? UpdatedAt { get; set; }
         public void SetUpdateStamp( string? updatedBy = null )

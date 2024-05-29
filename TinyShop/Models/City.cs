@@ -8,10 +8,10 @@ namespace TinyShop.Models
     [Index( nameof( RegionIdExternal ) )]
     public class City : JsonSupportable
     {
-        [Required, StringLength( LengthLarge ), Display(Name = "Місто/село")]
+        [Required, StringLength( StrLengthLarge ), Display(Name = "Місто/село")]
         public string Name { get; set; } = string.Empty;
 
-        [StringLength( LengthSmall )]
+        [StringLength( StrLengthSmall )]
         public string? TypeDescription { get; set; }
 
         [StringLength( LengthIdExturnal )]

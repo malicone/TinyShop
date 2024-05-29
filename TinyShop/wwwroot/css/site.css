@@ -86,3 +86,7 @@ body {
     display: block;
     visibility: visible;
 }
+
+.per-unit-price {
+    background-color: rgba(0, 0, 0, 0.3)
+}

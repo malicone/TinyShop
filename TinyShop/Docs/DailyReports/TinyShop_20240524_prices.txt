@@ -1,0 +1,61 @@
+
+
+
+
+
+
+
+
+
+
+-ProductPartDescriptions
+
+-Products
+PriceCount
+ProductPartDescription
+
+-ProductPrices
+PricePerItem
+ItemsPerPack
+PricePerPack -> calculated -> ItemsPerPack * PricePerItem
+PackSaleQuantity
+TotalPrice -> calculated -> PackSaleQuantity * PricePerPack
+
+
+
+16 грн. пара, 192 грн. упаковка (12 пар), мінімальна кількість 1 упаковка (192 грн.)
+15 грн. пара, 180 грн. упаковка (12 пар), мінімальна кількість 25 упаковок (4500 грн.)
+14 грн. пара, 168 грн. упаковка (12 пар), мінімальна кількість 50 упаковок (8400 грн.)
+13 грн. пара, 156 грн. упаковка (12 пар), мінімальна кількість 75 упаковок (11700 грн.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

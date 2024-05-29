@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace TinyShop.Models
             DescImages = new HashSet<FileTag>();
         }
 
-        [Required, StringLength( LengthMedium, MinimumLength = 3 ), Display(Name = "Назва")]
+        [Required, StringLength( StrLengthMedium, MinimumLength = 3 ), Display(Name = "Назва")]
         public string Name { get; set; } = string.Empty;
 
         [Display( Name = "Опис" )]
@@ -31,6 +32,10 @@ namespace TinyShop.Models
         public virtual ProductGroup ProductGroup { get; set; }
 
         public virtual ICollection<FileTag> DescImages { get; set; }        
+        public virtual ICollection<ProductProperty> Properties { get; set; }
+        public virtual ICollection<ProductPropertyItem> PropertyItems { get; set; }
+        [DefaultValue(ProductUnitType.UnitId)]
+        public ProductUnitType? UnitType { get; set; }
 
         [NotMapped]
         public FileTag? MainImage

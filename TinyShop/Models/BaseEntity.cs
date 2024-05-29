@@ -7,11 +7,11 @@ namespace TinyShop.Models
 {
     public abstract class BaseEntity
     {
-        public const int LengthSmallExtra = 32;
-        public const int LengthSmall = 64;
-        public const int LengthMedium = 256;
-        public const int LengthLarge = 512;
-        public const int LengthLargeExtra = 1024;
+        public const int StrLengthSmallExtra = 32;
+        public const int StrLengthSmall = 64;
+        public const int StrLengthMedium = 256;
+        public const int StrLengthLarge = 512;
+        public const int StrLengthLargeExtra = 1024;
 
         // The default convention creates a primary key column for a property whose name is Id or <Entity Class Name>Id.
         // The Key attribute overrides this default convention.

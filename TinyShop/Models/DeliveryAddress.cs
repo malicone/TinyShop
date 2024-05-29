@@ -6,15 +6,15 @@ namespace TinyShop.Models
     public class DeliveryAddress : SoftDeletableEntity
     {
         public Region? TheRegion { get; set; }
-        [StringLength( LengthLarge )]
+        [StringLength( StrLengthLarge )]
         public string? RegionNameSnapshot { get; set; }
 
         public City? TheCity { get; set; }
-        [StringLength( LengthLarge )]
+        [StringLength( StrLengthLarge )]
         public string? CityNameSnapshot { get; set; }
 
         public Warehouse? TheWarehouse { get; set; }
-        [StringLength( LengthLarge )]
+        [StringLength( StrLengthLarge )]
         public string? WarehouseNameSnapshot { get; set; }
 
         // AddressLine1, AddressLine2 for courier delivery can be added here in the future

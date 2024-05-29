@@ -86,6 +86,8 @@ namespace TinyShop
                      pattern: "{controller=Home}/{action=Index}/{id?}" );
                  endpoints.MapRazorPages();
              } );            
+
+            SeedData.EnsurePopulated(app);
         }
     }
 }

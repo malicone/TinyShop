@@ -10,7 +10,7 @@ namespace TinyShop.Models
 #nullable enable
     public class ProductGroup : SoftDeletableEntity
     {
-        [Required, StringLength( LengthMedium, MinimumLength = 3 ), Display(Name = "Назва")]
+        [Required, StringLength( StrLengthMedium, MinimumLength = 3 ), Display(Name = "Назва")]
         public string Name { get; set; } = string.Empty;
 
         public virtual ICollection<Product> Products { get; set; }

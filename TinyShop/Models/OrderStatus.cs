@@ -4,14 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace TinyShop.Models
 {
 #nullable enable
-    public class OrderStatus : BaseEntity
+    public class OrderStatus : NamedEntity
     {
         public OrderStatus() 
-        { 
-            Name = string.Empty;
+        {
+            
         }
-        [Required, StringLength( LengthSmall )]
-        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// Important! These are values from database.
         /// </summary>

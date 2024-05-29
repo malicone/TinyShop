@@ -6,23 +6,23 @@ namespace TinyShop.Models
 #nullable enable
     public class Customer : SoftDeletableEntity
     {
-        [Required(ErrorMessage = "Вкажіть ім'я"), StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "Ім'я*" )]
+        [Required(ErrorMessage = "Вкажіть ім'я"), StringLength( StrLengthMedium, MinimumLength = 3 ), Display( Name = "Ім'я*" )]
         public string FirstName { get; set; } = string.Empty;
         
-        [Required(ErrorMessage = "Вкажіть прізвище"), StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "Прізвище*" )]
+        [Required(ErrorMessage = "Вкажіть прізвище"), StringLength( StrLengthMedium, MinimumLength = 3 ), Display( Name = "Прізвище*" )]
         public string LastName { get; set; } = string.Empty;
         
-        [StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "По-батькові" )]
+        [StringLength( StrLengthMedium, MinimumLength = 3 ), Display( Name = "По-батькові" )]
         public string? MiddleName { get; set; }
 
         [NotMapped, Display( Name = "ПІБ" )]
         public string FullName { get { return $"{LastName} {FirstName} {MiddleName}"; } }
         
-        [StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "e-mail" )]
+        [StringLength( StrLengthMedium, MinimumLength = 3 ), Display( Name = "e-mail" )]
         [DataType( DataType.EmailAddress )]
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "Вкажіть телефон"), StringLength( LengthMedium, MinimumLength = 3 ), Display( Name = "Телефон*" )]
+        [Required(ErrorMessage = "Вкажіть телефон"), StringLength( StrLengthMedium, MinimumLength = 3 ), Display( Name = "Телефон*" )]
         public string Phone { get; set; } = string.Empty;
 
         public override bool Equals( object? obj )
