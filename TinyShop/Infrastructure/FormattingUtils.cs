@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using TinyShop.Models;
 
 namespace TinyShop.Infrastructure
 {
@@ -18,6 +19,18 @@ namespace TinyShop.Infrastructure
             return formatted;
         }
 
+        public static string FormatUnitPrice(Product product)
+        {
+            string unitLabel = product.UnitTypeId == ProductUnitType.PairId ? "пару" : "шт.";
+            return FormatPrice(product.PricePerUnit) + " за 1 " + unitLabel;
+        }
+
+        public static string FormatPackPrice(Product product)
+        {
+            string unitLabel = product.UnitTypeId == ProductUnitType.PairId ? "пар" : "шт.";
+            return FormatPrice(product.PackPrice) + " упаковка (" + product.UnitsPerPack + " " + unitLabel + ")";
+        }
+        
         public static string GetProductSingleOrPlural(int count)
         {
             if ( ( count >= 11 ) && ( count <= 19 ) )

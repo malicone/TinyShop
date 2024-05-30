@@ -34,6 +34,7 @@ namespace TinyShop.Data
         public DbSet<ProductProperty> ProductProperties { get; set; }
         public DbSet<ProductPropertyItem> ProductPropertyItems { get; set; }
         public DbSet<ProductUnitType> ProductUnitTypes { get; set; }
+        public DbSet<ProductPrice> ProductPrices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,6 +42,8 @@ namespace TinyShop.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+            
+            builder.Entity<Product>().Property(p => p.UnitTypeId).HasDefaultValue(ProductUnitType.UnitId);
         }
     }
 }

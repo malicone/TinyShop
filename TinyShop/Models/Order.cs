@@ -15,8 +15,19 @@ namespace TinyShop.Models
         [Required]
         public virtual Product TheProduct { get; set; }
 
+        /// <summary>
+        /// Price at the moment of order creation. Deprecated. Use ProductPrice instead.
+        /// </summary>
         [Required, DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" )]
         public decimal PriceSnapshot { get; set; }
+
+        public decimal PricePerUnitSnapshot { get; set; }
+        public int UnitsPerPackSnapshot { get; set; }
+        [NotMapped]
+        public decimal PackPriceSnapshot => PricePerUnitSnapshot * UnitsPerPackSnapshot;
+        public int MinPackSaleQuantitySnapshot { get; set; }
+        [NotMapped]
+        public decimal TotalPriceSnapshot => PackPriceSnapshot * MinPackSaleQuantitySnapshot;
 
         [Required]                                             
         public int Quantity { get; set; }
@@ -46,7 +57,7 @@ namespace TinyShop.Models
         [BindNever]
         public virtual ICollection<OrderLine> Lines { get; set; }
 
-        public decimal ComputeTotalValue() => Lines.Sum( e => e.PriceSnapshot * e.Quantity );
+        public decimal ComputeTotalValue() => Lines.Sum( e => e.PackPriceSnapshot * e.Quantity );
         public int ComputeTotalQuantity() => Lines.Sum( e => e.Quantity );
     }
 #nullable disable

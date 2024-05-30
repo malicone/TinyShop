@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TinyShop.Data;
 
@@ -11,9 +12,10 @@ using TinyShop.Data;
 namespace TinyShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240530105825_ProductsUnitTypeNotNull")]
+    partial class ProductsUnitTypeNotNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -668,12 +670,6 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int>("MinPackSaleQuantitySnapshot")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PricePerUnitSnapshot")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("PriceSnapshot")
                         .HasColumnType("decimal(18,2)");
 
@@ -691,9 +687,6 @@ namespace TinyShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("TheProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitsPerPackSnapshot")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -844,9 +837,6 @@ namespace TinyShop.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<bool>("WholesalePriceNegotiable")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductGroupId");
@@ -893,54 +883,6 @@ namespace TinyShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductGroups");
-                });
-
-            modelBuilder.Entity("TinyShop.Models.ProductPrice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<int>("MinPackSaleQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PricePerUnit")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("SoftDeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SoftDeletedBy")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<int>("TheProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitsPerPack")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TheProductId");
-
-                    b.ToTable("ProductPrices");
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductProperty", b =>
@@ -1503,17 +1445,6 @@ namespace TinyShop.Migrations
                     b.Navigation("UnitType");
                 });
 
-            modelBuilder.Entity("TinyShop.Models.ProductPrice", b =>
-                {
-                    b.HasOne("TinyShop.Models.Product", "TheProduct")
-                        .WithMany("Prices")
-                        .HasForeignKey("TheProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TheProduct");
-                });
-
             modelBuilder.Entity("TinyShop.Models.ProductPropertyItem", b =>
                 {
                     b.HasOne("TinyShop.Models.FileTag", "TheFileTag")
@@ -1583,8 +1514,6 @@ namespace TinyShop.Migrations
             modelBuilder.Entity("TinyShop.Models.Product", b =>
                 {
                     b.Navigation("OrderLines");
-
-                    b.Navigation("Prices");
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductGroup", b =>

@@ -14,7 +14,7 @@
             @Html.DisplayNameFor( model => model.Price )
         </dt>
         <dd class="col-sm-10">
-            @FormattingUtils.FormatPrice( Model.Price.Value )
+            @FormattingUtils.FormatPackPrice(Model)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor( model => model.ProductGroup )

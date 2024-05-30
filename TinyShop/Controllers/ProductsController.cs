@@ -28,8 +28,12 @@ namespace TinyShop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products.Include( p => p.ProductGroup )
-                .Where( p => p.SoftDeletedAt.HasValue == false ).OrderByDescending( p => p.CreatedAt );
+            var products = _context.Products.Include(p => p.Prices).Include( p => p.ProductGroup )
+                .Where( p => p.SoftDeletedAt.HasValue == false ).OrderByDescending( p => p.CreatedAt ).AsNoTracking();
+            foreach(var product in products)
+            {
+                await _context.Entry( product ).Collection( p => p.Prices ).LoadAsync();
+            }
             return View( await products.ToListAsync() );
         }
 
@@ -68,6 +72,7 @@ namespace TinyShop.Controllers
                 return NotFound();
             }
             product.ProductGroup = await _context.ProductGroups.FindAsync( product.ProductGroupId );
+            await _context.Entry(product).Collection(p => p.Prices).LoadAsync();
             await _context.Entry( product ).Collection( p => p.DescImages ).LoadAsync();
             return View( product );
         }
