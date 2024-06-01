@@ -35,16 +35,17 @@ namespace TinyShop.Controllers
         /// Adds a product to the cart.
         /// </summary>
         /// <param name="productId">Id of the product to add.</param>
+        /// <param name="quantity">Quantity to be added.</param>
         /// <returns>CartSummaryComponent which can be used to refresh cart view.</returns>
         [AllowAnonymous]
         [HttpGet]
-        [Route("{productId}")]
-        public IActionResult AddToCart(int productId)
+        [Route("{productId}/{quantity}")]
+        public IActionResult AddToCart(int productId, int quantity)
         {
-            Product? product = _context.Products.FirstOrDefault( p => p.Id == productId );
+            Product product = _context.Products.FirstOrDefault( p => p.Id == productId );
             if (product != null)
             {
-                _cartVM.Cart.AddItem( product );
+                _cartVM.Cart.AddItem( product, quantity );
             }
             return ViewComponent( "CartSummary" );
         }

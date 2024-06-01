@@ -90,3 +90,36 @@ body {
 .per-unit-price {
     background-color: rgba(0, 0, 0, 0.3)
 }
+
+/* spin edit classes begin */
+.spin-edit-pointer {
+    cursor: pointer;
+}
+
+.number {
+    margin: 4px;
+}
+
+.minus, .plus {        
+    width: 34px;
+    height: 34px;
+    background: #f2f2f2;
+    border-radius: 4px;
+    padding: 8px 5px 8px 5px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;    
+}
+
+.spin-edit {
+    height: 34px;
+    width: 50px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
+/* spin edit classes end */

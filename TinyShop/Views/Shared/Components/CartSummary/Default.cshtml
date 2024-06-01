@@ -8,7 +8,7 @@
             <small class="navbar-text">
                 <b>Кошик:</b>
                 @Model?.ComputeTotalQuantity() @FormattingUtils.GetProductSingleOrPlural( Model?.ComputeTotalQuantity() )
-                @FormattingUtils.FormatPrice(Model?.ComputeTotalValue());
+                @FormattingUtils.FormatPrice(Model?.ComputeTotalValue())
             </small>
         }
         else

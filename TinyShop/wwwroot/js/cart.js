@@ -1,8 +1,7 @@
-﻿function addToCartRequest(element) {
-    var productId = $(element).data("product-id");
+﻿function addToCartRequest(productId, quantity) {    
     $.ajax({
         type: "GET",
-        url: "/Cart/AddToCart/" + productId,
+        url: "/Cart/AddToCart/" + productId + "/" + quantity,
         data: null,
         success: function (result) {
             $("#cart").replaceWith(result);
@@ -24,8 +23,7 @@ function removeOneFromCartRequest(element) {
     });
 }
 
-function removeEntireLineRequest(element) {
-    var productId = $(element).data("product-id");    
+function removeEntireLineRequest(productId) {       
     $.ajax({
         type: "GET",
         url: "/Cart/RemoveEntireLine/" + productId,

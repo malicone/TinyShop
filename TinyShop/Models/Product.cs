@@ -47,7 +47,7 @@ namespace TinyShop.Models
             }
         }        
         public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
-        public virtual ICollection<ProductPrice> Prices { get; set; }
+        public virtual IList<ProductPrice> Prices { get; set; } = new List<ProductPrice>();
 
         /// <summary>
         /// Deprecated. Use Prices and others instead.
@@ -55,6 +55,10 @@ namespace TinyShop.Models
         [DataType( DataType.Currency ), Column( TypeName = "decimal(18, 2)" ), Display( Name = "Ціна" )]
         public decimal? Price { get; set; }
 
+        /// <summary>
+        /// These prices properties are just for convenience. They are not stored in the database and use
+        /// Prices[0] element.
+        /// </summary>
         [NotMapped]
         public decimal PricePerUnit
         {
@@ -122,15 +126,39 @@ namespace TinyShop.Models
         {
             get
             {
+                if(WholesalePriceNegotiable)
+                {
+                    return true;
+                }
                 if(Prices == null)
                 {
                     return false;
                 }
-                return (Prices.Count > 1) || WholesalePriceNegotiable;
+                return Prices.Count > 1;
             }
         }
 
         public bool WholesalePriceNegotiable { get; set; }
+        public ProductPrice GetMatchingPrice(int quantity)
+        {
+            if((Prices == null) || (Prices.Count == 0))
+            {
+                return new ProductPrice();
+            }
+            ProductPrice currentPrice = Prices.ElementAt(0);
+            for(int i = 1; i < Prices.Count; i++)
+            {
+                if(quantity >= Prices.ElementAt(i).MinPackSaleQuantity)
+                {
+                    currentPrice = Prices.ElementAt(i);
+                }
+                else
+                {
+                    return currentPrice;
+                }
+            }
+            return currentPrice;
+        }
     }
 #nullable disable
 }

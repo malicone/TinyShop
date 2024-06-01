@@ -41,11 +41,16 @@
                             <p class="card-text small mt-0">
                                 &nbsp;     
                             </p>
-                        }
+                        }             
+                        <div class="number">
+                            <span class="minus spin-edit-pointer" onclick="minusClick(this)"><b>-</b></span>
+                            <input class="spin-edit" type="text" value="1" id="quantity-@product.Id" />
+                            <span class="plus spin-edit-pointer" onclick="plusClick(this)"><b>+</b></span>
+                        </div>
                         <!-- Button trigger modal -->
                          <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" 
-                                data-target="#cartModal" data-product-id="@product.Id"
-                                onclick="addToCartRequest(this)">
+                                data-target="#cartModal" 
+                                onclick="addToCartRequest(@product.Id, $('#quantity-@product.Id').val())">
                             Додати в кошик
                          </button>
                     </div>
@@ -66,4 +71,5 @@
 
 @section Scripts {
     <script src="~/js/cart.js"></script>
+    <script src="~/js/spinEditProduct.js"></script>
 }

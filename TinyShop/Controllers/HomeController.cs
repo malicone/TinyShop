@@ -38,21 +38,23 @@ namespace TinyShop.Controllers
             {
                 // Select all products
                 products = _context.Products.Where( p => p.SoftDeletedAt.HasValue == false )
+                    .Include( p => p.Prices )
                     .AsNoTracking().OrderByDescending( p => p.Id )
                     .Skip( ( productPage - 1 ) * itemsPerPage )
                     .Take( itemsPerPage );                
-                totalItems = _context.Products.Where( p => p.SoftDeletedAt.HasValue == false ).Count();
+                totalItems = _context.Products.Count(p => p.SoftDeletedAt.HasValue == false);
             }
             else
             {
                 // Select products of specified group
                 products = _context.Products.Where( 
                     p => ( p.SoftDeletedAt.HasValue == false ) && ( p.ProductGroupId == productGroupId ) )
+                    .Include( p => p.Prices )
                     .AsNoTracking().OrderByDescending( p => p.Id )
                     .Skip( ( productPage - 1 ) * itemsPerPage )
                     .Take( itemsPerPage );
-                totalItems = _context.Products.Where( 
-                    p => ( p.SoftDeletedAt.HasValue == false ) && ( p.ProductGroupId == productGroupId ) ).Count();
+                totalItems = _context.Products.Count(p => 
+                    ( p.SoftDeletedAt.HasValue == false ) && ( p.ProductGroupId == productGroupId ));
             }
             var homeViewModel = new HomeViewModel
             {

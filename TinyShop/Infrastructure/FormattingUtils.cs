@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TinyShop.Models;
 
@@ -15,10 +16,21 @@ namespace TinyShop.Infrastructure
             nfi.NumberGroupSeparator = " ";
             var formatted = value.ToString("#,0", nfi);
             if (addCurrencyShortcut)
-                formatted = formatted + " грн.";
+                formatted += " грн.";
             return formatted;
         }
 
+        public static string FormatWholesalePrice(ProductPrice price)
+        {
+            string unitLabelSingle = price.TheProduct.UnitTypeId == ProductUnitType.PairId ? "пару" : "шт.";
+            string unitLabelPlural = price.TheProduct.UnitTypeId == ProductUnitType.PairId ? "пар" : "шт.";
+            var sbuilder = new StringBuilder();
+            sbuilder.Append($"{FormatPrice(price.PricePerUnit)} за 1 {unitLabelSingle},");
+            sbuilder.Append($" {FormatPrice(price.PackPrice)} упаковка ({price.UnitsPerPack} {unitLabelPlural}),");
+            sbuilder.Append($" мінімальна кількість {price.MinPackSaleQuantity} " +
+                            $"{GetPackSingleOrPlural(price.MinPackSaleQuantity)} ({FormatPrice(price.TotalPrice)})");
+            return sbuilder.ToString();
+        }
         public static string FormatUnitPrice(Product product)
         {
             string unitLabel = product.UnitTypeId == ProductUnitType.PairId ? "пару" : "шт.";
@@ -42,6 +54,19 @@ namespace TinyShop.Infrastructure
             if ( lastDigit > 1 && lastDigit < 5 )
                 return "товара";
             return "товарів";
+        }
+
+        public static string GetPackSingleOrPlural(int count)
+        {
+            if ( ( count >= 11 ) && ( count <= 19 ) )
+                return "упаковок";
+
+            var lastDigit = count % 10;
+            if ( lastDigit == 1 )
+                return "упаковка";
+            if ( lastDigit > 1 && lastDigit < 5 )
+                return "упаковки";
+            return "упаковок";
         }
 
         public static string FormatDateTime( DateTime value, bool includeTime = true )

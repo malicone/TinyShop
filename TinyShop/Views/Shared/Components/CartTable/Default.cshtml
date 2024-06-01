@@ -28,22 +28,19 @@ else
                 {
                     <tr>
                         <td class="text-left">@line.TheProduct.Name</td>
-                        <td class="text-right">@FormattingUtils.FormatPrice( line.PriceSnapshot )</td>
+                        <td class="text-right">@FormattingUtils.FormatPrice( line.PackPriceSnapshot )</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-outline-dark btn-sm"
-                                    data-product-id="@line.TheProduct.Id" onclick="productMinus(this)">
-                                -
-                            </button>
-                            <span id="productId-@line.TheProduct.Id">@line.Quantity</span>
-                            <button type="button" class="btn btn-outline-dark btn-sm"
-                                    data-product-id="@line.TheProduct.Id" onclick="productPlus(this)">
-                                +
-                            </button>
+                            <div class="number">
+                                <span class="minus spin-edit-pointer" onclick="minusClick(this)"><b>-</b></span>
+                                <input class="spin-edit" type="text" value="@line.Quantity" 
+                                       id="quantity-@line.TheProduct.Id" />
+                                <span class="plus spin-edit-pointer" onclick="plusClick(this)"><b>+</b></span>
+                            </div>
                         </td>
-                        <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PriceSnapshot )</td>
+                        <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PackPriceSnapshot )</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-danger" 
-                                data-product-id="@line.TheProduct.Id" onclick="removeEntireLineRequest(this)">
+                                    onclick="removeEntireLineRequest(@line.TheProduct.Id)">
                                 Видалити
                             </button>
                         </td>

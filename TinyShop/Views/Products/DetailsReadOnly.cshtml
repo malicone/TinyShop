@@ -13,8 +13,43 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor( model => model.Price )
         </dt>
-        <dd class="col-sm-10">
-            @FormattingUtils.FormatPackPrice(Model)
+        <dd class="col-sm-10">                       
+            @for( int i = 0; i < Model.Prices.Count; i++ )
+            {
+                @if(i == 0)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prices" id="price-@i" 
+                               value="@Model.Prices[i].MinPackSaleQuantity" checked
+                               onclick="setQuantity('quantity', @Model.Prices[i].MinPackSaleQuantity)">
+                        <label class="form-check-label" for="price-@i">
+                            @FormattingUtils.FormatWholesalePrice(Model.Prices[i])
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prices" id="price-@i" 
+                               value="@Model.Prices[i].MinPackSaleQuantity" 
+                               onclick="setQuantity('quantity', @Model.Prices[i].MinPackSaleQuantity)">
+                        <label class="form-check-label" for="price-@i">
+                            @FormattingUtils.FormatWholesalePrice( Model.Prices[ i ] )
+                        </label>
+                    </div>
+                }
+            }                      
+            <div class="number">
+                <span class="minus spin-edit-pointer" onclick="minusClick(this)"><b>-</b></span>
+                <input class="spin-edit" type="text" value="1" id="quantity" />
+                <span class="plus spin-edit-pointer" onclick="plusClick(this)"><b>+</b></span>
+            </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success btn-sm mb-2 mt-2" data-toggle="modal"
+                    data-target="#cartModal"
+                    onclick="addToCartRequest(@Model.Id, $('#quantity').val())">
+                Додати в кошик
+            </button>
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor( model => model.ProductGroup )
@@ -35,14 +70,6 @@
             <img src="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )" width="150" class="img-thumbnail img-fluid">
         </a>
     }
-    <br />
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success btn-sm mb-2 mt-2" data-toggle="modal"
-            data-target="#cartModal" data-product-id="@Model.Id"
-            onclick="addToCartRequest(this)">
-        Додати в кошик
-    </button>
-
     <hr />
 </div>
 <div class="mt-3">
@@ -53,4 +80,5 @@
 
 @section Scripts {
     <script src="~/js/cart.js"></script>
+    <script src="~/js/spinEditProduct.js"></script>
 }

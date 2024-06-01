@@ -30,10 +30,6 @@ namespace TinyShop.Controllers
         {
             var products = _context.Products.Include(p => p.Prices).Include( p => p.ProductGroup )
                 .Where( p => p.SoftDeletedAt.HasValue == false ).OrderByDescending( p => p.CreatedAt ).AsNoTracking();
-            foreach(var product in products)
-            {
-                await _context.Entry( product ).Collection( p => p.Prices ).LoadAsync();
-            }
             return View( await products.ToListAsync() );
         }
 
@@ -63,9 +59,8 @@ namespace TinyShop.Controllers
             }
 
             var product = await _context.Products.FindAsync( id );
-            // Include does not work so use Find
             //var product = await _context.Products
-            //    .Include( p => p.ProductGroup )
+            //    .Include( p => p.ProductGroup )// Include does not work so use Find
             //    .FirstOrDefaultAsync( m => m.Id == id );
             if ( product == null )
             {
