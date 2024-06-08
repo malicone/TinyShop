@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
-#nullable enable
     /// <summary>
     /// Product can have multiple prices for different pack sizes.
     /// </summary>
@@ -25,5 +24,4 @@ namespace TinyShop.Models
         [NotMapped]
         public decimal TotalPrice => PackPrice * MinPackSaleQuantity;
     }
-#nullable disable
 }

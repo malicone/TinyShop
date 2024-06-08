@@ -1,23 +1,34 @@
-﻿function addToCartRequest(productId, quantity) {    
+﻿function updateCartSummary() {
+    $.ajax({
+        type: "GET",
+        url: "/Cart/GetCartSummaryComponent/",
+        data: null,
+        cache: false,
+        success: function (result) {            
+            $("#cartSummary").replaceWith(result);
+        },
+    });
+}
+
+function addToCartRequest(productId, quantity) {    
     $.ajax({
         type: "GET",
         url: "/Cart/AddToCart/" + productId + "/" + quantity,
         data: null,
         success: function (result) {
-            $("#cart").replaceWith(result);
+            $("#cartSummary").replaceWith(result);
             getCartTableRequest();
         },
     });
 }
 
-function removeOneFromCartRequest(element) {
-    var productId = $(element).data("product-id");
+function removeOneFromCartRequest(productId) {
     $.ajax({
         type: "GET",
         url: "/Cart/RemoveOneFromCart/" + productId,
         data: null,
         success: function (result) {
-            $("#cart").replaceWith(result);
+            $("#cartSummary").replaceWith(result);
             getCartTableRequest();
         },
     });
@@ -29,7 +40,7 @@ function removeEntireLineRequest(productId) {
         url: "/Cart/RemoveEntireLine/" + productId,
         data: null,
         success: function (result) {
-            $("#cart").replaceWith(result);
+            $("#cartSummary").replaceWith(result);
             getCartTableRequest();            
         },
     });
@@ -37,14 +48,6 @@ function removeEntireLineRequest(productId) {
 function goToOrder() {
     window.location.href = "/Cart/Index?returnurl=/Home/Index";
 }
-
-function productPlus(element) {
-    addToCartRequest(element);
-}
-function productMinus(element) {
-    removeOneFromCartRequest(element);
-}
-
 function getCartTableRequest() {
     $.ajax({
         type: "GET",

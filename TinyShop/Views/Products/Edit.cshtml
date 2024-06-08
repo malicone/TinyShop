@@ -9,6 +9,9 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
+        <component type="typeof(TinyShop.Areas.BlazorComponents.Pages.EditProduct)" render-mode="ServerPrerendered" 
+            param-Id="@Model.ProductId"></component>
+
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">

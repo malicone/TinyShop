@@ -1,0 +1,29 @@
+1. Nullable types enabled in project options (i.e. global).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<vc:cart-table />
+
+value="@line.Quantity"
+
+id="quantity-@line.TheProduct.Id" @bind="line.Quantity"
+
+product.Prices = product.Prices.OrderBy(p => p.MinPackSaleQuantity).ToList();
+
+
+
+
+

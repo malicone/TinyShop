@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Text.Json.Serialization;
 using TinyShop.Infrastructure;
+using TinyShop.Models;
 
 namespace TinyShop.Models
 {
@@ -10,7 +13,7 @@ namespace TinyShop.Models
     {
         public static Cart GetCart(IServiceProvider services)
         {
-            ISession? session = services.GetRequiredService<IHttpContextAccessor>().HttpContext?.Session;
+            ISession? session = services.GetRequiredService<IHttpContextAccessor>().HttpContext?.Session;            
             SessionCart cart = session?.GetJson<SessionCart>( _SessionId ) ?? new SessionCart();
             cart.Session = session;
             return cart;
@@ -21,6 +24,11 @@ namespace TinyShop.Models
         public override void AddItem(Product product, int quantity = 1 )
         {
             base.AddItem( product, quantity );
+            Session?.SetJson( _SessionId, this );
+        }
+        public override void SetItem(Product product, int quantity = 1)
+        {
+            base.SetItem( product, quantity );
             Session?.SetJson( _SessionId, this );
         }
         public override void RemoveItem(int productId, int quantity = 1)

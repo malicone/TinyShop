@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class ProductUnitType : NamedEntity
     {
         [StringLength(StrLengthMedium)]
@@ -15,5 +14,4 @@ namespace TinyShop.Models
         [NotMapped]
         public const int PairId = 2;
     }
-#nullable disable
 }

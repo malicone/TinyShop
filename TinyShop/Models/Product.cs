@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class Product : SoftDeletableEntity
     {
         public Product()
@@ -160,5 +159,4 @@ namespace TinyShop.Models
             return currentPrice;
         }
     }
-#nullable disable
 }

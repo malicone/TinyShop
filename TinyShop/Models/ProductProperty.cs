@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class ProductProperty : NamedEntity
     {
         [StringLength(StrLengthMedium)]
@@ -11,5 +10,4 @@ namespace TinyShop.Models
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<ProductPropertyItem> Items { get; set; }
     }
-#nullable disable
 }

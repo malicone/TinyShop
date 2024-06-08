@@ -1,0 +1,122 @@
+﻿@page "/shoppingcarttable"
+@using System.ComponentModel
+@using TinyShop.Components
+@using TinyShop.Controllers
+@using TinyShop.Data
+@using TinyShop.Infrastructure
+@using TinyShop.Models;
+
+@if ( TheCart?.Lines.Count == 0 )
+{
+    <div class="alert alert-info">
+        Кошик пустий
+    </div>
+}
+else
+{
+    <div id="cartTable">
+        <h2>Кошик</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th class="text-right">Ціна</th>
+                    <th>Кількість</th>
+                    <th class="text-right">Сума</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( var line in TheCart?.Lines ?? Enumerable.Empty<OrderLine>() )
+                {
+                    <tr>
+                        <td class="text-left">@line.TheProduct.Name</td>
+                        <td class="text-right">@FormattingUtils.FormatPrice( line.PackPriceSnapshot )</td>
+                        <td class="text-center">
+                            <div class="number">
+                                <span class="minus spin-edit-pointer"
+                                      @onclick="() => ProductMinus(line.TheProduct.Id)"><b>-</b></span>
+                                <input class="spin-edit" type="text" value="@line.Quantity"
+                                      @oninput="(e => ProductQuantityChanged(e, line.TheProduct.Id))" />
+                                <span class="plus spin-edit-pointer"
+                                      @onclick="() => ProductPlus(line.TheProduct.Id)"><b>+</b></span>
+                            </div>
+                        </td>
+                        <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PackPriceSnapshot )</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-danger"
+                                    @onclick="() => RemoveEntireLine(line.TheProduct.Id)">
+                                Видалити
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-right">Всього:</td>
+                    <td class="text-center">
+                        @TheCart?.ComputeTotalQuantity() @FormattingUtils.GetProductSingleOrPlural( TheCart.ComputeTotalQuantity() )
+                    </td>
+                    <td class="text-right">
+                        @FormattingUtils.FormatPrice( ( TheCart?.ComputeTotalValue() ).Value )
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+}
+@code {
+
+    [Inject]
+    public Cart? TheCart { get; set; }
+
+    [Inject]
+    public ShopContext? Context { get; set; }
+
+    [Inject]
+    public IJSRuntime? JSRuntime { get; set; }
+
+    private async void ProductMinus(int productId)
+    {
+        TheCart?.RemoveItem(productId);
+        await UpdateCartSummary();
+    }
+    private async void ProductPlus(int productId)
+    {
+        Product? product = Context?.Products.Find(productId);        
+        if ( product != null )
+        {
+            Context?.Entry( product )?.Collection( p => p.Prices ).Load();
+            TheCart?.AddItem(product);
+            await UpdateCartSummary();
+        }
+    }
+    private async void RemoveEntireLine(int productId)
+    {
+        TheCart?.RemoveLine(productId);
+        await UpdateCartSummary();
+    }
+    private async void ProductQuantityChanged(ChangeEventArgs e, int productId)
+    {
+        if(e.Value == null)
+        {
+            return;
+        };
+        int quantity = 0;
+        if(int.TryParse(e.Value.ToString(), out quantity) == true)
+        {
+            Product? product = Context?.Products.Find( productId );
+            if ( product != null )
+            {
+                Context?.Entry( product )?.Collection( p => p.Prices ).Load();
+                TheCart?.SetItem(product, quantity);
+                await UpdateCartSummary();
+            }
+        };
+    }
+    private async Task UpdateCartSummary()
+    {                
+        await JSRuntime!.InvokeVoidAsync( "updateCartSummary" );
+    }
+}

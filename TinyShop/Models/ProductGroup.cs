@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class ProductGroup : SoftDeletableEntity
     {
         [Required, StringLength( StrLengthMedium, MinimumLength = 3 ), Display(Name = "Назва")]
@@ -19,5 +18,4 @@ namespace TinyShop.Models
         // Used in HomeController.Index
         public int ProductCount { get; set; } = 0;
     }
-#nullable disable
 }

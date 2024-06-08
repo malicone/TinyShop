@@ -36,11 +36,14 @@ namespace TinyShop
             services.AddControllersWithViews();            
             services.AddDistributedMemoryCache();
             services.AddSession();
-            services.AddScoped<Cart>( sp => SessionCart.GetCart( sp ) );
+            services.AddScoped<Cart>( sp => SessionCart.GetCart( sp ) );            
             services.AddScoped<CartViewModel>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<NovaPoshtaClient>();
             services.AddScoped<IDeliveryAddressProvider, DbDeliveryAddressProvider>();
+            
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
 
             services.AddDbContext<ShopContext>( options =>
                 options.UseSqlServer( Configuration.GetConnectionString( "ShopContextConnection" ) ) );
@@ -77,7 +80,7 @@ namespace TinyShop
 
             app.UseSession();
             app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthorization();           
 
             app.UseEndpoints( endpoints =>
              {
@@ -85,6 +88,9 @@ namespace TinyShop
                      name: "default",
                      pattern: "{controller=Home}/{action=Index}/{id?}" );
                  endpoints.MapRazorPages();
+
+                 endpoints.MapControllers();
+                 endpoints.MapBlazorHub();
              } );            
 
             SeedData.EnsurePopulated(app);

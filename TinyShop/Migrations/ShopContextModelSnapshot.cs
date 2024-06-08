@@ -34,7 +34,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("FileTagProduct");
+                    b.ToTable("FileTagProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -186,7 +186,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("PropertyItemsId");
 
-                    b.ToTable("OrderLineProductPropertyItem");
+                    b.ToTable("OrderLineProductPropertyItem", (string)null);
                 });
 
             modelBuilder.Entity("ProductProductProperty", b =>
@@ -201,7 +201,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("PropertiesId");
 
-                    b.ToTable("ProductProductProperty");
+                    b.ToTable("ProductProductProperty", (string)null);
                 });
 
             modelBuilder.Entity("ProductProductPropertyItem", b =>
@@ -216,7 +216,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("PropertyItemsId");
 
-                    b.ToTable("ProductProductPropertyItem");
+                    b.ToTable("ProductProductPropertyItem", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Areas.Identity.Data.ShopUser", b =>
@@ -349,7 +349,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheRegionId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.Customer", b =>
@@ -406,7 +406,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.DeliveryAddress", b =>
@@ -467,7 +467,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheWarehouseId");
 
-                    b.ToTable("DeliveryAddresses");
+                    b.ToTable("DeliveryAddresses", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.DeliveryFirm", b =>
@@ -509,7 +509,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryFirms");
+                    b.ToTable("DeliveryFirms", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.DeliveryType", b =>
@@ -556,7 +556,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheDeliveryFirmId");
 
-                    b.ToTable("DeliveryTypes");
+                    b.ToTable("DeliveryTypes", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.FileTag", b =>
@@ -585,7 +585,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FileTags");
+                    b.ToTable("FileTags", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.Order", b =>
@@ -650,7 +650,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("ThePaymentTypeId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.OrderLine", b =>
@@ -709,7 +709,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheProductId");
 
-                    b.ToTable("OrderLines");
+                    b.ToTable("OrderLines", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.OrderStatus", b =>
@@ -751,7 +751,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderStatuses");
+                    b.ToTable("OrderStatuses", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.PaymentType", b =>
@@ -793,7 +793,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes");
+                    b.ToTable("PaymentTypes", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.Product", b =>
@@ -853,7 +853,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("UnitTypeId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductGroup", b =>
@@ -892,7 +892,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductGroups");
+                    b.ToTable("ProductGroups", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductPrice", b =>
@@ -940,7 +940,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheProductId");
 
-                    b.ToTable("ProductPrices");
+                    b.ToTable("ProductPrices", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductProperty", b =>
@@ -986,7 +986,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductProperties");
+                    b.ToTable("ProductProperties", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductPropertyItem", b =>
@@ -1038,7 +1038,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheProductPropertyId");
 
-                    b.ToTable("ProductPropertyItems");
+                    b.ToTable("ProductPropertyItems", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.ProductUnitType", b =>
@@ -1084,7 +1084,7 @@ namespace TinyShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductUnitTypes");
+                    b.ToTable("ProductUnitTypes", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.Region", b =>
@@ -1137,7 +1137,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheDeliveryFirmId");
 
-                    b.ToTable("Regions");
+                    b.ToTable("Regions", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.Warehouse", b =>
@@ -1212,7 +1212,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("WarehouseTypeIdExternal");
 
-                    b.ToTable("Warehouses");
+                    b.ToTable("Warehouses", (string)null);
                 });
 
             modelBuilder.Entity("TinyShop.Models.WarehouseType", b =>
@@ -1265,7 +1265,7 @@ namespace TinyShop.Migrations
 
                     b.HasIndex("TheDeliveryFirmId");
 
-                    b.ToTable("WarehouseTypes");
+                    b.ToTable("WarehouseTypes", (string)null);
                 });
 
             modelBuilder.Entity("FileTagProduct", b =>

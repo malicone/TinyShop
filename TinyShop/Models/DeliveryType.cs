@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class DeliveryType : NamedEntity
     {
         [Required]
@@ -18,5 +17,4 @@ namespace TinyShop.Models
         [NotMapped]
         public static int NovaPoshtaWarehouseId { get { return 2; } }
     }
-#nullable disable
 }

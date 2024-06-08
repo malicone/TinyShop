@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class Customer : SoftDeletableEntity
     {
         [Required(ErrorMessage = "Вкажіть ім'я"), StringLength( StrLengthMedium, MinimumLength = 3 ), Display( Name = "Ім'я*" )]
@@ -45,5 +44,4 @@ namespace TinyShop.Models
             return (FirstName + LastName + MiddleName + Email + Phone).GetHashCode();
         }
     }
-#nullable disable
 }

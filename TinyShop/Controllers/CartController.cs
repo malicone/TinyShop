@@ -42,9 +42,10 @@ namespace TinyShop.Controllers
         [Route("{productId}/{quantity}")]
         public IActionResult AddToCart(int productId, int quantity)
         {
-            Product product = _context.Products.FirstOrDefault( p => p.Id == productId );
+            Product? product = _context.Products.FirstOrDefault( p => p.Id == productId );
             if (product != null)
             {
+                _context.Entry( product ).Collection( p => p.Prices ).Load();
                 _cartVM.Cart.AddItem( product, quantity );
             }
             return ViewComponent( "CartSummary" );
@@ -72,6 +73,13 @@ namespace TinyShop.Controllers
         public IActionResult GetCartTableComponent()
         {
             return ViewComponent( "CartTable" );
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GetCartSummaryComponent()
+        {
+            return ViewComponent( "CartSummary" );
         }
 
         private ILogger<HomeController> _logger;

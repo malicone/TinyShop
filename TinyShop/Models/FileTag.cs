@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class FileTag : BaseEntity
     {
         public FileTag()
@@ -26,5 +25,4 @@ namespace TinyShop.Models
 
         public virtual ICollection<Product> Products { get; set; }
     }
-#nullable disable
 }

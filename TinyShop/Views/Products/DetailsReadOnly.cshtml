@@ -21,7 +21,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="prices" id="price-@i" 
                                value="@Model.Prices[i].MinPackSaleQuantity" checked
-                               onclick="setQuantity('quantity', @Model.Prices[i].MinPackSaleQuantity)">
+                               onclick="setProductQuantity('quantity', @Model.Prices[i].MinPackSaleQuantity)">
                         <label class="form-check-label" for="price-@i">
                             @FormattingUtils.FormatWholesalePrice(Model.Prices[i])
                         </label>
@@ -32,7 +32,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="prices" id="price-@i" 
                                value="@Model.Prices[i].MinPackSaleQuantity" 
-                               onclick="setQuantity('quantity', @Model.Prices[i].MinPackSaleQuantity)">
+                               onclick="setProductQuantity('quantity', @Model.Prices[i].MinPackSaleQuantity)">
                         <label class="form-check-label" for="price-@i">
                             @FormattingUtils.FormatWholesalePrice( Model.Prices[ i ] )
                         </label>
@@ -40,9 +40,9 @@
                 }
             }                      
             <div class="number">
-                <span class="minus spin-edit-pointer" onclick="minusClick(this)"><b>-</b></span>
+                <span class="minus spin-edit-pointer" onclick="productMinusClick(this, false)"><b>-</b></span>
                 <input class="spin-edit" type="text" value="1" id="quantity" />
-                <span class="plus spin-edit-pointer" onclick="plusClick(this)"><b>+</b></span>
+                <span class="plus spin-edit-pointer" onclick="productPlusClick(this, false)"><b>+</b></span>
             </div>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-success btn-sm mb-2 mt-2" data-toggle="modal"

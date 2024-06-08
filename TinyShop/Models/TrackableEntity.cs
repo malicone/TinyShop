@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public abstract class TrackableEntity : BaseEntity
     {
         [StringLength( StrLengthLarge )]
@@ -24,5 +23,4 @@ namespace TinyShop.Models
             UpdatedAt = DateTime.Now;
         }
     }
-#nullable disable
 }

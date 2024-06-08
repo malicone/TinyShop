@@ -31,10 +31,12 @@ else
                         <td class="text-right">@FormattingUtils.FormatPrice( line.PackPriceSnapshot )</td>
                         <td class="text-center">
                             <div class="number">
-                                <span class="minus spin-edit-pointer" onclick="minusClick(this)"><b>-</b></span>
+                                <span class="minus spin-edit-pointer" data-product-id="@line.TheProduct.Id"
+                                      onclick="productMinusClick(this, true)"><b>-</b></span>
                                 <input class="spin-edit" type="text" value="@line.Quantity" 
                                        id="quantity-@line.TheProduct.Id" />
-                                <span class="plus spin-edit-pointer" onclick="plusClick(this)"><b>+</b></span>
+                                <span class="plus spin-edit-pointer" data-product-id="@line.TheProduct.Id"
+                                    onclick="productPlusClick(this, true)"><b>+</b></span>
                             </div>
                         </td>
                         <td class="text-right">@FormattingUtils.FormatPrice( line.Quantity * line.PackPriceSnapshot )</td>

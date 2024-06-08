@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <UserSecretsId>c9b0e47d-60e5-4a0e-8681-5f233ca2dbb5</UserSecretsId>	  
+    <UserSecretsId>c9b0e47d-60e5-4a0e-8681-5f233ca2dbb5</UserSecretsId>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +11,10 @@
     <Content Remove="wwwroot\Logs\**" />
     <EmbeddedResource Remove="wwwroot\Logs\**" />
     <None Remove="wwwroot\Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\Components\CartTable\ShoppingCartTable.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +51,18 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Files\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\Components\CartTable\ShoppingCartTable.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\CartTable\ShoppingCartTable.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\BlazorComponents\Pages\ShoppingCartTable.razor" />
   </ItemGroup>
 
 </Project>

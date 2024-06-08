@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models
 {
-#nullable enable
     [Index( nameof( CityIdExternal ) )]
     [Index( nameof( WarehouseTypeIdExternal ) )]
     public class Warehouse : JsonSupportable
@@ -30,5 +29,4 @@ namespace TinyShop.Models
 
         public WarehouseType? TheWarehouseType { get; set; }
     }
-#nullable disable
 }

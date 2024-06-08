@@ -2,7 +2,6 @@
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class ProductPropertyItem : NamedEntity
     {
         public ProductProperty TheProductProperty { get; set; }
@@ -10,5 +9,4 @@ namespace TinyShop.Models
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<OrderLine> OrderLines { get; set; }
     }
-#nullable disable
 }

@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<vc:cart-table />
+<component type="typeof(TinyShop.Areas.BlazorComponents.Pages.ShoppingCartTable)" render-mode="ServerPrerendered" />
 
 <div class="text-center">
     <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Продовжити покупки</a>
@@ -16,5 +16,5 @@
 
 @section Scripts {
     <script src="~/js/cart.js"></script>
-    <script src="~/js/spinEdit.js"></script>
+    <script src="~/js/spinEditProduct.js"></script>
 }

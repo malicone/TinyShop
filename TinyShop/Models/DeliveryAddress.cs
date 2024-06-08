@@ -2,7 +2,6 @@
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class DeliveryAddress : SoftDeletableEntity
     {
         public Region? TheRegion { get; set; }
@@ -36,5 +35,4 @@ namespace TinyShop.Models
             return ( TheRegion?.Id + TheCity?.Id + TheWarehouse?.Id ).GetHashCode();
         }
     }
-#nullable disable
 }

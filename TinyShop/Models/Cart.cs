@@ -8,7 +8,7 @@ namespace TinyShop.Models
         public List<OrderLine> Lines { get; set; } = new List<OrderLine>();
         public virtual void AddItem(Product product, int quantity = 1)
         {
-            OrderLine line = Lines.FirstOrDefault(p => p.TheProduct.Id == product.Id);
+            OrderLine? line = Lines.FirstOrDefault(p => p.TheProduct.Id == product.Id);            
             if (line == null)
             {
                 ProductPrice price = GetMatchingPrice(product, quantity);
@@ -30,13 +30,35 @@ namespace TinyShop.Models
                 line.MinPackSaleQuantitySnapshot = price.MinPackSaleQuantity;
             }
         }
+        public virtual void SetItem( Product product, int quantity = 1 )
+        {
+            OrderLine? line = Lines.FirstOrDefault( p => p.TheProduct.Id == product.Id );
+            if ( line == null )
+            {
+                AddItem( product, quantity );
+            }
+            else
+            {
+                int difference = quantity - line.Quantity;
+                if ( difference == 0 )
+                    return;
+                if( difference > 0 )
+                {
+                    AddItem( product, difference );
+                }
+                else
+                {
+                    RemoveItem( product.Id, -difference );
+                }                                    
+            }
+        }
         private ProductPrice GetMatchingPrice(Product product, int quantity)
         {
             return product.GetMatchingPrice(quantity);
         }
         public virtual void RemoveItem( int productId, int quantity = 1 )
         {
-            OrderLine line = Lines.FirstOrDefault(p => p.TheProduct.Id == productId);
+            OrderLine? line = Lines.FirstOrDefault(p => p.TheProduct.Id == productId);
             if ( line != null )
             {
                 line.Quantity -= quantity;

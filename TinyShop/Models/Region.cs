@@ -4,7 +4,6 @@ using System.Diagnostics;
 
 namespace TinyShop.Models
 {
-#nullable enable
     [DebuggerDisplay( "{Name}" )]
     public class Region : JsonSupportable
     {
@@ -21,5 +20,4 @@ namespace TinyShop.Models
         [NotMapped]
         public static int NovaPoshtaDefaultRegionId { get { return NovaPoshtaVolynRegionId; } }
     }
-#nullable disable
 }

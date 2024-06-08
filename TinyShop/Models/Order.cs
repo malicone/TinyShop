@@ -7,7 +7,6 @@ using System.Linq;
 
 namespace TinyShop.Models
 {
-#nullable enable
     public class OrderLine : SoftDeletableEntity
     {
         [Required]
@@ -60,5 +59,4 @@ namespace TinyShop.Models
         public decimal ComputeTotalValue() => Lines.Sum( e => e.PackPriceSnapshot * e.Quantity );
         public int ComputeTotalQuantity() => Lines.Sum( e => e.Quantity );
     }
-#nullable disable
 }

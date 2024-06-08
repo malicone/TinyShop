@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TinyShop.Models
 {
-#nullable enable
     [Index( nameof( RegionIdExternal ) )]
     public class City : JsonSupportable
     {
@@ -22,6 +21,5 @@ namespace TinyShop.Models
         public DeliveryFirm? TheDeliveryFirm { get; set; }
         
         public virtual ICollection<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
-#nullable disable
     }
 }
