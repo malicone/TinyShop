@@ -9,57 +9,8 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <component type="typeof(TinyShop.Areas.BlazorComponents.Pages.EditProduct)" render-mode="ServerPrerendered" 
+        <component type="typeof(TinyShop.Areas.BlazorComponents.Pages.ProductForm)" render-mode="ServerPrerendered" 
             param-Id="@Model.ProductId"></component>
-
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductPrice" class="control-label"></label>
-                <input asp-for="ProductPrice" class="form-control" />
-                <span asp-validation-for="ProductPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductGroupId" class="control-label"></label>
-                <select asp-for="ProductGroupId" class="form-control"
-                    asp-items='@new SelectList(Model.ProductGroups, "Id", "Name")'></select>
-                <span asp-validation-for="ProductGroupId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductDescription" class="control-label"></label>
-                <textarea asp-for="ProductDescription" class="form-control" rows="16"></textarea>
-                <span asp-validation-for="ProductDescription" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Фото 1</label>
-                <input type="file" class="form-control" name="photos" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Фото 2</label>
-                <input type="file" class="form-control" name="photos" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Фото 3</label>
-                <input type="file" class="form-control" name="photos" />
-            </div>
-
-            <input type="hidden" asp-for="ProductId" />
-            <div class="form-group">
-                <input type="submit" value="Зберегти" class="btn btn-primary" />
-            </div>
-        </form>
-        @foreach ( var currentImage in Model.DescImages )
-        {
-            <a href="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )">
-                <img src="@Url.Action( "GetFileById", "Files", new { id = currentImage.Id } )" width="150" class="img-thumbnail img-fluid">
-            </a>
-        }
     </div>
 </div>
 
@@ -68,8 +19,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $('#fileupload').fileupload();
-    </script>
+
 }

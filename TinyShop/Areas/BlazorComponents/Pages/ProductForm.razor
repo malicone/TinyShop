@@ -1,0 +1,146 @@
+﻿@page "/editproduct/{Id:int}"
+@using Microsoft.AspNetCore.Routing
+@using TinyShop.Data
+@using TinyShop.Models.ViewModels
+@inject LinkGenerator LinkGenerator
+
+<EditForm Model="@productVM" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Назва товару</label>
+        <InputText id="name" @bind-Value="productVM.ProductName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="price">Ціна, грн.</label>
+        <InputNumber id="price" @bind-Value="productVM.ProductPrice" class="form-control" />
+    </div>    
+    <div class="form-group">
+        <label for="group">Група</label>
+        <InputSelect id="group" @bind-Value="productVM.ProductGroupId" class="form-control">
+            @foreach ( var group in productVM.ProductGroups )
+            {
+                <option value="@group.Id">@group.Name</option>
+            }
+        </InputSelect>
+    </div>
+    <div class="form-group">
+        <label for="description">Опис товару</label>
+        <InputTextArea rows="5" id="description" @bind-Value="productVM.ProductDescription" class="form-control" />
+    </div>
+
+    @for( int i = 0; i < MaxImageCount; i++ )
+    {
+        <div class="form-group">
+            <label class="control-label">Фото @(i + 1)</label>
+            <InputFile class="form-control" name="photos" OnChange="PhotoInputChangeHandler" />
+        </div>
+    }
+
+    @foreach ( var currentImage in productVM.DescImages ?? Enumerable.Empty<FileTag>() )
+    {
+        <a href="@LinkGenerator.GetPathByAction("GetFileById", "Files", new { Id = currentImage.Id })">
+            <img src="@LinkGenerator.GetPathByAction("GetFileById", "Files", new { Id = currentImage.Id })"
+                 width="150" class="img-thumbnail img-fluid">
+        </a>
+    }
+
+    <div class="form-group">        
+        <button type="submit" class="btn btn-primary">Зберегти</button>
+    </div>
+
+</EditForm>
+
+@code {
+    [Inject]
+    public ShopContext? Context { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProductViewModel productVM;
+
+    private const int MaxImageCount = 10;
+
+    protected override async Task OnInitializedAsync()
+    {
+        productVM = new ProductViewModel();
+        if (Id == 0)
+        {                        
+            productVM.ProductId = 0;
+            return;
+        }
+        var product = await Context.Products.FindAsync( Id );
+        if ( product == null )
+        {
+            throw new InvalidOperationException( $"Product with id {Id} not found" );
+        }        
+        productVM.ProductId = product.Id;
+        productVM.ProductName = product.Name;
+        productVM.ProductDescription = product.Description;
+        productVM.ProductPrice = product.Price;
+        productVM.ProductGroupId = product.ProductGroupId;
+        Context.Entry( product ).Collection( p => p.DescImages ).Load();
+        productVM.DescImages = product.DescImages;
+        productVM.ProductGroups = Context.ProductGroups.ToList();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if( productVM.ProductId == 0 )
+        {
+            await CreateProduct();
+        }
+        else
+        {
+            await UpdateProduct();
+        }
+        await Context?.SaveChangesAsync();
+    }
+
+    private async Task CreateProduct()
+    {
+        Product product = new Product
+        {
+            Name = productVM.ProductName,
+            Description = productVM.ProductDescription,
+            Price = productVM.ProductPrice,
+            ProductGroupId = productVM.ProductGroupId
+        };
+        Context?.Products.Add( product );
+        await Context?.SaveChangesAsync();
+        productVM.ProductId = product.Id;
+    }
+
+    private async Task UpdateProduct()
+    {
+        var product = Context?.Products.Find( productVM.ProductId );
+        if ( product == null )
+        {
+            throw new InvalidOperationException( $"Product with id {productVM.ProductId} not found" );
+        }
+        product.Name = productVM.ProductName;
+        product.Description = productVM.ProductDescription;
+        product.Price = productVM.ProductPrice;
+        product.ProductGroupId = productVM.ProductGroupId;
+        await Context?.SaveChangesAsync();
+    }
+
+    private async void PhotoInputChangeHandler(InputFileChangeEventArgs e)
+    {
+        e.
+        foreach ( var file in e.GetMultipleFiles( MaxImageCount ) )
+        {
+            var fileTag = new FileTag
+            {
+                FileName = file.Name,
+                ContentType = file.ContentType,
+                Content = new byte[file.Size]
+            };
+            await file.OpenReadStream().ReadAsync( fileTag.Content );
+            productVM.DescImages ??= new List<FileTag>();
+            productVM.DescImages.Add( fileTag );
+        }
+    }
+}
