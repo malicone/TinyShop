@@ -1,4 +1,5 @@
 ﻿function updateCartSummary() {
+    alert("updateCartSummary");
     $.ajax({
         type: "GET",
         url: "/Cart/GetCartSummaryComponent/",
@@ -6,6 +7,7 @@
         cache: false,
         success: function (result) {            
             $("#cartSummary").replaceWith(result);
+            alert(result);
         },
     });
 }

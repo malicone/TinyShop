@@ -117,16 +117,16 @@ namespace TinyShop.Controllers
             }
             foreach ( var currentFile in photos )
             {
-                FileTag file = new FileTag();
-                file.Name = currentFile.FileName;
-                file.Ext = IOUtils.GetExtensionWithoutDot( currentFile.FileName );
+                FileTag fileTag = new FileTag();
+                fileTag.Name = currentFile.FileName;
+                fileTag.Ext = IOUtils.GetExtensionWithoutDot( currentFile.FileName );
                 using ( MemoryStream stream = new MemoryStream() )
                 {
                     await currentFile.CopyToAsync( stream );
-                    file.Body = stream.ToArray();
-                    file.Length = stream.Length;
+                    fileTag.Body = stream.ToArray();
+                    fileTag.Length = stream.Length;
                 }
-                product.DescImages.Add( file );
+                product.DescImages.Add( fileTag );
             }
         }
 

@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JSRuntime
+
+<div class="m-2">        
+    <InputFile style="display: none" id="productPictureInput" OnChange="HandleImageUpload" accept="image/*" />
+    <label for="productPictureInput" class="btn btn-primary" style="cursor: pointer;" @onclick="TriggerFileInput">Add Image</label>
+    @if (imagePreviewSrc != null)
+    {
+        <img src="@imagePreviewSrc" alt="Image preview" style="max-width: 200px; max-height: 200px; margin-left: 10px;" />
+    }
+</div>
+
+@code {
+    private string? imagePreviewSrc;
+
+    private async void TriggerFileInput()
+    {
+        await JSRuntime.InvokeVoidAsync( "triggerClickEvent", "productPictureInput" );
+    }
+
+    private async void HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.GetMultipleFiles().FirstOrDefault();
+        if (imageFile != null)
+        {
+            var imageStream = imageFile.OpenReadStream(MaxFileSize);
+            var buffer = new byte[imageStream.Length];
+            await imageStream.ReadAsync(buffer);
+            imagePreviewSrc = $"data:image/jpg;base64,{Convert.ToBase64String(buffer)}";
+            StateHasChanged();
+        }
+    }
+
+    private const int MaxFileSize = 1024 * 1024 * 5; // 5 MB
+}

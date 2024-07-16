@@ -1,0 +1,16 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="file" id="fileInput" style="display: none" @onchange="HandleImageUpload" accept="image/*" />

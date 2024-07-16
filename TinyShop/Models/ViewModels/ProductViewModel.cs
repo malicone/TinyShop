@@ -16,13 +16,13 @@ namespace TinyShop.Models.ViewModels
         }        
         public int ProductId { get; set; }
         
-        [Display(Name = "Назва")]
+        [Required(ErrorMessage = "Введіть назву товару"), Display(Name = "Назва")]
         public string ProductName { get; set; } = string.Empty;
         
         [Display(Name = "Опис")]
         public string? ProductDescription { get; set; }
 
-        [Display(Name = "Ціна")]
+        [Required(ErrorMessage = "Введіть ціну товару"), Display(Name = "Ціна")]
         public decimal? ProductPrice { get; set; }
 
         [Display(Name = "Група")]

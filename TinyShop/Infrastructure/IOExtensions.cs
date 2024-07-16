@@ -16,5 +16,14 @@ namespace TinyShop.Infrastructure
                 return memStream.ToArray();
             }
         }
+
+        public static async Task<byte[]> ToByteArrayAsync(this Stream stream)
+        {
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                await stream.CopyToAsync(memStream);
+                return memStream.ToArray();
+            }
+        }
     }
 }

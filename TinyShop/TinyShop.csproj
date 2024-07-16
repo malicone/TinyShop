@@ -59,6 +59,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Shared\Components\CartTable\ShoppingCartTable.razor" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\blazorValidation.css" />
   </ItemGroup>
 
   <ItemGroup>

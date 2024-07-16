@@ -1,8 +1,13 @@
 ﻿@page "/editproduct/{Id:int}"
+
 @using Microsoft.AspNetCore.Routing
 @using TinyShop.Data
+@using TinyShop.Infrastructure
 @using TinyShop.Models.ViewModels
+@using TinyShop.Areas.BlazorComponents.Controls
 @inject LinkGenerator LinkGenerator
+
+<link href="css/blazorValidation.css" rel="stylesheet" />
 
 <EditForm Model="@productVM" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -10,10 +15,12 @@
 
     <div class="form-group">
         <label for="name">Назва товару</label>
+        <ValidationMessage For="@(() => productVM.ProductName)" />
         <InputText id="name" @bind-Value="productVM.ProductName" class="form-control" />
     </div>
     <div class="form-group">
         <label for="price">Ціна, грн.</label>
+        <ValidationMessage For="@(() => productVM.ProductPrice)" />
         <InputNumber id="price" @bind-Value="productVM.ProductPrice" class="form-control" />
     </div>    
     <div class="form-group">
@@ -40,11 +47,21 @@
 
     @foreach ( var currentImage in productVM.DescImages ?? Enumerable.Empty<FileTag>() )
     {
-        <a href="@LinkGenerator.GetPathByAction("GetFileById", "Files", new { Id = currentImage.Id })">
-            <img src="@LinkGenerator.GetPathByAction("GetFileById", "Files", new { Id = currentImage.Id })"
+        @if (currentImage.Id == 0)
+        {
+            <img src="data:image/bmp;base64, @(Convert.ToBase64String(currentImage.Body))"
                  width="150" class="img-thumbnail img-fluid">
-        </a>
+        }
+        else
+        {
+            <a href="@LinkGenerator.GetPathByAction("GetFileById", "Files", new { Id = currentImage.Id })">
+                <img src="@LinkGenerator.GetPathByAction("GetFileById", "Files", new { Id = currentImage.Id })"
+                    width="150" class="img-thumbnail img-fluid">
+            </a>
+        }
     }
+
+    <PrettyPictureUpload />
 
     <div class="form-group">        
         <button type="submit" class="btn btn-primary">Зберегти</button>
@@ -55,6 +72,9 @@
 @code {
     [Inject]
     public ShopContext? Context { get; set; }
+
+    [Inject]
+    public NavigationManager? NavManager { get; set; }
 
     [Parameter]
     public int Id { get; set; }
@@ -69,6 +89,7 @@
         if (Id == 0)
         {                        
             productVM.ProductId = 0;
+            productVM.ProductGroups = Context?.ProductGroups.ToList() ?? new List<ProductGroup>();
             return;
         }
         var product = await Context.Products.FindAsync( Id );
@@ -86,17 +107,19 @@
         productVM.ProductGroups = Context.ProductGroups.ToList();
     }
 
+    private bool IsNewProduct => productVM.ProductId == 0;
+
     private async Task HandleValidSubmit()
     {
-        if( productVM.ProductId == 0 )
+        if( IsNewProduct )
         {
             await CreateProduct();
         }
         else
         {
             await UpdateProduct();
-        }
-        await Context?.SaveChangesAsync();
+        }        
+        NavManager?.NavigateTo( "/Products", true );
     }
 
     private async Task CreateProduct()
@@ -108,6 +131,7 @@
             Price = productVM.ProductPrice,
             ProductGroupId = productVM.ProductGroupId
         };
+        product.DescImages = productVM.DescImages;
         Context?.Products.Add( product );
         await Context?.SaveChangesAsync();
         productVM.ProductId = product.Id;
@@ -124,23 +148,30 @@
         product.Description = productVM.ProductDescription;
         product.Price = productVM.ProductPrice;
         product.ProductGroupId = productVM.ProductGroupId;
+        product.DescImages = productVM.DescImages;
         await Context?.SaveChangesAsync();
     }
 
     private async void PhotoInputChangeHandler(InputFileChangeEventArgs e)
     {
-        e.
-        foreach ( var file in e.GetMultipleFiles( MaxImageCount ) )
-        {
-            var fileTag = new FileTag
+        var fileTag = new FileTag();
+        fileTag.Name = e.File.Name;
+        fileTag.Ext = IOUtils.GetExtensionWithoutDot( e.File.Name );
+        fileTag.Body = await e.File.OpenReadStream(_MaxFileSize).ToByteArrayAsync();
+        fileTag.Length = e.File.OpenReadStream(_MaxFileSize).Length;
+
+        _photoInputChangedCount++;
+        if(IsNewProduct == false)
+        {            
+            if(_photoInputChangedCount == 1)
             {
-                FileName = file.Name,
-                ContentType = file.ContentType,
-                Content = new byte[file.Size]
-            };
-            await file.OpenReadStream().ReadAsync( fileTag.Content );
-            productVM.DescImages ??= new List<FileTag>();
-            productVM.DescImages.Add( fileTag );
+                productVM.DescImages?.Clear();
+            }
         }
+        productVM.DescImages ??= new List<FileTag>();
+        productVM.DescImages.Add( fileTag );
     }
+    
+    private int _photoInputChangedCount = 0;
+    private const int _MaxFileSize = 1024 * 1024 * 9;
 }

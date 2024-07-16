@@ -1,0 +1,80 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="file" id="fileInput" style="display: none" @onchange="HandleImageUpload" accept="image/*" />
+<InputFile style="display: none" id="productPictureInput" OnChange="HandleImageUpload" accept="image/*" />
+
+
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+        if (imageFile != null)
+        {
+            var format = "image/png"; // You can dynamically determine or enforce a specific format
+            var resizedImage = imageFile.RequestImageFileAsync(format, 400, 400); // Optional: Resize the image
+            var buffer = new byte[resizedImage.Size];
+            resizedImage.OpenReadStream().ReadAsync(buffer);
+            imagePreviewSrc = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            StateHasChanged();
+        }
+    }
+
+
+
+<h1>Hello, Blazor REPL!</h1>
+<label for="fileinput" class="label-wrapper">
+    <span class="oi oi-paperclip"></span>
+    <InputFile id="fileinput" class="custom-input-hide" />
+</label>
+
+<style>
+    .label-wrapper {
+        width: 3em;
+        height: 3em;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;        
+    }
+    .label-wrapper:hover {
+        cursor: pointer;
+        background-color: #0002;
+        box-shadow: 3px 3px 2px #0007;
+    }
+
+    .custom-input-hide {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
